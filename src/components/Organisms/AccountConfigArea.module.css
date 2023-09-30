@@ -1,0 +1,30 @@
+:root {
+	--color-background: #ffffff;
+	--color-background2: #f2f2f6;
+	--color-background-hover: #e5e5e9;
+	--color-main: #000000;
+	--color-main2: #b2b2b2;
+	--color-gray: #85858a;
+	--color-accent: #007aff;
+	--color-line: #c6c6c8;
+}
+
+.accountlist {
+	transition: .1s;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: calc(100%);
+	background: rgba(0, 0, 0, 0.3);
+	box-sizing: border-box;
+	z-index: 65535;
+}
+
+.accountlist > div {
+	position: absolute;
+	width: 100%;
+  padding: 16px;
+	box-sizing: border-box;
+	bottom: 0;
+	background: var(--color-background2);
+}

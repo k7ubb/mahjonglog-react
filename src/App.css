@@ -1,3 +1,37 @@
+:root {
+	--color-background: #ffffff;
+	--color-background2: #f2f2f6;
+	--color-background-hover: #e5e5e9;
+	--color-main: #000000;
+	--color-main2: #b2b2b2;
+	--color-gray: #85858a;
+	--color-accent: #007aff;
+	--color-line: #c6c6c8;
+}
+
+html, body{
+	height: 100%;
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	background: #ccc;
+}
+
+#root{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	max-width: 450px;
+	max-height: 950px;
+	margin: auto;
+	background: var(--color-background2);
+	font-family: sans-serif;
+	overflow-y: scroll;
+}
+
+/*
 .App {
   text-align: center;
 }
@@ -36,3 +70,4 @@
     transform: rotate(360deg);
   }
 }
+*/

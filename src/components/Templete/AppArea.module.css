@@ -1,0 +1,14 @@
+:root {
+	--color-background: #ffffff;
+	--color-background2: #f2f2f6;
+	--color-background-hover: #e5e5e9;
+	--color-main: #000000;
+	--color-main2: #b2b2b2;
+	--color-gray: #85858a;
+	--color-accent: #007aff;
+	--color-line: #c6c6c8;
+}
+
+.appArea{
+	padding: 16px;
+}
