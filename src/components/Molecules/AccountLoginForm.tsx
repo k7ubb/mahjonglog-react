@@ -11,7 +11,7 @@ export const AccountLoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const registerAccount = async (event: any) => {
+  const accountLogin = async (event: any) => {
     event.preventDefault();
     try {
       const db_email = (await firestoreGetsQuery('account', "email", "==", email))[0]?.email || (await firestoreGetsQuery('account', "accountID", "==", email))[0]?.email;
@@ -19,11 +19,9 @@ export const AccountLoginForm: React.FC = () => {
         const auth = getAuth();
         await signInWithEmailAndPassword(auth, db_email, password);
         const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-        console.log(accounts)
         if (!accounts.find((x: any) => x?.email === db_email)) {
           accounts.push({email: db_email, password: password});
         }
-        console.log(accounts)
 				localStorage.setItem("accounts", JSON.stringify(accounts));
         navigate('/app');
       }
@@ -33,14 +31,14 @@ export const AccountLoginForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={registerAccount}>
+    <form onSubmit={accountLogin}>
       <ListTitle>ログイン</ListTitle>
       <ListGroup>
         <ListItem>
           <input 
             required
             type="text"
-            pattern="^[a-zA-Z0-9-_@\.]+$"
+            pattern="^[a-zA-Z0-9\-_@\.]+$"
             placeholder="アカウントID / メールアドレス" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 

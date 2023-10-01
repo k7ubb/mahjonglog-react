@@ -4,7 +4,6 @@ import style from 'components/Organisms/AccountConfigArea.module.css';
 
 import { AccountList } from 'components/Molecules/AccountList';
 
-
 type Props = {
   onClick?: () => void;
 };

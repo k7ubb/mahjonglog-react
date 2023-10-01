@@ -8,7 +8,9 @@ import { AuthProvider } from 'feature/auth/provider/AuthProvider';
 import { IndexPage } from 'components/Pages/IndexPage';
 import { AccountCreatePage } from 'components/Pages/AccountCreatePage';
 import { AccountLoginPage } from 'components/Pages/AccountLoginPage';
-import { AccountRegisterPage } from 'components/Pages/AccountRegisterPage';
+import { AddLogPage } from 'components/Pages/AddLogPage';
+import { PlayerListPage } from 'components/Pages/PlayerListPage';
+import { PlayerAddPage } from 'components/Pages/PlayerAddPage';
 
 initializeFirebaseApp();
 
@@ -17,10 +19,12 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/app/" element={<IndexPage />} />
+          <Route path="/app" element={<IndexPage />} />
           <Route path="/app/account/create" element={<AccountCreatePage />} />
           <Route path="/app/account/login" element={<AccountLoginPage />} />
-          <Route path="/app/account/register" element={<AccountRegisterPage />} />
+          <Route path="/app/addlog" element={<AddLogPage />} />
+          <Route path="/app/player" element={<PlayerListPage />} />
+          <Route path="/app/player/add" element={<PlayerAddPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

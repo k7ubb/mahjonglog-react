@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { firestoreGet } from 'lib/firebase/firestore';
+import { firestoreSet, firestoreGetsQuery } from 'lib/firebase/firestore';
 import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export const AccountCreateForm: React.FC = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [accountID, setAccountID] = useState('');
-  const [accountName, setAccountName] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordSub, setPasswordSub] = useState('');
+  const [email, setEmail] = useState("");
+  const [accountID, setAccountID] = useState("");
+  const [accountName, setAccountName] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordSub, setPasswordSub] = useState("");
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const [accountIDInvalid, setAccountIDInvalid] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const passwordSimilarCheck = (password: string, passwordSub: string) => {
     setPasswordInvalid((password !== "" && passwordSub !== "" && password !== passwordSub));
@@ -22,30 +22,37 @@ export const AccountCreateForm: React.FC = () => {
 
   const accountIDUniqueCheck = async (accountID: string) => {
     if (accountID !== "") {
-      setAccountIDInvalid((await firestoreGet('account', accountID)).data() !== undefined);
+      setAccountIDInvalid((await firestoreGetsQuery("account", "accountID", "==", accountID))[0] !== undefined);
     }
   };
 
-  const registerAccount = async (event: any) => {
+  const accountCreate = async (event: any) => {
     event.preventDefault();
     try {
-      const auth = getAuth();
-      await createUserWithEmailAndPassword(auth, email, password);
+      if (passwordInvalid) { throw new Error("パスワードが一致しません"); }
+      if (accountIDInvalid) { throw new Error("このアカウントIDは使われています"); }
+      const uid = (await createUserWithEmailAndPassword(getAuth(), email, password) as any)._tokenResponse.localId;
+
+      // LocalStorageに追記
       const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
       accounts.push({email: email, password: password});
       localStorage.setItem("accounts", JSON.stringify(accounts));
-      navigate('/app/account/register', { state: {
+
+      // FireStoreに追記
+      await firestoreSet("account", uid, {
         email: email,
         accountID: accountID,
         accountName: accountName
-      }});
+      });
+
+      navigate("/app");
     } catch (e) {
       setError((e as Error).message);
     }
   };
 
   return (
-    <form onSubmit={registerAccount}>
+    <form onSubmit={accountCreate}>
       <ListTitle>メールアドレス</ListTitle>
       <ListGroup>
         <ListItem>
@@ -106,7 +113,10 @@ export const AccountCreateForm: React.FC = () => {
             pattern="^[a-zA-Z0-9-_@\.]+$"
             placeholder="アカウントID (半角英数のみ)"
             value={accountID} 
-            onChange={(e) => {setAccountID(e.target.value); accountIDUniqueCheck(e.target.value); }} 
+            onChange={(e) => {
+              setAccountID(e.target.value);
+              accountIDUniqueCheck(e.target.value);
+            }} 
           />
         </ListItem>
         <ListItem>
