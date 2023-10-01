@@ -39,14 +39,14 @@ export const AccountList = () => {
   };
   
   const AccountListItem = ({ id, name, email, password }: Props) => {
-    const { user } = useAuthContext()
+    const { accountID } = useAuthContext();
     return (
       <div className={`${style.listitem} ${accountListStyle.accountList}`} onClick={() => loginAccount(email, password)} >
         <div className={accountListStyle.icon}></div>
         <div className={accountListStyle.name}>{name}</div>
         <div className={accountListStyle.id}>@{id}</div>
         <FontAwesomeIcon icon={faTimesCircle} className={accountListStyle.delete} onClick={() => deleteAccount(email)} />
-        { user?.email === email && (
+        { accountID === id && (
           <FontAwesomeIcon icon={faCircleCheck} className={accountListStyle.login} />
         ) }
       </div>
@@ -59,11 +59,13 @@ export const AccountList = () => {
         let _accountsData = [] as any[];
         for(let account of accounts) {
           const accountData = (await firestoreGetsQuery('account', "email", "==", account.email))[0];
-          _accountsData = [..._accountsData, {...accountData, password: account.password}];
-          setAccountsData(_accountsData);
+          if (accountData !== undefined){
+            _accountsData = [..._accountsData, {...accountData, password: account.password}];
+            setAccountsData(_accountsData);
+          }
         }
       } catch (e) {
-        console.log(e);
+        console.log((e as Error).message);
       }
     })()
   }, []);
@@ -72,7 +74,7 @@ export const AccountList = () => {
     <ListGroup>
     {
       accountsData.map(accountData => (
-				<AccountListItem id={accountData.accountID} name={accountData.accountName} email={accountData.email} password={accountData.password}/>
+				<AccountListItem id={accountData.accountID} name={accountData.accountName} email={accountData.email} password={accountData.password} key={accountData.email}/>
       ))
     }
     </ListGroup>

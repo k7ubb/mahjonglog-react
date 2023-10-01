@@ -3,34 +3,52 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { firestoreGet } from 'lib/firebase/firestore';
 
-export type GlobalAuthState = {
-  user: User | null | undefined
-}
+type GlobalAuthState = {
+  user: User | null | undefined;
+  email: string | undefined;
+  accountID: string | undefined;
+  accountName: string | undefined;
+};
+
 const initialState: GlobalAuthState = {
   user: undefined,
-}
-const AuthContext = createContext<GlobalAuthState>(initialState)
+  email: undefined,
+  accountID: undefined,
+  accountName: undefined
+};
 
-type Props = { children: ReactNode }
+const AuthContext = createContext<GlobalAuthState>(initialState);
+
+type Props = { children: ReactNode };
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<GlobalAuthState>(initialState);
   
   useEffect(() => {
     try {
-      const auth = getAuth()
+      const auth = getAuth();
       return onAuthStateChanged(auth, (user) => {
-        setUser({
-          user,
-        })
-      })
-    } catch (error) {
-      setUser(initialState)
-      throw error
+        if (user === null) {
+          setUser(initialState);
+        }
+        else{
+          (async () => {
+            const userInfo = (await firestoreGet('account', user?.uid!)).data();
+            setUser({
+              user: user,
+              email: userInfo?.email,
+              accountID: userInfo?.accountID,
+              accountName: userInfo?.accountName
+            });
+          })();
+        }
+      });
+    } catch (e) {
+      setUser(initialState);
     }
   }, []);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
-}
+};
 
-export const useAuthContext = () => useContext(AuthContext)
+export const useAuthContext = () => useContext(AuthContext);

@@ -10,39 +10,22 @@ import { AccountConfigArea } from 'components/Organisms/AccountConfigArea';
 import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 
 export const IndexPage: React.FC = () => {
-  const { user } = useAuthContext();
+  const { accountName } = useAuthContext();
   const [showAccountConfig, setShowAccountConfig] = useState(false);
-  const [accountName, setAccountName] = useState('');
-
-  console.log(process.env.REACT_APP_FIREBASE_API_KEY);
-  const updateAuthStatus = async () => {
-    const loginStatus = (await firestoreGet('account', user?.uid!)).data();
-    if (loginStatus) {
-      setAccountName(loginStatus.accountName);
-    }
-    else {
-      signOut(getAuth());
-      setShowAccountConfig(true);
-    }
-  };
-
-  if (accountName === "" && user?.uid) {
-    updateAuthStatus();
-  }
 
   return (
     <>
       <Header>麻雀戦績共有アプリ</Header>
 
       <AppArea>
-        {accountName !== "" && (
+        {accountName && (
           <>
             <ListTitle>ようこそ、{accountName}さん</ListTitle>
             <ListGroup>
-            <ListItem destination='hoge'>新規登録</ListItem>
-            <ListItem destination='hoge'>ログ表示</ListItem>
-            <ListItem destination='hoge'>個人記録</ListItem>
-            <ListItem destination='hoge'>設定</ListItem>
+            <ListItem destination="/app/addlog">新規登録</ListItem>
+            <ListItem destination="">ログ表示</ListItem>
+            <ListItem destination="/app/player">個人記録</ListItem>
+            <ListItem destination="">設定</ListItem>
             </ListGroup>
           </>
         )}
@@ -50,7 +33,7 @@ export const IndexPage: React.FC = () => {
           <ListItem onClick={() => setShowAccountConfig(true)}>アカウント切替</ListItem>
         </ListGroup>
       </AppArea>
-      {showAccountConfig && (
+      {(!accountName || showAccountConfig) && (
         <AccountConfigArea onClick={() => setShowAccountConfig(false)}/>
       )}
     </>

@@ -24,6 +24,7 @@ export const firestoreUpdate = async (collectionName: string, document: string, 
   return await updateDoc(doc(getFirestore(app), datastorePrefix + collectionName, document), data);
 };
 
+// ==, !=を使う。 ===, !==は使えない
 export const firestoreGetsQuery = async (collectionName: string, key: string, operator: string, value: any) => {
   const queryRef = await getDocs(query(
     collection(getFirestore(app), datastorePrefix + collectionName),
