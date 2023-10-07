@@ -110,7 +110,7 @@ export const AccountCreateForm: React.FC = () => {
           <input 
             required
             type="text"
-            pattern="^[a-zA-Z0-9-_@\.]+$"
+            pattern="^[a-zA-Z0-9\-_\@\.]+$"
             placeholder="アカウントID (半角英数のみ)"
             value={accountID} 
             onChange={(e) => {
