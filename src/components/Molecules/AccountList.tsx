@@ -4,6 +4,7 @@ import { firestoreGetsQuery } from 'lib/firebase/firestore';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { ListGroup, ListItem } from 'components/Atoms/List';
+import { useLSaccountsReducer } from 'components/hooks/useLSaccountsReducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import style from 'components/Atoms/List.module.css';
@@ -18,9 +19,9 @@ type Props = {
 
 export const AccountList = () => {
   const navigate = useNavigate();
+  const { LSaccounts, dispatch } = useLSaccountsReducer();
   const [accountsData, setAccountsData] = useState([] as any[]);
-  const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-  
+
   const loginAccount = async (email: string, password: string) => {
     try {
       const auth = getAuth();
@@ -32,10 +33,7 @@ export const AccountList = () => {
   };
 
   const deleteAccount = (email: string) => {
-    let accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-    accounts = accounts.filter((x:any) => x.email !== email);
-    localStorage.setItem("accounts", JSON.stringify(accounts));
-    setAccountsData(accountsData.filter((x:any) => x.email !== email));
+    dispatch( { type: "delete", value: {email, password: "pass"}} );
   };
   
   const AccountListItem = ({ id, name, email, password }: Props) => {
@@ -57,18 +55,21 @@ export const AccountList = () => {
     (async () => {
       try {
         let _accountsData = [] as any[];
-        for(let account of accounts) {
-          const accountData = (await firestoreGetsQuery('account', "email", "==", account.email))[0];
-          if (accountData !== undefined){
-            _accountsData = [..._accountsData, {...accountData, password: account.password}];
+        for(let LSaccount of LSaccounts) {
+          const accountData = (await firestoreGetsQuery('account', "email", "==", LSaccount.email))[0];
+          if (accountData !== undefined) {
+            _accountsData = [..._accountsData, {...accountData, password: LSaccount.password}];
             setAccountsData(_accountsData);
+          }
+          else {
+            dispatch( { type: "delete", value: LSaccount } );
           }
         }
       } catch (e) {
         console.log((e as Error).message);
       }
     })()
-  }, []);
+  }, [LSaccounts, dispatch]);
 
   return (
     <ListGroup>

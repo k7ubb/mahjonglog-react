@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { firestoreSet, firestoreGetsQuery } from 'lib/firebase/firestore';
 import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { useLSaccountsReducer } from 'components/hooks/useLSaccountsReducer';
 
 export const AccountCreateForm: React.FC = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ export const AccountCreateForm: React.FC = () => {
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const [accountIDInvalid, setAccountIDInvalid] = useState(false);
   const [error, setError] = useState("");
+
+  const { dispatch } = useLSaccountsReducer();
 
   const passwordSimilarCheck = (password: string, passwordSub: string) => {
     setPasswordInvalid((password !== "" && passwordSub !== "" && password !== passwordSub));
@@ -33,11 +36,6 @@ export const AccountCreateForm: React.FC = () => {
       if (accountIDInvalid) { throw new Error("このアカウントIDは使われています"); }
       const uid = (await createUserWithEmailAndPassword(getAuth(), email, password) as any)._tokenResponse.localId;
 
-      // LocalStorageに追記
-      const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-      accounts.push({email: email, password: password});
-      localStorage.setItem("accounts", JSON.stringify(accounts));
-
       // FireStoreに追記
       await firestoreSet("account", uid, {
         email: email,
@@ -45,7 +43,13 @@ export const AccountCreateForm: React.FC = () => {
         accountName: accountName
       });
 
-      navigate("/app");
+      // LocalStorageに追記
+      dispatch( { type: "add", value: {email, password} } );
+
+      setTimeout(() => {
+        navigate("/app");
+      }, 1);
+      
     } catch (e) {
       setError((e as Error).message);
     }
