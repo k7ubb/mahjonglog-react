@@ -23,7 +23,7 @@ export const IndexPage: React.FC = () => {
             <ListTitle>ようこそ、{accountName}さん</ListTitle>
             <ListGroup>
             <ListItem destination="/app/addlog">新規登録</ListItem>
-            <ListItem destination="">ログ表示</ListItem>
+            <ListItem destination="/app/viewlog">ログ表示</ListItem>
             <ListItem destination="/app/player">個人記録</ListItem>
             <ListItem destination="">設定</ListItem>
             </ListGroup>

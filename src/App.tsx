@@ -9,6 +9,7 @@ import { IndexPage } from 'components/Pages/IndexPage';
 import { AccountCreatePage } from 'components/Pages/AccountCreatePage';
 import { AccountLoginPage } from 'components/Pages/AccountLoginPage';
 import { AddLogPage } from 'components/Pages/AddLogPage';
+import { ViewLogPage } from 'components/Pages/ViewLogPage';
 import { PlayerListPage } from 'components/Pages/PlayerListPage';
 import { PlayerAddPage } from 'components/Pages/PlayerAddPage';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/app/account/create" element={<AccountCreatePage />} />
           <Route path="/app/account/login" element={<AccountLoginPage />} />
           <Route path="/app/addlog" element={<AddLogPage />} />
+          <Route path="/app/viewlog" element={<ViewLogPage />} />
           <Route path="/app/player" element={<PlayerListPage />} />
           <Route path="/app/player/add" element={<PlayerAddPage />} />
         </Routes>
