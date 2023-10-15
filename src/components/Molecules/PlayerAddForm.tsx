@@ -47,6 +47,7 @@ export const PlayerAddForm: React.FC = () => {
             required
             type="text"
             placeholder="名前"
+            pattern="^[^\/\#\?]+$"
             value={playerName} 
             onChange={(e) => {setPlayerName(e.target.value); playerNameUniqueCheck(e.target.value); }} 
           />
