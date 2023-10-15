@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { firestoreGet } from 'lib/firebase/firestore';
 
@@ -33,13 +34,25 @@ export const AuthProvider = ({ children }: Props) => {
         }
         else{
           (async () => {
-            const userInfo = (await firestoreGet('account', user?.uid!)).data();
-            setUser({
-              user: user,
-              email: userInfo?.email,
-              accountID: userInfo?.accountID,
-              accountName: userInfo?.accountName
-            });
+            const userInfo = (await firestoreGet('account', user.uid)).data();
+            if (userInfo?.email && userInfo?.accountID && userInfo?.accountName) {
+              setUser({
+                user: user,
+                email: userInfo.email,
+                accountID: userInfo.accountID,
+                accountName: userInfo.accountName
+              });
+              let accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
+              accounts = accounts.filter((x:any) => x.email !== userInfo?.email);
+              console.log(accounts);
+            }
+            else {
+              await signOut(getAuth());
+              let accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
+              accounts = accounts.filter((x:any) => x.email !== userInfo?.email);
+              localStorage.setItem("accounts", JSON.stringify(accounts));
+              console.log("AccountData not found in FireStore");
+            }
           })();
         }
       });
