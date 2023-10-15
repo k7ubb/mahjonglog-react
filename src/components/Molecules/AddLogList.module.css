@@ -1,0 +1,20 @@
+.addlogList input, .addlogList select {
+	-webkit-appearance: none;
+	border: none;
+	width: calc(40%);
+	height: calc(100% - 1px);
+	font: 16px sans-serif;
+	background: transparent;
+}
+
+.addlogList .score {
+	display: block;
+	position: absolute;
+	width: 120px;
+	text-align: right;
+	top: 0;
+	right: 16px;
+	height: 100%;
+	line-height: 100%;
+}
+

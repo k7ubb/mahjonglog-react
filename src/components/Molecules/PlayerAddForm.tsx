@@ -6,7 +6,7 @@ import { firestoreGet, firestoreSet } from 'lib/firebase/firestore';
 
 export const PlayerAddForm: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { uid } = useAuthContext();
 
   const [playerName, setPlayerName] = useState('');
   const [playerNameInvalid, setPlayerNameInvalid] = useState(false);
@@ -14,7 +14,7 @@ export const PlayerAddForm: React.FC = () => {
 
   const playerNameUniqueCheck = async (playerName: string) => {
     if (playerName !== "") {
-      setPlayerNameInvalid((await firestoreGet('players', user?.uid!)).data()?.players.includes(playerName));
+      setPlayerNameInvalid((await firestoreGet('players', uid!)).data()?.players.includes(playerName));
     }
   };
 
@@ -22,8 +22,8 @@ export const PlayerAddForm: React.FC = () => {
     event.preventDefault();
     try {
       if (!playerNameInvalid) {
-        const players = (await firestoreGet('players', user?.uid!)).data()?.players || [];
-        await firestoreSet("players", user?.uid!, {
+        const players = (await firestoreGet('players', uid!)).data()?.players || [];
+        await firestoreSet("players", uid!, {
           players: [...players, playerName]
         });
         navigate("/app/player");

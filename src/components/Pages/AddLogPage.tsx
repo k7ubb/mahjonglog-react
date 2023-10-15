@@ -6,7 +6,7 @@ import { AddLogForm } from 'components/Molecules/AddLogForm';
 export const AddLogPage: React.FC = () => {
   return (
     <AuthGuard>
-      <Header destination="/app/player">対局記録を登録</Header>
+      <Header destination="/app">対局記録を登録</Header>
 
       <AppArea>
         <AddLogForm />

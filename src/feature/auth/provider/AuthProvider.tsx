@@ -7,6 +7,7 @@ import { useLSaccountsReducer } from 'components/hooks/useLSaccountsReducer';
 
 type GlobalAuthState = {
   user: User | null | undefined;
+  uid: string | undefined;
   email: string | undefined;
   accountID: string | undefined;
   accountName: string | undefined;
@@ -14,6 +15,7 @@ type GlobalAuthState = {
 
 const initialState: GlobalAuthState = {
   user: undefined,
+  uid: undefined,
   email: undefined,
   accountID: undefined,
   accountName: undefined
@@ -40,6 +42,7 @@ export const AuthProvider = ({ children }: Props) => {
             if (userInfo?.email && userInfo?.accountID && userInfo?.accountName) {
               setUser({
                 user: user,
+                uid: user.uid,
                 email: userInfo.email,
                 accountID: userInfo.accountID,
                 accountName: userInfo.accountName
