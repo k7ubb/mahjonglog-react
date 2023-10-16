@@ -26,6 +26,7 @@ function App() {
           <Route path="/app/addlog" element={<AddLogPage />} />
           <Route path="/app/viewlog" element={<ViewLogPage />} />
           <Route path="/app/player" element={<PlayerListPage />} />
+          <Route path="/app/player/:player" element={<PlayerListPage />} />
           <Route path="/app/player/add" element={<PlayerAddPage />} />
         </Routes>
       </BrowserRouter>
