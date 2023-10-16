@@ -24,7 +24,7 @@ type LogByDate = {
 const LogItem = ( { log }: Props ) => {
   let color = [];
   for(let i=0; i<4; i++){
-    if(log.score[i].point == 0){ color[i] = "#000"; }
+    if(log.score[i].point === 0){ color[i] = "#000"; }
     if(log.score[i].point > 0){ color[i] = "#00f"; }
     if(log.score[i].point < 0){ color[i] = "#f00"; }
   }
@@ -66,6 +66,7 @@ export const ViewLogTable: React.FC = () => {
             result[result.length-1].count++;
           }
         }
+        console.log(result)
         setLogDate(result);
       } catch (e) {
         console.log((e as Error).message);
