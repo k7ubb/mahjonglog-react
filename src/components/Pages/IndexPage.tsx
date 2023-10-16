@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import { getAuth, signOut } from 'firebase/auth';
+import { useState } from 'react';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
-import { firestoreGet } from 'lib/firebase/firestore';
 
 import { Header } from 'components/Templete/Header';
 import { AppArea } from 'components/Templete/AppArea';
 
 import { AccountConfigArea } from 'components/Organisms/AccountConfigArea';
 import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
+
 
 export const IndexPage: React.FC = () => {
   const { accountName } = useAuthContext();

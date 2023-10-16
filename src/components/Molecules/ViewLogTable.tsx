@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
-import { firestoreGet, firestoreSet } from 'lib/firebase/firestore';
+import { firestoreGet } from 'lib/firebase/firestore';
 
 import style from 'components/Atoms/List.module.css';
 import viewLogListStyle from 'components/Molecules/ViewLogList.module.css';
@@ -41,7 +40,6 @@ const LogItem = ( { log }: Props ) => {
 }
 
 export const ViewLogTable: React.FC = () => {
-  const navigate = useNavigate();
   const { uid } = useAuthContext();
 
   const [log, setLog] = useState<Log[]>([]);
@@ -51,7 +49,7 @@ export const ViewLogTable: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const log = (await firestoreGet('log', uid!)).data()?.log.map((x:any) => JSON.parse(x));
+        const log = (await firestoreGet('log', uid!)).data()?.log.map((x:any) => JSON.parse(x) || []);
         setLog(log);
 
         let result = [{date: log[log.length-1].date, count: 1}];

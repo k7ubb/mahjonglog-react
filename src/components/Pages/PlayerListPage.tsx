@@ -7,7 +7,7 @@ import { firestoreGet } from 'lib/firebase/firestore';
 import { Header } from 'components/Templete/Header';
 import { AppArea } from 'components/Templete/AppArea';
 
-import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
+import { ListGroup, ListItem } from 'components/Atoms/List';
 
 import style from 'components/Atoms/List.module.css';
 import personalLogListStyle from 'components/Molecules/PersonalLogList.module.css';
@@ -78,7 +78,7 @@ export const PlayerListPage: React.FC = () => {
     (async () => {
       try {
         setPlayers((await firestoreGet("players", uid!)).data()?.players || []);
-        setLog((await firestoreGet('log', uid!)).data()?.log.map((x:any) => JSON.parse(x)));
+        setLog((await firestoreGet('log', uid!)).data()?.log.map((x:any) => JSON.parse(x)) || []);
       } catch (e) {
         console.log((e as Error).message);
       }
