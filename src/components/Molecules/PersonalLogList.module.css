@@ -1,0 +1,10 @@
+.personalLogList span {
+	display: block;
+	position: absolute;
+	width: 120px;
+	text-align: right;
+	top: 16px;
+	right: 16px;
+	height: 100%;
+	line-height: 100%;
+}

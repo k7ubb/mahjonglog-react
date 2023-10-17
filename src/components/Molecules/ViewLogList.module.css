@@ -1,0 +1,19 @@
+.viewLogList {
+	height: auto;
+}
+
+.viewLogList p {
+	margin: 0;
+	padding: 8px;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 2em;
+}
+
+.viewLogList p .score_point {
+	position: inline-block;
+	position: absolute;
+	left: 150px;
+	width: 50px;
+	text-align: right;
+}

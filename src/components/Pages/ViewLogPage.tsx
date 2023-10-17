@@ -1,15 +1,15 @@
 import { Header } from 'components/Templete/Header';
 import { AppArea } from 'components/Templete/AppArea';
 import { AuthGuard } from "feature/auth/component/AuthGuard";
-import { AddLogForm } from 'components/Molecules/AddLogForm';
+import { ViewLogTable } from 'components/Molecules/ViewLogTable';
 
-export const AddLogPage: React.FC = () => {
+export const ViewLogPage: React.FC = () => {
   return (
     <AuthGuard>
-      <Header destination="/app">対局記録を登録</Header>
+      <Header destination="/app">ログ表示</Header>
 
       <AppArea>
-        <AddLogForm />
+        <ViewLogTable />
       </AppArea>
     </AuthGuard>
   );

@@ -2,7 +2,7 @@ import { getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, updateD
 import { FirebaseApp } from 'lib/firebase/firebase';
 
 const app = FirebaseApp();
-const datastorePrefix = 'test-';
+const datastorePrefix = process.env.REACT_APP_FIRESTORE_PREFIX;
 
 export const firestoreGets = async (collectionName: string) => {
   return await getDocs(collection(getFirestore(app), datastorePrefix + collectionName));
