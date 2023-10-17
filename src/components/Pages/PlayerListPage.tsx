@@ -9,14 +9,10 @@ import { AppArea } from 'components/Templete/AppArea';
 
 import { ListGroup, ListItem } from 'components/Atoms/List';
 
+import type { FireStoreMJpoint } from 'components/type';
+
 import style from 'components/Atoms/List.module.css';
 import personalLogListStyle from 'components/Molecules/PersonalLogList.module.css';
-
-
-type Log = {
-  date: string;
-  score: any;
-};
 
 type PersonalLog = {
   player: string;
@@ -41,7 +37,6 @@ const initialState = (): PersonalLog=> {
     average_score: 0
   };
 };
-
 
 const PersonalLogView = ( { personal }: Props ) => {
   let score_color  = "#000";
@@ -71,14 +66,14 @@ export const PlayerListPage: React.FC = () => {
   const [players, setPlayers] = useState([]);
   const { player } = useParams();
 
-  const [log, setLog] = useState<Log[]>([]);
+  const [log, setLog] = useState<FireStoreMJpoint[]>([]);
   const [personalLog, setPersonalLog] = useState(initialState());
 
   useEffect(() => {
     (async () => {
       try {
         setPlayers((await firestoreGet("players", uid!)).data()?.players || []);
-        setLog((await firestoreGet('log', uid!)).data()?.log.map((x:any) => JSON.parse(x)) || []);
+        setLog((await firestoreGet('log', uid!)).data()?.log || []);
       } catch (e) {
         console.log((e as Error).message);
       }
@@ -91,10 +86,10 @@ export const PlayerListPage: React.FC = () => {
 
     for (let l of log) {
 			for (let i = 0; i < 4; i++) {
-				if(l.score[i].player === player){
+				if(l.player[i] === player){
 					personal.rank[i]++;
 					personal.count++;
-					personal.score += l.score[i].point;
+					personal.score += l.point[i];
 				}
 			}
     }

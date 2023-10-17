@@ -4,6 +4,7 @@ import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
 import { firestoreGet, firestoreSet } from 'lib/firebase/firestore';
 
+import type { FireStoreMJpoint  } from 'components/type';
 import style from 'components/Atoms/List.module.css';
 import addLogListStyle from 'components/Molecules/AddLogList.module.css';
 
@@ -11,32 +12,34 @@ type Props = {
   id: number;
 };
 
-type PersonalScore = {
+type Personalpoint = {
   player: string;
   point: number;
 };
 
-const initialPersonalScore = () => [
-  {player: "", point: 250} as PersonalScore,
-  {player: "", point: 250} as PersonalScore,
-  {player: "", point: 250} as PersonalScore,
-  {player: "", point: 250} as PersonalScore
-];
+const initialPersonalpoint = {
+  date: 0,
+  date_str: "",
+  player: ["", "", "", ""],
+  point: [0, 0, 0, 0]
+};
 
-const checkError = function(score: any) {
-  let total = 0;
-  for (let s of score) {
-    if (s.player === "") {
+const checkError = function(score: FireStoreMJpoint) {
+  for (let player of score.player) {
+    if (player === "") {
       throw new Error("名前を選択してください");
     }
-    total += s.point;
+  }
+  let total = 0;
+  for (let point of score.point) {
+    total += point;
   }
   if (total !== 1000) {
     throw new Error(`点棒の合計が ${Math.abs(1000-total)*100} 点${1000>total? "少ない" : "多い"}`);
   }
   for (let i = 0; i < 3; i++) {
     for (let j = i + 1; j < 4; j++){  
-      if (score[i].player === score[j].player) {
+      if (score.player[i] === score.player[j]) {
         throw new Error("同じプレイヤーが複数存在します");
       }
     }
@@ -48,38 +51,57 @@ export const AddLogForm: React.FC = () => {
   const { uid } = useAuthContext();
 
   const [players, setPlayers] = useState(undefined);
-  const [personalScore, setPersonalScore] = useState(initialPersonalScore());
+  const [inputData, setInputData] = useState(
+    [
+      {point: 250, player: ""},
+      {point: 250, player: ""},
+      {point: 250, player: ""},
+      {point: 250, player: ""}
+    ]
+  );
   const [error, setError] = useState('');
 
 
   const addLog = async (event: any) => {
     event.preventDefault();
 
-		const score = personalScore.concat();
-    score.sort( (a,b) => b.point - a.point );
+		const data = inputData.concat();
+    data.sort( (a,b) => b.point - a.point );
+
+    const fireStoreData = initialPersonalpoint;
+    for (let i in data) {
+      fireStoreData.point[i] = data[i].point;
+      fireStoreData.player[i] = data[i].player;
+    }
 
     try {
-      checkError(score);
+      checkError(fireStoreData);
     } catch (e){ 
       setError((e as Error).message);
       return;
     }
 
-		score[0].point = Math.round( (score[0].point+100-1) / 10 );
- 		score[1].point = Math.round( (score[1].point-200-1) / 10 );
-		score[2].point = Math.round( (score[2].point-400-1) / 10 );
-		score[3].point = Math.round( (score[3].point-500-1) / 10 );
+		fireStoreData.point[0] = Math.round( (fireStoreData.point[0] + 100 -1) / 10 );
+ 		fireStoreData.point[1] = Math.round( (fireStoreData.point[1] - 200 -1) / 10 );
+		fireStoreData.point[2] = Math.round( (fireStoreData.point[2] - 400 -1) / 10 );
+		fireStoreData.point[3] = Math.round( (fireStoreData.point[3] - 500 -1) / 10 );
 
-		let d = new Date();
-		let date = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
+		const d = new Date();
+    fireStoreData.date = d.getTime();
+		fireStoreData.date_str = d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate();
 
     try {
       const previousLog = (await firestoreGet('log', uid!)).data()?.log || [];
       await firestoreSet("log", uid!, {
-        log: [...previousLog, JSON.stringify({ date, score })]
+        log: [...previousLog, fireStoreData]
       });
       alert("保存しました");
-      setPersonalScore(initialPersonalScore());
+      setInputData([
+        {point: 250, player: ""},
+        {point: 250, player: ""},
+        {point: 250, player: ""},
+        {point: 250, player: ""}
+      ]);
       navigate("/app")
     } catch (e) {
       setError((e as Error).message);
@@ -89,19 +111,19 @@ export const AddLogForm: React.FC = () => {
   const AddLogListItem = ({ id }: Props) => {
     return (
       <div className={`${style.listitem} ${addLogListStyle.addlogList}`} >
-				<select id={"player" + id} defaultValue={personalScore[id-1].player} onChange={(e) => {
-            personalScore[id-1].player = e.target.value;
-            setPersonalScore([...personalScore]);
+				<select id={"player" + id} defaultValue={inputData[id-1].player} onChange={(e) => {
+            inputData[id-1].player = e.target.value;
+            setInputData([...inputData]);
         }}>
           <option disabled value="">名前を選択</option>
           { (players as any).map( (player: any) => {
             return <option key={player} value={player}>{player}</option>;
           }) }
 				</select>
-				<span className={addLogListStyle.score}>
-					<input id={"score" + id} type="number" defaultValue={personalScore[id-1].point} required onChange={(e) => {
-            personalScore[id-1].point = Number(e.target.value);
-            setPersonalScore(personalScore);
+				<span className={addLogListStyle.point}>
+					<input id={"point" + id} type="number" defaultValue={inputData[id-1].point} required onChange={(e) => {
+            inputData[id-1].point = Number(e.target.value);
+            setInputData(inputData);
           }} />00
 				</span>
       </div>
