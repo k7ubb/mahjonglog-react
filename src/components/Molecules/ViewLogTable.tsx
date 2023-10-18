@@ -3,13 +3,13 @@ import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
 import { firestoreGet } from 'lib/firebase/firestore';
 
-import type { FireStoreMJpoint } from 'components/type';
+import type { MJscore, MJlog } from 'components/type';
 
 import style from 'components/Atoms/List.module.css';
 import viewLogListStyle from 'components/Molecules/ViewLogList.module.css';
 
 type Props = {
-  log: FireStoreMJpoint
+  log: MJlog
 };
 
 type LogByDate = {
@@ -20,17 +20,18 @@ type LogByDate = {
 const LogItem = ( { log }: Props ) => {
   let color = [];
   for(let i=0; i<4; i++){
-    if(log.point[i] === 0){ color[i] = "#000"; }
-    if(log.point[i] > 0){ color[i] = "#00f"; }
-    if(log.point[i] < 0){ color[i] = "#f00"; }
+    if(log.score[i].point === 0){ color[i] = "#000"; }
+    if(log.score[i].point > 0){ color[i] = "#00f"; }
+    if(log.score[i].point < 0){ color[i] = "#f00"; }
   }
   return (
     <div className={`${style.listitem} ${viewLogListStyle.viewLogList}`} >
       <p>
-        1: {log.player[0]} <span className={viewLogListStyle.score_point} style={{color:color[0]}}>{log.point[0]}</span><br />
-        2: {log.player[1]} <span className={viewLogListStyle.score_point} style={{color:color[1]}}>{log.point[1]}</span><br />
-        3: {log.player[2]} <span className={viewLogListStyle.score_point} style={{color:color[2]}}>{log.point[2]}</span><br />
-        4: {log.player[3]} <span className={viewLogListStyle.score_point} style={{color:color[3]}}>{log.point[3]}</span>
+        1: {log.score[0].player} <span className={viewLogListStyle.score_point} style={{color:color[0]}}>{log.score[0].point}</span><br />
+        2: {log.score[1].player} <span className={viewLogListStyle.score_point} style={{color:color[1]}}>{log.score[1].point}</span><br />
+        3: {log.score[2].player} <span className={viewLogListStyle.score_point} style={{color:color[2]}}>{log.score[2].point}</span><br />
+        4: {log.score[3].player} <span className={viewLogListStyle.score_point} style={{color:color[3]}}>{log.score[3].point}</span>
+
       </p>
     </div>
   );
@@ -39,7 +40,7 @@ const LogItem = ( { log }: Props ) => {
 export const ViewLogTable: React.FC = () => {
   const { uid } = useAuthContext();
 
-  const [log, setLog] = useState<FireStoreMJpoint[]>([]);
+  const [log, setLog] = useState<MJlog[]>([]);
   const [logDate, setLogDate] = useState<LogByDate[]>([]);
   const [showDate, setShowDate] = useState("");
 

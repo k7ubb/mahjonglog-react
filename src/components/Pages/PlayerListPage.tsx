@@ -9,7 +9,7 @@ import { AppArea } from 'components/Templete/AppArea';
 
 import { ListGroup, ListItem } from 'components/Atoms/List';
 
-import type { FireStoreMJpoint } from 'components/type';
+import type { MJscore, MJlog } from 'components/type';
 
 import style from 'components/Atoms/List.module.css';
 import personalLogListStyle from 'components/Molecules/PersonalLogList.module.css';
@@ -66,7 +66,7 @@ export const PlayerListPage: React.FC = () => {
   const [players, setPlayers] = useState([]);
   const { player } = useParams();
 
-  const [log, setLog] = useState<FireStoreMJpoint[]>([]);
+  const [log, setLog] = useState<MJlog[]>([]);
   const [personalLog, setPersonalLog] = useState(initialState());
 
   useEffect(() => {
@@ -86,10 +86,10 @@ export const PlayerListPage: React.FC = () => {
 
     for (let l of log) {
 			for (let i = 0; i < 4; i++) {
-				if(l.player[i] === player){
+				if(l.score[i].player === player){
 					personal.rank[i]++;
 					personal.count++;
-					personal.score += l.point[i];
+					personal.score += l.score[i].point;
 				}
 			}
     }
