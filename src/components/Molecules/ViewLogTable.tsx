@@ -3,7 +3,7 @@ import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
 import { firestoreGet } from 'lib/firebase/firestore';
 
-import type { MJscore, MJlog } from 'components/type';
+import type { MJlog } from 'components/type';
 
 import style from 'components/Atoms/List.module.css';
 import viewLogListStyle from 'components/Molecules/ViewLogList.module.css';

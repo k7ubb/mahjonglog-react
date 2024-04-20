@@ -4,7 +4,7 @@ import { ListTitle, ListGroup, ListItem } from 'components/Atoms/List';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
 import { firestoreGet, firestoreSet } from 'lib/firebase/firestore';
 
-import type { MJscore, MJlog } from 'components/type';
+import type { MJscore } from 'components/type';
 import style from 'components/Atoms/List.module.css';
 import addLogListStyle from 'components/Molecules/AddLogList.module.css';
 
@@ -123,9 +123,6 @@ export const AddLogForm: React.FC = () => {
 
   return (
     <form onSubmit={addLog}>
-      <ListGroup>
-      </ListGroup>
-
       { error && (
         <ListTitle>
           <span style={{color:"red"}}>{error}</span>

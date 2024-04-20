@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { firestoreGetsQuery } from 'lib/firebase/firestore';
 import { useAuthContext } from 'feature/auth/provider/AuthProvider';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { ListGroup, ListItem } from 'components/Atoms/List';
+import { ListGroup } from 'components/Atoms/List';
 import { useLSaccountsReducer } from 'components/hooks/useLSaccountsReducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
@@ -18,7 +17,6 @@ type Props = {
 };
 
 export const AccountList = () => {
-  const navigate = useNavigate();
   const { LSaccounts, dispatch } = useLSaccountsReducer();
   const [accountsData, setAccountsData] = useState([] as any[]);
 

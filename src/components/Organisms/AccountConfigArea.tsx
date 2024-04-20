@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { ListGroup, ListItem } from 'components/Atoms/List';
 import style from 'components/Organisms/AccountConfigArea.module.css';
 

@@ -15,7 +15,7 @@ export const Header = ({ children, destination }: Props) => {
     destination? 
       <div className={style.header}>
         <h1>{children}</h1>
-        <a className={style.back} onClick={() => navigate(destination)}>
+        <a href="#" className={style.back} onClick={() => navigate(destination)}>
           <FontAwesomeIcon icon={faChevronLeft} />戻る
         </a>
       </div>
@@ -23,5 +23,5 @@ export const Header = ({ children, destination }: Props) => {
       <div className={style.header}>
         <h1>{children}</h1>
       </div>
-);
+  );
 };

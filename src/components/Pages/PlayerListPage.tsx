@@ -9,7 +9,7 @@ import { AppArea } from 'components/Templete/AppArea';
 
 import { ListGroup, ListItem } from 'components/Atoms/List';
 
-import type { MJscore, MJlog } from 'components/type';
+import type { MJlog } from 'components/type';
 
 import style from 'components/Atoms/List.module.css';
 import personalLogListStyle from 'components/Molecules/PersonalLogList.module.css';
