@@ -1,13 +1,13 @@
 {
 	"short_name": "麻雀ログ",
 	"name": "オンライン麻雀ログ",
-  "icons": [
-    {
-      "src": "icon.png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
+	"start_url": "./?webapp=true",
 	"display": "standalone",
-	"orientation": "portrait"
+	"orientation": "portrait",
+	"icons": [
+		{
+			"src": "icon.png",
+			"sizes": "512x512"
+		}
+	]
 }
