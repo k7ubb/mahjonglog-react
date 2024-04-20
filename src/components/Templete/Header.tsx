@@ -15,11 +15,12 @@ export const Header = ({ children, destination }: Props) => {
     destination? 
       <div className={style.header}>
         <h1>{children}</h1>
-        <a href="#" className={style.back} onClick={() => navigate(destination)}>
+        {/* エラー回避のためタグ変更 */}
+        <button onClick={() => navigate(destination)}>
           <FontAwesomeIcon icon={faChevronLeft} />戻る
-        </a>
+        </button>
       </div>
-    :
+      :
       <div className={style.header}>
         <h1>{children}</h1>
       </div>

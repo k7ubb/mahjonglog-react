@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: Props) => {
     } catch (e) {
       setUser(initialState);
     }
-  }, []);
+  }, [LSaccounts, dispatch]);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
 };
