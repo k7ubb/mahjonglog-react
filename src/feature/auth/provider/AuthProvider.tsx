@@ -3,7 +3,6 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { signOut } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { firestoreGet } from 'lib/firebase/firestore';
-import { useLSaccountsReducer } from 'components/hooks/useLSaccountsReducer';
 
 type GlobalAuthState = {
   user: User | null | undefined;
@@ -27,7 +26,6 @@ type Props = { children: ReactNode };
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<GlobalAuthState>(initialState);
-  const { LSaccounts, dispatch } = useLSaccountsReducer();
   
   useEffect(() => {
     try {
@@ -50,8 +48,9 @@ export const AuthProvider = ({ children }: Props) => {
             }
             else {
               await signOut(getAuth());
-              dispatch( { type: "delete", value: {email: userInfo?.email, password: userInfo?.password} } );
-              console.log("AccountData not found in FireStore");
+              // LocalStorageから削除
+              const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
+              localStorage.setItem("accounts", JSON.stringify(accounts.filter((x:any) => x.email !== userInfo?.email)));
             }
           })();
         }
@@ -59,7 +58,7 @@ export const AuthProvider = ({ children }: Props) => {
     } catch (e) {
       setUser(initialState);
     }
-  }, [LSaccounts, dispatch]);
+  }, []);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
 };
