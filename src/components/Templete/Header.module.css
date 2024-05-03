@@ -15,7 +15,7 @@
 	text-align: center;
 }
 
-.header .back {
+.header button {
 	display: block;
 	position: absolute;
 	top: 12px;
@@ -23,8 +23,11 @@
 	font: 16px sans-serif;
 	color: var(--color-accent);
 	text-decoration: none;
+	appearance: none;
+	border-style: none;
+	background: transparent;
 }
 
-.header .back svg {
+.header button svg {
 	margin-right: 4px;
 }

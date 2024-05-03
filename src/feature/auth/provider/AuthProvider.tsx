@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }: Props) => {
   const { LSaccounts, dispatch } = useLSaccountsReducer();
   
   useEffect(() => {
-    console.log(LSaccounts);
     try {
       const auth = getAuth();
       return onAuthStateChanged(auth, (user) => {
