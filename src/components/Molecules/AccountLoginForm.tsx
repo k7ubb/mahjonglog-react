@@ -48,9 +48,9 @@ export const AccountLoginForm: React.FC = () => {
             navigate('/app');
           }, 1);
         }
-      } catch (e) {
-        setError((e as Error).message);
-      }
+        } catch (e) {
+         setError((e as Error).message);
+        }
       }}>
       <ListTitle>ログイン</ListTitle>
       <ListGroup>
