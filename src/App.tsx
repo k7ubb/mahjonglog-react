@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { IndexPage } from './components/Pages/IndexPage';
+import { AppIndexPage } from './components/Pages/AppIndexPage';
 
 function App() {
 	return (
@@ -11,6 +12,7 @@ function App() {
 		>
 			<Routes>
 				<Route path="/" element={<IndexPage />} />
+				<Route path="/app" element={<AppIndexPage />} />
 			</Routes>
 		</BrowserRouter>
 	);

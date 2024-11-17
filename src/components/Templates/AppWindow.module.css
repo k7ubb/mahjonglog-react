@@ -1,0 +1,63 @@
+:root {
+	--app-color-background: #f2f2f6;
+	--app-color-background2: #ffffff;
+	--app-color-background-hover: #e5e5e9;
+	--app-color-main: #000000;
+	--app-color-main2: #b2b2b2;
+	--app-color-gray: #85858a;
+	--app-color-accent: #007aff;
+	--app-color-line: #c6c6c8;
+}
+
+html,
+body,
+div:has(.appWindow),
+.appWindow {
+	height: 100%;
+}
+
+body:has(.appWindow) {
+	margin: 0;
+	padding: 0;
+	background: #ccc;
+}
+
+.appWindow {
+	margin: auto;
+	padding: 8px;
+	width: 100%;
+	box-sizing: border-box;
+	max-width: 450px;
+	background: var(--app-color-background);
+	overflow-y: scroll;
+}
+
+.header {
+	position: sticky;
+	top: -8px;
+	margin: -8px -8px 0;
+	padding-top: 10px;
+	width: calc(100% + 16px);
+	height: 34px;
+	background: var(--app-color-background2);
+	border-bottom: 1px solid var(--app-color-main2);
+	z-index: 100;
+}
+
+.header h1 {
+	margin: 0;
+	font-weight: normal;
+	font-size: 20px;
+	text-align: center;
+}
+
+.header a {
+	display: flex;
+	align-items: center;
+	position: absolute;
+	top: 12px;
+	left: 8px;
+	font-size: 18px;
+	color: var(--app-color-accent);
+	text-decoration: none;
+}
