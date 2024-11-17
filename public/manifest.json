@@ -1,0 +1,12 @@
+{
+	"short_name": "麻雀ログ",
+	"name": "オンライン麻雀ログ",
+	"start_url": "/app/",
+	"scope": "/app/",
+	"icons": [
+		{
+			"src": "icon.png",
+			"sizes": "512x512"
+		}
+	]
+}

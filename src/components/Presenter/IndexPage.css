@@ -1,0 +1,290 @@
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap);
+@import url(https://use.fontawesome.com/releases/v6.2.0/css/all.css);
+
+:root {
+	--color-background: #ffffff;
+	--color-main: #779bc8;
+	--color-button: #ffffff;
+	--color-button-hover: #85c7df;
+	--color-text-main: #333333;
+	--color-text-reversal: #ffffff;
+	--width-main: 1200px;
+	--height-header: 56px;
+	--height-footer: 40px;
+	--padding-y-main: 100px;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+* {
+	font-family: 'Noto Sans JP', sans-serif;
+	color: var(--color-text-main);
+}
+
+body {
+	background: var(--color-background);
+	margin-bottom: 0;
+	text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+
+/* -------- structure -------- */
+
+header {
+	display: flex;
+	margin: -8px -8px 0;
+	padding: 8px max(8px, calc((100% - var(--width-main)) / 2 + 8px));
+	background: var(--color-main);
+	height: var(--height-header);
+	box-sizing: border-box;
+}
+
+header a.sitename {
+	display: flex;
+	height: 40px;
+	line-height: 48px;
+	font-size: 20px;
+	text-decoration: none;
+	color: var(--color-text-reversal);
+}
+
+header a.sitename img {
+	height: 100%;
+	margin-right: 10px;
+}
+
+header a.sitename i {
+	height: 40px;
+	line-height: 48px;
+	font-size: 30px;
+	margin-right: 10px;
+	color: var(--color-text-reversal);
+}
+
+@media screen and (min-width: 800px) {
+	header details {
+		display: none;
+	}
+
+	header nav {
+		display: flex;
+		margin-left: auto;
+	}
+
+	header nav a {
+		margin-left: 16px;
+		height: 40px;
+		line-height: 48px;
+		text-decoration: none;
+		color: var(--color-text-reversal);
+	}
+}
+
+@media screen and (max-width: 801px) {
+	header nav {
+		display: none;
+	}
+
+	header details {
+		display: contents;
+	}
+
+	header details summary::before {
+		content: '\f0c9';
+		font-family: 'Font Awesome 5 Free';
+		font-weight: 900;
+		font-size: 24px;
+		color: var(--color-text-reversal);
+	}
+
+	header details summary {
+		display: block;
+		margin-left: auto;
+		border: 1px solid var(--color-text-reversal);
+		border-radius: 2px;
+		width: 40px;
+		height: 32px;
+		line-height: 32px;
+		margin-top: 4px;
+		text-align: center;
+	}
+
+	header details summary::-webkit-details-marker {
+		display: none;
+	}
+
+	header details summary + * {
+		display: block;
+		position: absolute;
+		top: 56px;
+		right: 0;
+		background: var(--color-main);
+	}
+
+	header details summary + * a {
+		display: block;
+		text-decoration: none;
+		color: var(--color-text-reversal);
+		margin: 8px 16px;
+	}
+}
+
+main {
+	margin: var(--padding-y-main) 0;
+	padding: 0 calc((100% - var(--width-main)) / 2);
+	overflow: hidden;
+	min-height: calc(
+		100% - var(--height-header) - var(--height-footer) - var(--padding-y-main) *
+			2
+	);
+	box-sizing: border-box;
+}
+
+footer {
+	margin: 0 -8px -8px;
+	padding: 8px max(8px, calc((100% - var(--width-main)) / 2 + 8px));
+	background: var(--color-main);
+	color: var(--color-text-reversal);
+	height: var(--height-footer);
+	box-sizing: border-box;
+}
+
+footer a {
+	color: var(--color-text-reversal);
+}
+
+footer a.icon::after {
+	content: '\f08e';
+	margin-left: 4px;
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+}
+
+footer i {
+	color: var(--color-text-reversal);
+	margin-left: 2px;
+}
+
+/* -------- modal dialog -------- */
+dialog {
+	padding: 0;
+}
+
+dialog > div {
+	padding: 16px;
+}
+
+/* -------- flex -------- */
+
+@media screen and (min-width: 800px) {
+	.flex {
+		display: flex;
+		gap: 32px;
+	}
+
+	.flex > * {
+		flex: 1;
+	}
+
+	.flex .sized {
+		flex: initial;
+	}
+}
+
+@media screen and (max-width: 801px) {
+	.flex .sized {
+		width: 100% !important;
+	}
+}
+
+/* -------- elements -------- */
+
+p,
+li {
+	line-height: 2em;
+}
+
+h1 {
+	margin-top: 0;
+	color: var(--color-main);
+	font-size: 180%;
+}
+
+h1 .update {
+	font-size: 50%;
+	font-weight: normal;
+}
+
+h2 {
+	color: var(--color-main);
+}
+
+h1 ~ h2,
+h2 ~ h2 {
+	margin-top: 64px;
+}
+
+h3 {
+	margin-top: 0;
+}
+
+img.responsive {
+	width: 100%;
+}
+
+div.info {
+	background: var(--color-main3);
+	padding: 8px;
+	margin-bottom: 64px;
+	border-radius: 8px;
+}
+
+a.download_button {
+	padding: 8px 16px;
+	border-radius: 4px;
+	color: var(--color-text-reversal);
+	text-decoration: none;
+	background: #1968e5;
+}
+
+a.download_button:hover {
+	background: #17459c;
+}
+
+a.download_button i {
+	color: var(--color-text-reversal);
+	margin-right: 4px;
+}
+
+form dt {
+	float: left;
+}
+
+form dd {
+	margin-left: 140px;
+	margin-bottom: 24px;
+}
+
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='hidden']):not([type='submit']):not([type='reset']):not([type='button']):not([type='image']) {
+	font-size: 1em;
+	width: 200px;
+}
+
+input[type='button'],
+input[type='submit'] {
+	-webkit-apperapance: none;
+	padding: 4px 12px;
+	font-size: 16px;
+	border-style: none;
+	border-radius: 4px;
+	background: var(--color-button-hover);
+}
+
+input[type='button']:hover,
+input[type='submit']:hover {
+	background: var(--color-main);
+}
