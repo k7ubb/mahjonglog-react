@@ -16,16 +16,17 @@
 
 html,
 body,
-#root {
+div:has(.indexPage),
+.indexPage {
 	height: 100%;
 }
 
-* {
+.indexPage .indexPage * {
 	font-family: 'Noto Sans JP', sans-serif;
 	color: var(--color-text-main);
 }
 
-body {
+.indexPage body {
 	background: var(--color-background);
 	margin-bottom: 0;
 	text-size-adjust: 100%;
@@ -34,7 +35,7 @@ body {
 
 /* -------- structure -------- */
 
-header {
+.indexPage header {
 	display: flex;
 	margin: -8px -8px 0;
 	padding: 8px max(8px, calc((100% - var(--width-main)) / 2 + 8px));
@@ -43,7 +44,7 @@ header {
 	box-sizing: border-box;
 }
 
-header a.sitename {
+.indexPage header .sitename {
 	display: flex;
 	height: 40px;
 	line-height: 48px;
@@ -52,12 +53,12 @@ header a.sitename {
 	color: var(--color-text-reversal);
 }
 
-header a.sitename img {
+.indexPage header .sitename img {
 	height: 100%;
 	margin-right: 10px;
 }
 
-header a.sitename i {
+.indexPage header .sitename i {
 	height: 40px;
 	line-height: 48px;
 	font-size: 30px;
@@ -66,16 +67,16 @@ header a.sitename i {
 }
 
 @media screen and (min-width: 800px) {
-	header details {
+	.indexPage header details {
 		display: none;
 	}
 
-	header nav {
+	.indexPage header nav {
 		display: flex;
 		margin-left: auto;
 	}
 
-	header nav a {
+	.indexPage header nav a {
 		margin-left: 16px;
 		height: 40px;
 		line-height: 48px;
@@ -85,15 +86,15 @@ header a.sitename i {
 }
 
 @media screen and (max-width: 801px) {
-	header nav {
+	.indexPage header nav {
 		display: none;
 	}
 
-	header details {
+	.indexPage header details {
 		display: contents;
 	}
 
-	header details summary::before {
+	.indexPage header details summary::before {
 		content: '\f0c9';
 		font-family: 'Font Awesome 5 Free';
 		font-weight: 900;
@@ -101,7 +102,7 @@ header a.sitename i {
 		color: var(--color-text-reversal);
 	}
 
-	header details summary {
+	.indexPage header details summary {
 		display: block;
 		margin-left: auto;
 		border: 1px solid var(--color-text-reversal);
@@ -113,11 +114,11 @@ header a.sitename i {
 		text-align: center;
 	}
 
-	header details summary::-webkit-details-marker {
+	.indexPage header details summary::-webkit-details-marker {
 		display: none;
 	}
 
-	header details summary + * {
+	.indexPage header details summary + * {
 		display: block;
 		position: absolute;
 		top: 56px;
@@ -125,7 +126,7 @@ header a.sitename i {
 		background: var(--color-main);
 	}
 
-	header details summary + * a {
+	.indexPage header details summary + * a {
 		display: block;
 		text-decoration: none;
 		color: var(--color-text-reversal);
@@ -133,7 +134,7 @@ header a.sitename i {
 	}
 }
 
-main {
+.indexPage main {
 	margin: var(--padding-y-main) 0;
 	padding: 0 calc((100% - var(--width-main)) / 2);
 	overflow: hidden;
@@ -144,7 +145,7 @@ main {
 	box-sizing: border-box;
 }
 
-footer {
+.indexPage footer {
 	margin: 0 -8px -8px;
 	padding: 8px max(8px, calc((100% - var(--width-main)) / 2 + 8px));
 	background: var(--color-main);
@@ -153,97 +154,97 @@ footer {
 	box-sizing: border-box;
 }
 
-footer a {
+.indexPage footer a {
 	color: var(--color-text-reversal);
 }
 
-footer a.icon::after {
+.indexPage footer a.icon::after {
 	content: '\f08e';
 	margin-left: 4px;
 	font-family: 'Font Awesome 5 Free';
 	font-weight: 900;
 }
 
-footer i {
+.indexPage footer i {
 	color: var(--color-text-reversal);
 	margin-left: 2px;
 }
 
 /* -------- modal dialog -------- */
-dialog {
+.indexPage dialog {
 	padding: 0;
 }
 
-dialog > div {
+.indexPage dialog > div {
 	padding: 16px;
 }
 
 /* -------- flex -------- */
 
 @media screen and (min-width: 800px) {
-	.flex {
+	.indexPage .flex {
 		display: flex;
 		gap: 32px;
 	}
 
-	.flex > * {
+	.indexPage .flex > * {
 		flex: 1;
 	}
 
-	.flex .sized {
+	.indexPage .flex .sized {
 		flex: initial;
 	}
 }
 
 @media screen and (max-width: 801px) {
-	.flex .sized {
+	.indexPage .flex .sized {
 		width: 100% !important;
 	}
 }
 
 /* -------- elements -------- */
 
-p,
-li {
+.indexPage p,
+.indexPage li {
 	line-height: 2em;
 }
 
-h1 {
+.indexPage h1 {
 	margin-top: 0;
 	color: var(--color-main);
 	font-size: 180%;
 }
 
-h1 .update {
+.indexPage h1 .update {
 	font-size: 50%;
 	font-weight: normal;
 }
 
-h2 {
+.indexPage h2 {
 	color: var(--color-main);
 }
 
-h1 ~ h2,
-h2 ~ h2 {
+.indexPage h1 ~ h2,
+.indexPage h2 ~ h2 {
 	margin-top: 64px;
 }
 
-h3 {
+.indexPage h3 {
 	margin-top: 0;
 }
 
-img.responsive {
+.indexPage img.responsive {
 	width: 100%;
 }
 
-div.info {
+.indexPage div.info {
 	background: var(--color-main3);
 	padding: 8px;
 	margin-bottom: 64px;
 	border-radius: 8px;
 }
 
-a.download_button {
+.indexPage a.download_button {
 	padding: 8px 16px;
 	border-radius: 4px;
 	color: var(--color-text-reversal);
@@ -251,31 +252,32 @@ a.download_button {
 	background: #1968e5;
 }
 
-a.download_button:hover {
+.indexPage a.download_button:hover {
 	background: #17459c;
 }
 
-a.download_button i {
+.indexPage a.download_button i {
 	color: var(--color-text-reversal);
 	margin-right: 4px;
 }
 
-form dt {
+.indexPage form dt {
 	float: left;
 }
 
-form dd {
+.indexPage form dd {
 	margin-left: 140px;
 	margin-bottom: 24px;
 }
 
-input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='hidden']):not([type='submit']):not([type='reset']):not([type='button']):not([type='image']) {
+.indexPage
+	input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='hidden']):not([type='submit']):not([type='reset']):not([type='button']):not([type='image']) {
 	font-size: 1em;
 	width: 200px;
 }
 
-input[type='button'],
-input[type='submit'] {
+.indexPage input[type='button'],
+.indexPage input[type='submit'] {
 	-webkit-apperapance: none;
 	padding: 4px 12px;
 	font-size: 16px;
@@ -284,7 +286,7 @@ input[type='submit'] {
 	background: var(--color-button-hover);
 }
 
-input[type='button']:hover,
-input[type='submit']:hover {
+.indexPage input[type='button']:hover,
+.indexPage input[type='submit']:hover {
 	background: var(--color-main);
 }
