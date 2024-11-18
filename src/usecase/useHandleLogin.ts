@@ -2,8 +2,10 @@ import {
 	getEmailByAccountId,
 	loginAccount,
 } from '../repository/loginRepository.ts';
+import { useHandleAuth } from './useHandleAuth.tsx';
 
 export const useHandleLogin = () => {
+	const { update } = useHandleAuth();
 	const submitLogin = async ({
 		emailOrAccountId,
 		password,
@@ -15,6 +17,7 @@ export const useHandleLogin = () => {
 			? emailOrAccountId
 			: await getEmailByAccountId(emailOrAccountId);
 		await loginAccount({ email, password });
+		update();
 	};
 
 	return { submitLogin };

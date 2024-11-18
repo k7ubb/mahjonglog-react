@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ReactLoading from 'react-loading';
+import { useHandleAuth } from '../../usecase/useHandleAuth';
 import style from './AppWindow.module.css';
 
 export const AppWindow = ({
@@ -14,6 +15,8 @@ export const AppWindow = ({
 	children?: React.ReactNode;
 	loading?: boolean;
 }) => {
+	const { user } = useHandleAuth();
+
 	return (
 		<>
 			<div className={style.appWindow}>
@@ -24,7 +27,9 @@ export const AppWindow = ({
 							戻る
 						</Link>
 					)}
-					<h1>{title}</h1>
+					<h1>
+						{title} {user ? `${user.accountID}さん` : ''}
+					</h1>
 				</div>
 				{children}
 			</div>

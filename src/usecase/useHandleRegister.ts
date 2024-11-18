@@ -2,8 +2,10 @@ import {
 	checkAccountIDExist,
 	registerAccount,
 } from '../repository/registerRepository';
+import { useHandleAuth } from './useHandleAuth';
 
 export const useHandleRegister = () => {
+	const { update } = useHandleAuth();
 	const submitRegister = async ({
 		email,
 		password,
@@ -22,6 +24,7 @@ export const useHandleRegister = () => {
 		}
 		await checkAccountIDExist(accountID);
 		await registerAccount({ email, password, accountID, accountName });
+		update();
 	};
 
 	return { submitRegister };
