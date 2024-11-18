@@ -5,6 +5,7 @@ import {
 	getDocs,
 	setDoc,
 	query,
+	where,
 } from 'firebase/firestore';
 import {
 	getAuth,
@@ -14,13 +15,17 @@ import {
 import { FirebaseApp } from '../lib/firebase';
 
 export const checkAccountIDExist = async (accountID: string) => {
-	(
-		await getDocs(query(collection(getFirestore(FirebaseApp), 'account')))
-	).forEach((doc) => {
-		if (doc.data().accountID === accountID) {
-			throw new Error('このアカウントIDは使われています');
-		}
-	});
+	const docs = (
+		await getDocs(
+			query(
+				collection(getFirestore(FirebaseApp), 'account'),
+				where('accountID', '==', accountID)
+			)
+		)
+	).docs;
+	if (docs.length !== 0) {
+		throw new Error('このアカウントIDは使われています');
+	}
 };
 
 export const registerAccount = async ({

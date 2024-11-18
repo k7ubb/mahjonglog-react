@@ -1,25 +1,33 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { useHandleLogin } from '../../usecase/useHandleLogin.ts';
 
 export const AppLoginPage: React.FC = () => {
+	const navigate = useNavigate();
+	const { submitLogin } = useHandleLogin();
 	const [emailOrAccountId, setEmailOrAccountId] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState<string | null>(null);
-	const [disabled, setDisabled] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	return (
 		<>
-			<AppWindow title="ログイン" backTo="/app">
+			<AppWindow title="ログイン" backTo="/app" loading={loading}>
 				<form
 					onSubmit={async (e) => {
 						e.preventDefault();
-						setDisabled(true);
+						setLoading(true);
 						try {
-							await new Promise((resolve) => setTimeout(resolve, 1000));
+							await submitLogin({
+								emailOrAccountId,
+								password,
+							});
+							navigate('/app');
 						} catch (e) {
 							setError((e as Error).message);
 						} finally {
-							setDisabled(false);
+							setLoading(false);
 						}
 					}}
 				>
@@ -47,7 +55,7 @@ export const AppLoginPage: React.FC = () => {
 
 					<ListGroup {...(error && { error })}>
 						<ListItem>
-							<button type="submit" disabled={disabled}>
+							<button type="submit" disabled={loading}>
 								ログイン
 							</button>
 						</ListItem>

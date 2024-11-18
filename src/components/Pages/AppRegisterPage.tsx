@@ -5,7 +5,7 @@ import { useHandleRegister } from '../../usecase/useHandleRegister';
 
 export const AppRegisterPage: React.FC = () => {
 	const navigate = useNavigate();
-	const { submitLogin } = useHandleRegister();
+	const { submitRegister } = useHandleRegister();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordCheck, setPasswordCheck] = useState('');
@@ -22,7 +22,7 @@ export const AppRegisterPage: React.FC = () => {
 						e.preventDefault();
 						setLoading(true);
 						try {
-							await submitLogin({
+							await submitRegister({
 								email,
 								password,
 								passwordCheck,
@@ -75,7 +75,7 @@ export const AppRegisterPage: React.FC = () => {
 							<input
 								required
 								type="text"
-								pattern="^[a-zA-Z0-9\-_\@\.]+$"
+								pattern="^[a-zA-Z0-9\-_]+$"
 								placeholder="アカウントID (半角英数のみ)"
 								value={accountID}
 								onChange={(e) => setAccountID(e.target.value)}

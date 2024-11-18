@@ -4,7 +4,7 @@ import {
 } from '../repository/registerRepository';
 
 export const useHandleRegister = () => {
-	const submitLogin = async ({
+	const submitRegister = async ({
 		email,
 		password,
 		passwordCheck,
@@ -24,5 +24,5 @@ export const useHandleRegister = () => {
 		await registerAccount({ email, password, accountID, accountName });
 	};
 
-	return { submitLogin };
+	return { submitRegister };
 };
