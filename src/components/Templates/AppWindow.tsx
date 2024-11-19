@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useNavigate, Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import style from './AppWindow.module.css';
 
@@ -9,31 +9,42 @@ export const AppWindow = ({
 	backTo,
 	children,
 	loading,
+	authOnly,
 }: {
 	title: string;
 	backTo?: string;
 	children?: React.ReactNode;
 	loading?: boolean;
+	authOnly?: boolean;
 }) => {
-	const { user } = useHandleUser();
+	const navigate = useNavigate();
+	const { user, loading: userLoading } = useHandleUser();
+
+	if (authOnly && !userLoading && !user) {
+		navigate('/app');
+	}
 
 	return (
 		<>
 			<div className={style.appWindow}>
-				<div className={style.header}>
-					{backTo && (
-						<Link to={backTo}>
-							<FaChevronLeft />
-							戻る
-						</Link>
-					)}
-					<h1>
-						{title} {user ? `${user.accountID}さん` : ''}
-					</h1>
-				</div>
-				{children}
+				{!userLoading && (!authOnly || user) && (
+					<>
+						<div className={style.header}>
+							{backTo && (
+								<Link to={backTo}>
+									<FaChevronLeft />
+									戻る
+								</Link>
+							)}
+							<h1>
+								{title}
+							</h1>
+						</div>
+						{children}
+					</>
+				)}
 			</div>
-			{loading && (
+			{loading || userLoading && (
 				<div className={style.loading}>
 					<ReactLoading type="spin" color="#999999" />
 				</div>
