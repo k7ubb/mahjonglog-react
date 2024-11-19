@@ -62,6 +62,10 @@ body:has(.appWindow) {
 	text-decoration: none;
 }
 
+.header a:hover {
+	opacity: .5;
+}
+
 .listtitle {
 	margin-left: 16px;
 	margin-bottom: 4px;
@@ -80,6 +84,7 @@ body:has(.appWindow) {
 	margin-bottom: 16px;
 	border-radius: 16px;
 	background: var(--app-color-background2);
+	overflow: hidden;
 }
 
 .listitem {
@@ -93,6 +98,10 @@ body:has(.appWindow) {
 	text-decoration: none;
 }
 
+.listitem:has(button):hover, .listitem:has(input[type="submit"]):hover {
+	background: var(--app-color-main2);
+}
+
 .listitem:not(:first-child) {
 	border-top: 1px solid var(--app-color-background);
 }
@@ -100,10 +109,6 @@ body:has(.appWindow) {
 .listitem svg {
 	margin-left: auto;
 	padding: 16px;
-}
-
-.listitem.button {
-	color: var(--app-color-accent);
 }
 
 .listitem input,

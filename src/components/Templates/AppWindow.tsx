@@ -68,10 +68,12 @@ export const ListItem = ({
 	linkTo,
 	onClick,
 	children,
+	disabled = false,
 }: {
 	linkTo?: string;
 	onClick?: () => void;
 	children?: React.ReactNode;
+	disabled?: boolean;
 }) => {
 	return linkTo ? (
 		<Link to={linkTo} className={style.listitem}>
@@ -79,8 +81,10 @@ export const ListItem = ({
 			<FaChevronRight />
 		</Link>
 	) : onClick ? (
-		<div className={`${style.listitem} ${style.button}`} onClick={onClick}>
-			{children}
+		<div className={style.listitem}>
+			<button onClick={onClick} disabled={disabled}>
+				{children}
+			</button>
 		</div>
 	) : (
 		<div className={`${style.listitem}`}>{children}</div>
