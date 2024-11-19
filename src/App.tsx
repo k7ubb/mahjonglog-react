@@ -3,7 +3,7 @@ import { IndexPage } from './components/Pages/IndexPage';
 import { AppIndexPage } from './components/Pages/AppIndexPage';
 import { AppLoginPage } from './components/Pages/AppLoginPage';
 import { AppRegisterPage } from './components/Pages/AppRegisterPage';
-import { AuthProvider } from './usecase/useHandleAuth';
+import { AuthProvider } from './usecase/useHandleUser';
 
 function App() {
 	return (

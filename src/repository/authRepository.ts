@@ -1,29 +1,86 @@
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+	getFirestore,
+	collection,
+	getDocs,
+	setDoc,
+	doc,
+	query,
+	where,
+} from 'firebase/firestore';
+import {
+	getAuth,
+	signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
+	onAuthStateChanged,
+	signOut
+} from 'firebase/auth';
 import { FirebaseApp } from '../lib/firebase';
-import type { AuthUser } from '../usecase/useHandleAuth';
 
-export const getAuthUserData = async () => {
+export const getEmailByAccountId = async (accountID: string) => {
+	const docs = (
+		await getDocs(
+			query(
+				collection(getFirestore(FirebaseApp), 'account'),
+				where('accountID', '==', accountID)
+			)
+		)
+	).docs;
+	if (docs.length === 0) {
+		throw new Error('登録されていないIDです。');
+	} else {
+		return docs[0].data().email;
+	}
+};
+
+export const fireauthLogin = async ({
+	email,
+	password,
+}: {
+	email: string;
+	password: string;
+}) => {
+	await signInWithEmailAndPassword(getAuth(), email, password);
+};
+
+export const checkAccountIDExist = async (accountID: string) => {
+	const docs = (
+		await getDocs(
+			query(
+				collection(getFirestore(FirebaseApp), 'account'),
+				where('accountID', '==', accountID)
+			)
+		)
+	).docs;
+	if (docs.length !== 0) {
+		throw new Error('このアカウントIDは使われています');
+	}
+};
+
+export const fireauthRegister = async ({
+	email,
+	password,
+	accountID,
+	accountName,
+}: {
+	email: string;
+	password: string;
+	accountID: string;
+	accountName: string;
+}) => {
+	await createUserWithEmailAndPassword(getAuth(), email, password);
 	const auth = getAuth();
-	return new Promise<AuthUser>((resolve) => {
-		onAuthStateChanged(auth, async (user) => {
-			if (!user) {
-				resolve(null);
-			} else {
-				const account = (
-					await getDoc(doc(getFirestore(FirebaseApp), 'account', user.uid))
-				).data();
-				resolve(
-					account?.email && account?.accountID && account?.accountName
-						? {
-								uid: user.uid,
-								email: account.email,
-								accountID: account.accountID,
-								accountName: account.accountName,
-						  }
-						: null
-				);
-			}
+	onAuthStateChanged(auth, async (user) => {
+		if (!user) {
+			throw new Error('アカウント登録に失敗しました');
+		}
+		await setDoc(doc(getFirestore(FirebaseApp), 'account', user.uid), {
+			email,
+			accountID,
+			accountName,
 		});
 	});
+};
+
+export const fireauthLogout = async () => {
+	await signOut(getAuth());
 };

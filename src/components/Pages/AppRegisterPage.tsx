@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
-import { useHandleRegister } from '../../usecase/useHandleRegister';
+import { useHandleAuth } from '../../usecase/useHandleAuth';
 
 export const AppRegisterPage: React.FC = () => {
 	const navigate = useNavigate();
-	const { submitRegister } = useHandleRegister();
+	const { submitRegister } = useHandleAuth();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordCheck, setPasswordCheck] = useState('');

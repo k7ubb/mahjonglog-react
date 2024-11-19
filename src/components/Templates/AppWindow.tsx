@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ReactLoading from 'react-loading';
-import { useHandleAuth } from '../../usecase/useHandleAuth';
+import { useHandleUser } from '../../usecase/useHandleUser';
 import style from './AppWindow.module.css';
 
 export const AppWindow = ({
@@ -15,7 +15,7 @@ export const AppWindow = ({
 	children?: React.ReactNode;
 	loading?: boolean;
 }) => {
-	const { user } = useHandleAuth();
+	const { user } = useHandleUser();
 
 	return (
 		<>

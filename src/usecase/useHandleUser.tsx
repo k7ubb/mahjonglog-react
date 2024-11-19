@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { getAuthUserData } from '../repository/authRepository.ts';
+import { getAuthUserData } from '../repository/userRepository.ts';
 
 export type AuthUser = {
 	uid: string;
@@ -40,4 +40,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	);
 };
 
-export const useHandleAuth = () => useContext(AuthContext);
+export const useHandleUser = () => useContext(AuthContext);
