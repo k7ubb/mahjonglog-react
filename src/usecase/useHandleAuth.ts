@@ -1,5 +1,5 @@
 import {
-	getEmailByAccountId,
+	getEmailByAccountID,
 	checkAccountIDExist,
 	fireauthLogin,
 	fireauthRegister,
@@ -10,7 +10,7 @@ import { useHandleUser } from './useHandleUser.tsx';
 export const useHandleAuth = () => {
 	const { update } = useHandleUser();
 
-	const submitLogin = async ({
+	const login = async ({
 		emailOrAccountId,
 		password,
 	}: {
@@ -19,12 +19,12 @@ export const useHandleAuth = () => {
 	}) => {
 		const email = emailOrAccountId.match(/^.+@.+$/)
 			? emailOrAccountId
-			: await getEmailByAccountId(emailOrAccountId);
+			: await getEmailByAccountID(emailOrAccountId);
 		await fireauthLogin({ email, password });
 		update();
 	};
 
-	const submitRegister = async ({
+	const register = async ({
 		email,
 		password,
 		passwordCheck,
@@ -45,15 +45,15 @@ export const useHandleAuth = () => {
 		update();
 	};
 	
-	const submitLogout = async () => {
+	const logout = async () => {
 		await fireauthLogout();
 		update();
 	};
 
 	return {
-		submitLogin,
-		submitRegister,
-		submitLogout,
+		login,
+		register,
+		logout,
 	};
 
 };

@@ -5,10 +5,10 @@ import type { AuthUser } from '../usecase/useHandleUser';
 
 export const getAuthUserData = async () => {
 	const auth = getAuth();
-	return new Promise<AuthUser>((resolve) => {
+	return new Promise<AuthUser | undefined>((resolve) => {
 		onAuthStateChanged(auth, async (user) => {
 			if (!user) {
-				resolve(null);
+				resolve(undefined);
 			} else {
 				const account = (
 					await getDoc(doc(getFirestore(FirebaseApp), 'account', user.uid))
@@ -21,7 +21,7 @@ export const getAuthUserData = async () => {
 								accountID: account.accountID,
 								accountName: account.accountName,
 						  }
-						: null
+						: undefined
 				);
 			}
 		});

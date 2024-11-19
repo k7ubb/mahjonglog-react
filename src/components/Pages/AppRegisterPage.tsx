@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 import { useHandleAuth } from '../../usecase/useHandleAuth';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const AppRegisterPage: React.FC = () => {
 	const navigate = useNavigate();
-	const { submitRegister } = useHandleAuth();
+	const { register } = useHandleAuth();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordCheck, setPasswordCheck] = useState('');
@@ -21,7 +21,7 @@ export const AppRegisterPage: React.FC = () => {
 					e.preventDefault();
 					setLoading(true);
 					try {
-						await submitRegister({
+						await register({
 							email,
 							password,
 							passwordCheck,

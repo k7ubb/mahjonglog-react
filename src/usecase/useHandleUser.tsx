@@ -6,24 +6,24 @@ export type AuthUser = {
 	email: string;
 	accountID: string;
 	accountName: string;
-} | null;
+};
 
 const AuthContext = createContext<{
-	user: AuthUser;
+	user?: AuthUser;
 	loading: boolean;
 	update: () => Promise<void>;
 }>({
-	user: null,
+	user: undefined,
 	loading: true,
 	update: async () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const [user, setUser] = useState<AuthUser>(null);
+	const [user, setUser] = useState<AuthUser | undefined>(undefined);
 	const [loading, setLoading] = useState(true);
 
 	const update = async () => {
-		setUser(null);
+		setUser(undefined);
 		setLoading(true);
 		setUser(await getAuthUserData());
 		setLoading(false);

@@ -16,7 +16,7 @@ import {
 } from 'firebase/auth';
 import { FirebaseApp } from '../lib/firebase';
 
-export const getEmailByAccountId = async (accountID: string) => {
+export const getEmailByAccountID = async (accountID: string) => {
 	const docs = (
 		await getDocs(
 			query(
