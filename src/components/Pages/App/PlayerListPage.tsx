@@ -17,13 +17,14 @@ export const PlayerListPage: React.FC = () => {
 			authOnly={true}
 			loading={loading || addLoading}
 		>
-			{players.length > 0 && (
-				<ListGroup>
-					{players.map((player) => (
-						<ListItem key={player}>{player}</ListItem>
-					))}
-				</ListGroup>
-			)}
+			<ListGroup>
+				{players.map((player) => (
+					<ListItem key={player} linkTo={`/app/player/${player}`}>
+						{player}
+					</ListItem>
+				))}
+			</ListGroup>
+			
 			<ListGroup>
 				<ListItem onClick={() => setOpen(true)}>プレイヤーを追加</ListItem>
 			</ListGroup>

@@ -5,16 +5,14 @@ export const LogListPage: React.FC = () => {
 	const { logs, loading } = useHandleLog();
 
 	return (
-		<AppWindow title="表示" backTo="/app" authOnly={true} loading={loading}>
-			{logs.length > 0 && (
-				<ListGroup>
-					{logs.map((log) => (
-						<ListItem key={log.date} linkTo={`/app/log/${log.date}`}>
-							{log.date} ({log.scores.length})
-						</ListItem>
-					))}
-				</ListGroup>
-			)}
+		<AppWindow title="ログ表示" backTo="/app" authOnly={true} loading={loading}>
+			<ListGroup>
+				{logs.map((log) => (
+					<ListItem key={log.date} linkTo={`/app/log/${log.date}`}>
+						{log.date} ({log.scores.length})
+					</ListItem>
+				))}
+			</ListGroup>
 		</AppWindow>
 	);
 };

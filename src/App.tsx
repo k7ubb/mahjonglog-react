@@ -7,6 +7,7 @@ import { LogAddPage } from './components/Pages/App/LogAddPage';
 import { LogListPage } from './components/Pages/App/LogListPage';
 import { LogDetailPage } from './components/Pages/App/LogDetailPage';
 import { PlayerListPage } from './components/Pages/App/PlayerListPage';
+import { PersonalScorePage } from './components/Pages/App/PersonalScorePage';
 import { AuthProvider } from './usecase/useHandleUser';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 					<Route path="/app/log" element={<LogListPage />} />
 					<Route path="/app/log/:date" element={<LogDetailPage />} />
 					<Route path="/app/player" element={<PlayerListPage />} />
+					<Route path="/app/player/:player" element={<PersonalScorePage />} />
 				</Routes>
 			</BrowserRouter>
 		</AuthProvider>

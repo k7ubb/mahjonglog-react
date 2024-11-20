@@ -1,0 +1,6 @@
+.personal span {
+	position: inline-block;
+	position: absolute;
+	left: 200px;
+	width: 50px;
+}

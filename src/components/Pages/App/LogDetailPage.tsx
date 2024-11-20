@@ -6,7 +6,7 @@ import type { Score } from '../../../usecase/useHandleLog';
 import style from './LogDetailPage.module.css';
 
 const PointView = ({ point }: { point: number }) => {
-	const color = point > 0 ? '#f00' : point < 0 ? '#00f' : '#000';
+	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
 	return <span style={{ color }}>{point}</span>;
 };
 
