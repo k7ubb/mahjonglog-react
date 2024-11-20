@@ -42,12 +42,11 @@ export const AppWindow = ({
 					</>
 				)}
 			</div>
-			{loading ||
-				(userLoading && (
-					<div className={style.loading}>
-						<ReactLoading type="spin" color="#999999" />
-					</div>
-				))}
+			{(loading || userLoading) && (
+				<div className={style.loading}>
+					<ReactLoading type="spin" color="#999999" />
+				</div>
+			)}
 		</>
 	);
 };

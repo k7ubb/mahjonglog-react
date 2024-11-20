@@ -10,16 +10,16 @@ export const getAuthUserData = async () => {
 			if (!user) {
 				resolve(undefined);
 			} else {
-				const account = (
+				const data = (
 					await getDoc(doc(getFirestore(FirebaseApp), 'account', user.uid))
 				).data();
 				resolve(
-					account?.email && account?.accountID && account?.accountName
+					data?.email && data?.accountID && data?.accountName
 						? {
 								uid: user.uid,
-								email: account.email,
-								accountID: account.accountID,
-								accountName: account.accountName,
+								email: data.email,
+								accountID: data.accountID,
+								accountName: data.accountName,
 						  }
 						: undefined
 				);
