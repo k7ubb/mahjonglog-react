@@ -7,11 +7,11 @@ export const AppIndexPage: React.FC = () => {
 	const { user } = useHandleUser();
 	const { logout } = useHandleAuth();
 	const [loading, setLoading] = useState(false);
-	
+
 	return (
 		<AppWindow title="麻雀戦績共有アプリ">
-			{user
-				? <>
+			{user ? (
+				<>
 					<ListGroup title={`${user.accountName} さん`}>
 						<ListItem linkTo="/app/log/add">新規登録</ListItem>
 						<ListItem linkTo="/app/log">ログ表示</ListItem>
@@ -29,13 +29,15 @@ export const AppIndexPage: React.FC = () => {
 							ログアウト
 						</ListItem>
 					</ListGroup>
-				</> : <>
+				</>
+			) : (
+				<>
 					<ListGroup title={'アカウント'}>
 						<ListItem linkTo="/app/login">ログイン</ListItem>
 						<ListItem linkTo="/app/register">新規登録</ListItem>
 					</ListGroup>
 				</>
-			}
+			)}
 		</AppWindow>
 	);
 };

@@ -3,7 +3,7 @@ import {
 	checkAccountIDExist,
 	fireauthLogin,
 	fireauthRegister,
-	fireauthLogout
+	fireauthLogout,
 } from '../repository/authRepository.ts';
 import { useHandleUser } from './useHandleUser.tsx';
 
@@ -44,7 +44,7 @@ export const useHandleAuth = () => {
 		await fireauthRegister({ email, password, accountID, accountName });
 		update();
 	};
-	
+
 	const logout = async () => {
 		await fireauthLogout();
 		update();
@@ -55,5 +55,4 @@ export const useHandleAuth = () => {
 		register,
 		logout,
 	};
-
 };

@@ -12,7 +12,7 @@ import {
 	signInWithEmailAndPassword,
 	createUserWithEmailAndPassword,
 	onAuthStateChanged,
-	signOut
+	signOut,
 } from 'firebase/auth';
 import { FirebaseApp } from '../lib/firebase';
 

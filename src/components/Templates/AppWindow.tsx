@@ -24,31 +24,32 @@ export const AppWindow = ({
 		navigate('/app');
 	}
 
-	return <>
-		<div className={style.appWindow}>
-			{!userLoading && (!authOnly || user) && (
-				<>
-					<div className={style.header}>
-						{backTo && (
-							<Link to={backTo}>
-								<FaChevronLeft />
-								戻る
-							</Link>
-						)}
-						<h1>
-							{title}
-						</h1>
-					</div>
-					{children}
-				</>
-			)}
-		</div>
-		{loading || userLoading && (
-			<div className={style.loading}>
-				<ReactLoading type="spin" color="#999999" />
+	return (
+		<>
+			<div className={style.appWindow}>
+				{!userLoading && (!authOnly || user) && (
+					<>
+						<div className={style.header}>
+							{backTo && (
+								<Link to={backTo}>
+									<FaChevronLeft />
+									戻る
+								</Link>
+							)}
+							<h1>{title}</h1>
+						</div>
+						{children}
+					</>
+				)}
 			</div>
-		)}
-	</>;
+			{loading ||
+				(userLoading && (
+					<div className={style.loading}>
+						<ReactLoading type="spin" color="#999999" />
+					</div>
+				))}
+		</>
+	);
 };
 
 export const ListGroup = ({

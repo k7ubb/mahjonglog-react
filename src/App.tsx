@@ -3,9 +3,9 @@ import { IndexPage } from './components/Pages/IndexPage';
 import { AppIndexPage } from './components/Pages/AppIndexPage';
 import { AppLoginPage } from './components/Pages/AppLoginPage';
 import { AppRegisterPage } from './components/Pages/AppRegisterPage';
-import { AppLogAddPage } from  './components/Pages/AppLogAddPage';
-import { AppLogListPage } from  './components/Pages/AppLogListPage';
-import { AppPlayerListPage } from  './components/Pages/AppPlayerListPage';
+import { AppLogAddPage } from './components/Pages/AppLogAddPage';
+import { AppLogListPage } from './components/Pages/AppLogListPage';
+import { AppPlayerListPage } from './components/Pages/AppPlayerListPage';
 import { AuthProvider } from './usecase/useHandleUser';
 
 function App() {

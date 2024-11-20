@@ -63,7 +63,7 @@ body:has(.appWindow) {
 }
 
 .header a:hover {
-	opacity: .5;
+	opacity: 0.5;
 }
 
 .listtitle {
@@ -98,7 +98,8 @@ body:has(.appWindow) {
 	text-decoration: none;
 }
 
-.listitem:has(button):hover, .listitem:has(input[type="submit"]):hover {
+.listitem:has(button):hover,
+.listitem:has(input[type='submit']):hover {
 	background: var(--app-color-main2);
 }
 
