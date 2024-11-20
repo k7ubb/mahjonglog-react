@@ -10,6 +10,13 @@ export type Score = {
 	player: string;
 }[];
 
+const parseScore = [
+	(point: number) => Math.round((point + 100 - 1) / 10),
+	(point: number) => Math.round((point - 200 - 1) / 10),
+	(point: number) => Math.round((point - 400 - 1) / 10),
+	(point: number) => Math.round((point - 500 - 1) / 10),
+];
+
 export const useHandleLog = () => {
 	const { user } = useHandleUser();
 	const [logs, setLogs] = useState<{ date: string; scores: Score[] }[]>([]);
@@ -50,7 +57,11 @@ export const useHandleLog = () => {
 				point: scoreNum[i],
 				player: playerName[i],
 			}))
-			.sort((a, b) => b.point - a.point);
+			.sort((a, b) => b.point - a.point)
+			.map((scr, i) => ({
+				point: parseScore[i](scr.point),
+				player: scr.player,
+			}));
 		await addFirestoreLog(user.uid, score);
 	};
 

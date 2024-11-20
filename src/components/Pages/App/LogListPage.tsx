@@ -9,7 +9,9 @@ export const LogListPage: React.FC = () => {
 			{logs.length > 0 && (
 				<ListGroup>
 					{logs.map((log) => (
-						<ListItem key={log.date}>{log.date}</ListItem>
+						<ListItem key={log.date} linkTo={`/app/log/${log.date}`}>
+							{log.date} ({log.scores.length})
+						</ListItem>
 					))}
 				</ListGroup>
 			)}
