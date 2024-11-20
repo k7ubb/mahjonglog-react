@@ -1,8 +1,29 @@
-import { addFirestoreLog } from '../repository/logRepository.ts';
+import { useState, useEffect } from 'react';
+import {
+	getFirestoreLogs,
+	addFirestoreLog,
+} from '../repository/logRepository.ts';
 import { useHandleUser } from '../usecase/useHandleUser';
+
+export type Score = {
+	point: number;
+	player: string;
+}[];
 
 export const useHandleLog = () => {
 	const { user } = useHandleUser();
+	const [logs, setLogs] = useState<{ date: string; scores: Score[] }[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	const update = async () => {
+		setLoading(true);
+		setLogs(user ? await getFirestoreLogs(user.uid) : []);
+		setLoading(false);
+	};
+
+	useEffect(() => {
+		update();
+	}, [user]);
 
 	const addLog = async (playerName: string[], scoreString: string[]) => {
 		if (!user) {
@@ -34,6 +55,8 @@ export const useHandleLog = () => {
 	};
 
 	return {
+		logs,
+		loading,
 		addLog,
 	};
 };

@@ -58,6 +58,7 @@ export const PlayerListPage: React.FC = () => {
 								required
 								type="text"
 								placeholder="名前"
+								pattern="^[^\s\/]+$"
 								value={newPlayerName}
 								onChange={(e) => setNewPlayerName(e.target.value)}
 							/>
