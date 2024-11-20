@@ -81,7 +81,7 @@ export const LogAddPage: React.FC = () => {
 				<ListGroup {...(error && { error })}>
 					<ListItem>
 						<button type="submit" disabled={loading}>
-							ログイン
+							対局結果を保存
 						</button>
 					</ListItem>
 				</ListGroup>
