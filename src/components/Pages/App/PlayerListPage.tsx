@@ -1,7 +1,7 @@
-import { useHandleUser } from '../../usecase/useHandleUser';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { useHandleUser } from '../../../usecase/useHandleUser';
+import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
 
-export const AppLogListPage: React.FC = () => {
+export const PlayerListPage: React.FC = () => {
 	const { user } = useHandleUser();
 	return (
 		<AppWindow title="ログ一覧" backTo="/app" authOnly={true}>

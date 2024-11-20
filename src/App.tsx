@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { IndexPage } from './components/Pages/IndexPage';
-import { AppIndexPage } from './components/Pages/AppIndexPage';
-import { AppLoginPage } from './components/Pages/AppLoginPage';
-import { AppRegisterPage } from './components/Pages/AppRegisterPage';
-import { AppLogAddPage } from './components/Pages/AppLogAddPage';
-import { AppLogListPage } from './components/Pages/AppLogListPage';
-import { AppPlayerListPage } from './components/Pages/AppPlayerListPage';
+import { HomePage } from './components/Pages/App/HomePage';
+import { LoginPage } from './components/Pages/App/LoginPage';
+import { RegisterPage } from './components/Pages/App/RegisterPage';
+import { LogAddPage } from './components/Pages/App/LogAddPage';
+import { LogListPage } from './components/Pages/App/LogListPage';
+import { PlayerListPage } from './components/Pages/App/PlayerListPage';
 import { AuthProvider } from './usecase/useHandleUser';
 
 function App() {
@@ -19,12 +19,12 @@ function App() {
 			>
 				<Routes>
 					<Route path="/" element={<IndexPage />} />
-					<Route path="/app" element={<AppIndexPage />} />
-					<Route path="/app/login" element={<AppLoginPage />} />
-					<Route path="/app/register" element={<AppRegisterPage />} />
-					<Route path="/app/log/add" element={<AppLogAddPage />} />
-					<Route path="/app/log" element={<AppLogListPage />} />
-					<Route path="/app/player" element={<AppPlayerListPage />} />
+					<Route path="/app" element={<HomePage />} />
+					<Route path="/app/login" element={<LoginPage />} />
+					<Route path="/app/register" element={<RegisterPage />} />
+					<Route path="/app/log/add" element={<LogAddPage />} />
+					<Route path="/app/log" element={<LogListPage />} />
+					<Route path="/app/player" element={<PlayerListPage />} />
 				</Routes>
 			</BrowserRouter>
 		</AuthProvider>

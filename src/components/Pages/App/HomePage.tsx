@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useHandleAuth } from '../../usecase/useHandleAuth';
-import { useHandleUser } from '../../usecase/useHandleUser';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { useHandleAuth } from '../../../usecase/useHandleAuth';
+import { useHandleUser } from '../../../usecase/useHandleUser';
+import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
 
-export const AppIndexPage: React.FC = () => {
+export const HomePage: React.FC = () => {
 	const { user } = useHandleUser();
 	const { logout } = useHandleAuth();
 	const [loading, setLoading] = useState(false);
