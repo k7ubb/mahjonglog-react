@@ -14,7 +14,7 @@ export const PersonalScorePage: React.FC = () => {
 
 	return (
 		<AppWindow
-			title={player || ''}
+			title={player!}
 			backTo="/app/player"
 			authOnly={true}
 			loading={loading}

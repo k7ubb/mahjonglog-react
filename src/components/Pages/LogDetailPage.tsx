@@ -28,7 +28,7 @@ export const LogDetailPage: React.FC = () => {
 
 	return (
 		<AppWindow
-			title={date || ''}
+			title={date!}
 			backTo="/app/log"
 			authOnly={true}
 			loading={loading}
