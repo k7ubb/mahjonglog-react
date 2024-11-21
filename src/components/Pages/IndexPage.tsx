@@ -43,7 +43,7 @@ export const IndexPage: React.FC = () => {
 			<main>
 				{pwaOption !== '' && (
 					<>
-						<h2>使用方法</h2>
+						<h2>インストール方法</h2>
 						<div className={style.pwa_recommend}>
 							{pwaOption === 'iPhone' && (
 								<ol>
