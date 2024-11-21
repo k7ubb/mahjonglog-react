@@ -57,6 +57,11 @@ export const PersonalPage: React.FC = () => {
 							</ListItem>
 						</div>
 					</ListGroup>
+					<ListGroup>
+						<ListItem
+							linkTo={`/app/player/${player}/log`}
+						>{`${player}の対局記録を表示`}</ListItem>
+					</ListGroup>
 					<div style={{ height: '64px' }} />
 					<ListGroup>
 						<ListItem

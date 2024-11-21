@@ -8,12 +8,21 @@ const PointView = ({ point }: { point: number }) => {
 	return <span style={{ color }}>{point}</span>;
 };
 
+const formatDate = (date: Date) => {
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+};
+
 export const LogRow = ({
 	log,
+	showDate,
 	buttonElement,
 	onClick,
 }: {
 	log: Log;
+	showDate?: boolean;
 	buttonElement?: JSX.Element;
 	onClick?: () => Promise<void>;
 }) => {
@@ -22,6 +31,12 @@ export const LogRow = ({
 	return (
 		<ListItem>
 			<div className={style.log}>
+				{showDate && (
+					<>
+						{formatDate(new Date(log.date))}
+						<br />
+					</>
+				)}
 				1: {log.score[0].player} <PointView point={log.score[0].point} />
 				<br />
 				2: {log.score[1].player} <PointView point={log.score[1].point} />

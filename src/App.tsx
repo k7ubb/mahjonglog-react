@@ -10,6 +10,7 @@ import { LogDeletedPage } from './components/Pages/LogDeletedPage';
 import { LogDetailPage } from './components/Pages/LogDetailPage';
 import { PlayerListPage } from './components/Pages/PlayerListPage';
 import { PersonalPage } from './components/Pages/PersonalPage';
+import { PersonalLogPage } from './components/Pages/PersonalLogPage';
 import { AuthProvider } from './usecase/useHandleUser';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 					<Route path="/app/log/deleted" element={<LogDeletedPage />} />
 					<Route path="/app/player" element={<PlayerListPage />} />
 					<Route path="/app/player/:player" element={<PersonalPage />} />
+					<Route path="/app/player/:player/log" element={<PersonalLogPage />} />
 				</Routes>
 			</BrowserRouter>
 		</AuthProvider>

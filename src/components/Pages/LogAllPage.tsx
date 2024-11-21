@@ -16,6 +16,7 @@ export const LogAllPage: React.FC = () => {
 			<ListGroup>
 				{logs.map((log) => (
 					<LogRow
+						showDate={true}
 						key={log.id}
 						log={log}
 						buttonElement={<TiDelete />}
