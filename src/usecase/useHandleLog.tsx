@@ -46,7 +46,7 @@ export const useHandleLog = () => {
 		const scoreTotal = scoreNum.reduce((a, b) => a + b, 0);
 		if (scoreTotal !== 1000) {
 			throw new Error(
-				`合計点が ${Math.abs(1000 - scoreTotal)} 点${
+				`合計点が ${Math.abs(1000 - scoreTotal) * 100} 点${
 					scoreTotal > 1000 ? '多い' : '少ない'
 				}`
 			);
