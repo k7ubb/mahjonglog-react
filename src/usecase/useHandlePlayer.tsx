@@ -20,14 +20,25 @@ export const useHandlePlayer = () => {
 		update();
 	}, [user]);
 
-	const addPlayer = async (newPlayerName: string) => {
-		if (players.includes(newPlayerName)) {
+	const addPlayer = async (newPlayer: string) => {
+		if (players.includes(newPlayer)) {
 			throw new Error('この名前はすでに使われています');
 		}
 		if (!user) {
 			throw new Error('login error');
 		}
-		await updateFirestorePlayers(user.uid, [...players, newPlayerName]);
+		await updateFirestorePlayers(user.uid, [...players, newPlayer]);
+		await update();
+	};
+
+	const deletePlayer = async (player: string) => {
+		if (!user) {
+			throw new Error('login error');
+		}
+		await updateFirestorePlayers(
+			user.uid,
+			players.filter((_) => _ !== player)
+		);
 		await update();
 	};
 
@@ -35,5 +46,6 @@ export const useHandlePlayer = () => {
 		players,
 		loading,
 		addPlayer,
+		deletePlayer,
 	};
 };

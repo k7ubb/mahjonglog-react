@@ -6,7 +6,7 @@ import { Dialog } from '../Templates/Dialog';
 export const PlayerListPage: React.FC = () => {
 	const { players, loading, addPlayer } = useHandlePlayer();
 	const [open, setOpen] = useState(false);
-	const [newPlayerName, setNewPlayerName] = useState('');
+	const [newPlayer, setNewPlayer] = useState('');
 	const [error, setError] = useState<string | null>(null);
 	const [addLoading, setAddLoading] = useState(false);
 
@@ -32,7 +32,7 @@ export const PlayerListPage: React.FC = () => {
 			<Dialog
 				open={open}
 				onClose={() => {
-					setNewPlayerName('');
+					setNewPlayer('');
 					setError('');
 					setOpen(false);
 				}}
@@ -43,8 +43,8 @@ export const PlayerListPage: React.FC = () => {
 						setError('');
 						setAddLoading(true);
 						try {
-							await addPlayer(newPlayerName);
-							setNewPlayerName('');
+							await addPlayer(newPlayer);
+							setNewPlayer('');
 							setOpen(false);
 						} catch (e) {
 							setError((e as Error).message);
@@ -60,8 +60,8 @@ export const PlayerListPage: React.FC = () => {
 								type="text"
 								placeholder="名前"
 								pattern="^[^\s\/]+$"
-								value={newPlayerName}
-								onChange={(e) => setNewPlayerName(e.target.value)}
+								value={newPlayer}
+								onChange={(e) => setNewPlayer(e.target.value)}
 							/>
 						</ListItem>
 					</ListGroup>
