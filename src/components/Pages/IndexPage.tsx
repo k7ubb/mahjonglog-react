@@ -87,6 +87,13 @@ export const IndexPage: React.FC = () => {
 						</p>
 					</>
 				)}
+				<h2>本アプリについて</h2>
+				<p>
+					リポジトリ:{' '}
+					<a href="https://github.com/k7ubb/mahjonglog-react" target="_blank">
+						https://github.com/k7ubb/mahjonglog-react
+					</a>
+				</p>
 				<h2>更新履歴</h2>
 				<p>
 					2024-11-21 UX改善 (ローディング表示)

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { useHandleAuth } from '../../../usecase/useHandleAuth';
 import { useHandleUser } from '../../../usecase/useHandleUser';
 import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
@@ -38,8 +39,14 @@ export const HomePage: React.FC = () => {
 					</ListGroup>
 				</>
 			)}
+			<div style={{ height: '64px' }} />
 			<ListGroup>
-				<ListItem linkTo="/">本アプリについて</ListItem>
+				<ListItem linkTo="/">
+					<FaArrowUpRightFromSquare
+						style={{ marginLeft: 0, padding: '14px 8px 18px 0' }}
+					/>
+					本アプリについて
+				</ListItem>
 			</ListGroup>
 		</AppWindow>
 	);
