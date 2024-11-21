@@ -4,10 +4,33 @@ div:has(> .log) {
 	line-height: 2em;
 }
 
+div:has(> .log):hover {
+	background: #fff;
+}
+
 .log span {
-	position: inline-block;
 	position: absolute;
 	left: 170px;
 	width: 50px;
 	text-align: right;
+}
+
+.deleteButton {
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: calc(100% - 40px);
+	width: 30px;
+	height: 30px;
+}
+
+.deleteButton svg {
+	padding: 0;
+	width: 30px;
+	height: 30px;
+	color: #f00;
+}
+
+.deleteButton svg:hover {
+	opacity: .3;
 }

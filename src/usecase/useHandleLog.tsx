@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import {
 	getFirestoreLogs,
+	getFirestoreDeletedLogs,
 	addFirestoreLog,
+	deleteFirestoreLog,
+	restoreFirestoreLog
 } from '../repository/logRepository.ts';
 import { useHandleUser } from '../usecase/useHandleUser';
 
@@ -25,18 +28,14 @@ const parseScore = [
 
 export const useHandleLog = () => {
 	const { user } = useHandleUser();
-	const [logs, setLogs] = useState<
-		{
-			id: string;
-			date: number;
-			score: Score;
-		}[]
-	>([]);
+	const [logs, setLogs] = useState<Log[]>([]);
+	const [deletedLogs, setDeletedLogs] = useState<Log[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	const update = async () => {
 		setLoading(true);
 		setLogs(user ? await getFirestoreLogs(user.uid) : []);
+		setDeletedLogs(user ? await getFirestoreDeletedLogs(user.uid) : []);
 		setLoading(false);
 	};
 
@@ -77,9 +76,29 @@ export const useHandleLog = () => {
 		await addFirestoreLog(user.uid, score);
 	};
 
+	const deleteLog = async (id: string) => {
+		if (!user) {
+			throw new Error('login error');
+		}
+		await deleteFirestoreLog(user.uid, id, logs.find(log => log.id === id)!);
+		await update();
+	};
+
+	const restoreLog = async (id: string) => {
+		if (!user) {
+			throw new Error('login error');
+		}
+		await restoreFirestoreLog(user.uid, id, deletedLogs.find(log => log.id === id)!);
+		await update();
+	};
+
 	return {
 		logs,
+		deletedLogs,
 		loading,
 		addLog,
+		deleteLog,
+		restoreLog,
+		update
 	};
 };

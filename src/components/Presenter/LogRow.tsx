@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { ListItem } from '../Templates/AppWindow';
-import type { Log } from '../../usecase/useHandleLog';
+import { Log } from '../../usecase/useHandleLog';
 import style from './LogRow.module.css';
 
 const PointView = ({ point }: { point: number }) => {
@@ -7,7 +8,13 @@ const PointView = ({ point }: { point: number }) => {
 	return <span style={{ color }}>{point}</span>;
 };
 
-export const LogRow = ({ log }: { log: Log }) => {
+export const LogRow = ({ log, buttonElement, onClick }: {
+	log: Log;
+	buttonElement?: JSX.Element;
+	onClick?: () => Promise<void>;
+}) => {
+	const [loading, setLoading] = useState(false);
+
 	return (
 		<ListItem>
 			<div className={style.log}>
@@ -19,6 +26,19 @@ export const LogRow = ({ log }: { log: Log }) => {
 				<br />
 				4: {log.score[3].player} <PointView point={log.score[3].point} />
 			</div>
+			{buttonElement && (
+				<button
+					className={style.deleteButton}
+					disabled={loading}
+					onClick={async () => {
+						setLoading(true);
+						await onClick?.();
+						setLoading(false);
+					}}
+				>
+					{buttonElement}
+				</button>
+			)}
 		</ListItem>
 	);
 };

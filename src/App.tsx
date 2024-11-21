@@ -6,6 +6,7 @@ import { RegisterPage } from './components/Pages/RegisterPage';
 import { LogAddPage } from './components/Pages/LogAddPage';
 import { LogListPage } from './components/Pages/LogListPage';
 import { LogAllPage } from './components/Pages/LogAllPage';
+import { LogDeletedPage } from './components/Pages/LogDeletedPage';
 import { LogDetailPage } from './components/Pages/LogDetailPage';
 import { PlayerListPage } from './components/Pages/PlayerListPage';
 import { PersonalScorePage } from './components/Pages/PersonalScorePage';
@@ -29,6 +30,7 @@ function App() {
 					<Route path="/app/log" element={<LogListPage />} />
 					<Route path="/app/log/:date" element={<LogDetailPage />} />
 					<Route path="/app/log/all" element={<LogAllPage />} />
+					<Route path="/app/log/deleted" element={<LogDeletedPage />} />
 					<Route path="/app/player" element={<PlayerListPage />} />
 					<Route path="/app/player/:player" element={<PersonalScorePage />} />
 				</Routes>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { TiDelete } from "react-icons/ti";
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
 import { AppWindow, ListGroup } from '../Templates/AppWindow';
@@ -14,7 +15,7 @@ const formatDate = (date: Date) => {
 
 export const LogDetailPage: React.FC = () => {
 	const { date } = useParams<{ date: string }>();
-	const { logs, loading } = useHandleLog();
+	const { logs, loading, deleteLog } = useHandleLog();
 	const [dayLogs, setDayLogs] = useState<Log[]>([]);
 
 	useEffect(() => {
@@ -30,7 +31,16 @@ export const LogDetailPage: React.FC = () => {
 		>
 			<ListGroup>
 				{dayLogs.map((log) => (
-					<LogRow key={log.id} log={log} />
+					<LogRow
+						key={log.id}
+						log={log}
+						buttonElement={<TiDelete />}
+						onClick={async() => {
+							if (confirm("ログを削除します。よろしいですか?")) {
+								await deleteLog(log.id);
+							}
+						}}
+					/>
 				))}
 			</ListGroup>
 		</AppWindow>

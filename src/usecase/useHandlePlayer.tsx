@@ -21,7 +21,6 @@ export const useHandlePlayer = () => {
 	}, [user]);
 
 	const addPlayer = async (newPlayerName: string) => {
-		await update();
 		if (players.includes(newPlayerName)) {
 			throw new Error('この名前はすでに使われています');
 		}

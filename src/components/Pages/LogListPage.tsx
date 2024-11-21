@@ -48,6 +48,11 @@ export const LogListPage: React.FC = () => {
 							</ListItem>
 						))}
 					</ListGroup>
+					<ListGroup>
+						<ListItem linkTo={`/app/log/deleted`}>
+							削除したログを表示
+						</ListItem>
+					</ListGroup>
 				</>
 			)}
 		</AppWindow>
