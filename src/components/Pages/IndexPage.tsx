@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import style from './IndexPage.module.css';
 
 export const IndexPage: React.FC = () => {
-	const [pwaOption, setPwaOption] = useState<string | null>(null);
+	const [pwaOption, setPwaOption] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
 		if ('ontouchstart' in window) {
@@ -12,6 +12,9 @@ export const IndexPage: React.FC = () => {
 			} else {
 				setPwaOption('iPhone');
 			}
+		}
+		else {
+			setPwaOption("");
 		}
 	}, []);
 
@@ -31,7 +34,7 @@ export const IndexPage: React.FC = () => {
 						ID・パスワードを知っている仲間内でデータを共有できます。
 					</span>
 				</p>
-				{!pwaOption && (
+				{pwaOption === "" && (
 					<Link to="/app" className={style.download_button}>
 						<i className="fa-solid fa-arrow-up-right-from-square" />
 						アプリを開く
@@ -39,7 +42,7 @@ export const IndexPage: React.FC = () => {
 				)}
 			</div>
 			<main>
-				{pwaOption && (
+				{pwaOption !== "" && (
 					<>
 						<h2>使用方法</h2>
 						<div className={style.pwa_recommend}>
