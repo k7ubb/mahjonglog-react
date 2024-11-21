@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
@@ -13,14 +14,16 @@ export const PersonalScorePage: React.FC = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
 	const { deletePlayer } = useHandlePlayer();
-	const { personalScore, loading } = useHandlePersonalScore(player || '');
+	const { personalScore, loading: personalScoreLoading } =
+		useHandlePersonalScore(player || '');
+	const [loading, setLoading] = useState(false);
 
 	return (
 		<AppWindow
 			title={player!}
 			backTo="/app/player"
 			authOnly={true}
-			loading={loading}
+			loading={personalScoreLoading || loading}
 		>
 			{personalScore && (
 				<>
@@ -57,12 +60,15 @@ export const PersonalScorePage: React.FC = () => {
 					<div style={{ height: '64px' }} />
 					<ListGroup>
 						<ListItem
+							disabled={loading}
 							onClick={async () => {
 								if (personalScore.count !== 0) {
 									alert('対局記録があるプレイヤーは削除できません');
-								} else {
+								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
+									setLoading(true);
 									await deletePlayer(player!);
 									navigate('/app/player');
+									setLoading(false);
 								}
 							}}
 						>
