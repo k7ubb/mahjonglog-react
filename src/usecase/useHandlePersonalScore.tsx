@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useHandleLog } from './useHandleLog';
-import type { Score } from './useHandleLog';
 
 type PersonalScore = {
 	rank: [number, number, number, number];
