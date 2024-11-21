@@ -10,6 +10,12 @@ export type Score = {
 	player: string;
 }[];
 
+export type Log = {
+	id: string;
+	date: number;
+	score: Score;
+};
+
 const parseScore = [
 	(point: number) => Math.round((point + 100 - 1) / 10),
 	(point: number) => Math.round((point - 200 - 1) / 10),
@@ -19,7 +25,13 @@ const parseScore = [
 
 export const useHandleLog = () => {
 	const { user } = useHandleUser();
-	const [logs, setLogs] = useState<{ date: string; scores: Score[] }[]>([]);
+	const [logs, setLogs] = useState<
+		{
+			id: string;
+			date: number;
+			score: Score;
+		}[]
+	>([]);
 	const [loading, setLoading] = useState(true);
 
 	const update = async () => {

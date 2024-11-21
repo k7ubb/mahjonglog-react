@@ -24,13 +24,12 @@ export const useHandlePersonalScore = (player: string) => {
 			score: 0,
 			average_score: 0,
 		};
-		const allLogs = logs.reduce((a: Score[], b) => [...a, ...b.scores], []);
-		for (const log of allLogs) {
+		for (const log of logs) {
 			for (let i = 0; i < 4; i++) {
-				if (log[i].player === player) {
+				if (log.score[i].player === player) {
 					personalScore_.rank[i]++;
 					personalScore_.count++;
-					personalScore_.score += log[i].point;
+					personalScore_.score += log.score[i].point;
 				}
 			}
 		}
