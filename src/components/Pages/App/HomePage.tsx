@@ -38,6 +38,9 @@ export const HomePage: React.FC = () => {
 					</ListGroup>
 				</>
 			)}
+			<ListGroup>
+				<ListItem linkTo="/">本アプリについて</ListItem>
+			</ListGroup>
 		</AppWindow>
 	);
 };

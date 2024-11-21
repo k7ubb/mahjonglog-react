@@ -21,7 +21,7 @@ div:has(.indexPage),
 	height: 100%;
 }
 
-.indexPage .indexPage * {
+.indexPage *:not(i) {
 	font-family: 'Noto Sans JP', sans-serif;
 	color: var(--color-text-main);
 }
@@ -138,9 +138,10 @@ div:has(.indexPage),
 	margin: var(--padding-y-main) 0;
 	padding: 0 calc((100% - var(--width-main)) / 2);
 	overflow: hidden;
+	/* -300px: header_bottom */
 	min-height: calc(
 		100% - var(--height-header) - var(--height-footer) - var(--padding-y-main) *
-			2
+			2 - 300px
 	);
 	box-sizing: border-box;
 }
@@ -244,19 +245,22 @@ div:has(.indexPage),
 	border-radius: 8px;
 }
 
-.indexPage a.download_button {
+.indexPage .download_button {
 	padding: 8px 16px;
 	border-radius: 4px;
 	color: var(--color-text-reversal);
 	text-decoration: none;
 	background: #1968e5;
+	appearance: none;
+	border-style: none;
+	font-size: 16px;
 }
 
-.indexPage a.download_button:hover {
+.indexPage .download_button:hover {
 	background: #17459c;
 }
 
-.indexPage a.download_button i {
+.indexPage .download_button i {
 	color: var(--color-text-reversal);
 	margin-right: 4px;
 }
@@ -289,4 +293,20 @@ div:has(.indexPage),
 .indexPage input[type='button']:hover,
 .indexPage input[type='submit']:hover {
 	background: var(--color-main);
+}
+
+/* -------- app custom -------- */
+
+.indexPage .pwa_recommend span {
+	background: #eee;
+	border-radius: 2px;
+	padding: 2px 8px;
+}
+
+.indexPage .header_buttom {
+	height: 300px;
+	box-sizing: border-box;
+	margin: 0 -8px;
+	padding: 64px max(8px, calc((100% - var(--width-main)) / 2 + 8px));
+	background: url(/header.jpg) center / auto no-repeat #00474d;
 }

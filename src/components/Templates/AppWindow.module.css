@@ -32,6 +32,10 @@ body:has(.appWindow) {
 	overflow-y: scroll;
 }
 
+.appWindow * {
+	font-family: sans-serif;
+}
+
 .header {
 	position: sticky;
 	top: -16px;
@@ -120,9 +124,11 @@ body:has(.appWindow) {
 	margin: 4px 0;
 	font-size: 16px;
 	background: transparent;
+	color: #000;
 }
 
 .listitem button {
+	padding: 0;
 	width: calc(100% - 16px);
 	text-align: left;
 	background: transparent;

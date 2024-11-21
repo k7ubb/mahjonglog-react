@@ -3,6 +3,7 @@
 	"name": "オンライン麻雀ログ",
 	"start_url": "/app/",
 	"scope": "/app/",
+	"display": "standalone",
 	"icons": [
 		{
 			"src": "icon.png",
