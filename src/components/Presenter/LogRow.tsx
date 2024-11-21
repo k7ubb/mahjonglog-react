@@ -8,7 +8,11 @@ const PointView = ({ point }: { point: number }) => {
 	return <span style={{ color }}>{point}</span>;
 };
 
-export const LogRow = ({ log, buttonElement, onClick }: {
+export const LogRow = ({
+	log,
+	buttonElement,
+	onClick,
+}: {
 	log: Log;
 	buttonElement?: JSX.Element;
 	onClick?: () => Promise<void>;

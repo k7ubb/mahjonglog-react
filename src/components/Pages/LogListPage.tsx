@@ -48,10 +48,9 @@ export const LogListPage: React.FC = () => {
 							</ListItem>
 						))}
 					</ListGroup>
+					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListItem linkTo={`/app/log/deleted`}>
-							削除したログを表示
-						</ListItem>
+						<ListItem linkTo={`/app/log/deleted`}>削除したログを表示</ListItem>
 					</ListGroup>
 				</>
 			)}

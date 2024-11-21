@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { TiDelete } from "react-icons/ti";
+import { TiDelete } from 'react-icons/ti';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
 import { AppWindow, ListGroup } from '../Templates/AppWindow';
@@ -35,8 +35,8 @@ export const LogDetailPage: React.FC = () => {
 						key={log.id}
 						log={log}
 						buttonElement={<TiDelete />}
-						onClick={async() => {
-							if (confirm("ログを削除します。よろしいですか?")) {
+						onClick={async () => {
+							if (confirm('ログを削除します。よろしいですか?')) {
 								await deleteLog(log.id);
 							}
 						}}

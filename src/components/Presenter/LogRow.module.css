@@ -32,5 +32,5 @@ div:has(> .log):hover {
 }
 
 .deleteButton svg:hover {
-	opacity: .3;
+	opacity: 0.3;
 }

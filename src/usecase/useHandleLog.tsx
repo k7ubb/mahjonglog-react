@@ -4,7 +4,7 @@ import {
 	getFirestoreDeletedLogs,
 	addFirestoreLog,
 	deleteFirestoreLog,
-	restoreFirestoreLog
+	restoreFirestoreLog,
 } from '../repository/logRepository.ts';
 import { useHandleUser } from '../usecase/useHandleUser';
 
@@ -80,7 +80,7 @@ export const useHandleLog = () => {
 		if (!user) {
 			throw new Error('login error');
 		}
-		await deleteFirestoreLog(user.uid, id, logs.find(log => log.id === id)!);
+		await deleteFirestoreLog(user.uid, id, logs.find((log) => log.id === id)!);
 		await update();
 	};
 
@@ -88,7 +88,11 @@ export const useHandleLog = () => {
 		if (!user) {
 			throw new Error('login error');
 		}
-		await restoreFirestoreLog(user.uid, id, deletedLogs.find(log => log.id === id)!);
+		await restoreFirestoreLog(
+			user.uid,
+			id,
+			deletedLogs.find((log) => log.id === id)!
+		);
 		await update();
 	};
 
@@ -99,6 +103,6 @@ export const useHandleLog = () => {
 		addLog,
 		deleteLog,
 		restoreLog,
-		update
+		update,
 	};
 };
