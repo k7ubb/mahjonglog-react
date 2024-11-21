@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useHandleLog } from '../../../usecase/useHandleLog';
-import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
-import type { Score } from '../../../usecase/useHandleLog';
+import { useHandleLog } from '../../usecase/useHandleLog';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import type { Score } from '../../usecase/useHandleLog';
 import style from './LogDetailPage.module.css';
 
 const PointView = ({ point }: { point: number }) => {

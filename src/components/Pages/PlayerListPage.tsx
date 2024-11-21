@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useHandlePlayer } from '../../../usecase/useHandlePlayer';
-import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
-import { Dialog } from '../../Templates/Dialog';
+import { useHandlePlayer } from '../../usecase/useHandlePlayer';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { Dialog } from '../Templates/Dialog';
 
 export const PlayerListPage: React.FC = () => {
 	const { players, loading, addPlayer } = useHandlePlayer();

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useHandlePersonalScore } from '../../../usecase/useHandlePersonalScore';
-import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
+import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 import style from './PersonalScorePage.module.css';
 
 const PointView = ({ point }: { point: number }) => {

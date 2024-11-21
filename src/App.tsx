@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { IndexPage } from './components/Pages/IndexPage';
-import { HomePage } from './components/Pages/App/HomePage';
-import { LoginPage } from './components/Pages/App/LoginPage';
-import { RegisterPage } from './components/Pages/App/RegisterPage';
-import { LogAddPage } from './components/Pages/App/LogAddPage';
-import { LogListPage } from './components/Pages/App/LogListPage';
-import { LogDetailPage } from './components/Pages/App/LogDetailPage';
-import { PlayerListPage } from './components/Pages/App/PlayerListPage';
-import { PersonalScorePage } from './components/Pages/App/PersonalScorePage';
+import { HomePage } from './components/Pages/HomePage';
+import { LoginPage } from './components/Pages/LoginPage';
+import { RegisterPage } from './components/Pages/RegisterPage';
+import { LogAddPage } from './components/Pages/LogAddPage';
+import { LogListPage } from './components/Pages/LogListPage';
+import { LogDetailPage } from './components/Pages/LogDetailPage';
+import { PlayerListPage } from './components/Pages/PlayerListPage';
+import { PersonalScorePage } from './components/Pages/PersonalScorePage';
 import { AuthProvider } from './usecase/useHandleUser';
 
 function App() {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useHandleAuth } from '../../../usecase/useHandleAuth';
-import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
+import { useHandleAuth } from '../../usecase/useHandleAuth';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const RegisterPage: React.FC = () => {
 	const navigate = useNavigate();

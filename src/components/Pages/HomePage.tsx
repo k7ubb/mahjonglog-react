@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
-import { useHandleAuth } from '../../../usecase/useHandleAuth';
-import { useHandleUser } from '../../../usecase/useHandleUser';
-import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
+import { useHandleAuth } from '../../usecase/useHandleAuth';
+import { useHandleUser } from '../../usecase/useHandleUser';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const HomePage: React.FC = () => {
 	const { user } = useHandleUser();

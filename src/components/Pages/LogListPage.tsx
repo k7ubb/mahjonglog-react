@@ -1,5 +1,5 @@
-import { useHandleLog } from '../../../usecase/useHandleLog';
-import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
+import { useHandleLog } from '../../usecase/useHandleLog';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const LogListPage: React.FC = () => {
 	const { logs, loading } = useHandleLog();

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useHandlePlayer } from '../../../usecase/useHandlePlayer';
-import { useHandleLog } from '../../../usecase/useHandleLog';
-import { AppWindow, ListGroup, ListItem } from '../../Templates/AppWindow';
+import { useHandlePlayer } from '../../usecase/useHandlePlayer';
+import { useHandleLog } from '../../usecase/useHandleLog';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const LogAddPage: React.FC = () => {
 	const navigate = useNavigate();
