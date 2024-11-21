@@ -3,14 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
-import style from './PersonalScorePage.module.css';
+import style from './personalPage.module.css';
 
 const PointView = ({ point }: { point: number }) => {
 	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
 	return <span style={{ color }}>{point}</span>;
 };
 
-export const PersonalScorePage: React.FC = () => {
+export const PersonalPage: React.FC = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
 	const { deletePlayer } = useHandlePlayer();
