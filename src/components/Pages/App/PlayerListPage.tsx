@@ -24,7 +24,7 @@ export const PlayerListPage: React.FC = () => {
 					</ListItem>
 				))}
 			</ListGroup>
-			
+
 			<ListGroup>
 				<ListItem onClick={() => setOpen(true)}>プレイヤーを追加</ListItem>
 			</ListGroup>
