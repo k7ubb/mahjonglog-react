@@ -59,7 +59,6 @@ export const LogAddPage: React.FC = () => {
 									))}
 								</select>
 								<input
-									id="point0"
 									type="text"
 									pattern="^-?\d+$"
 									value={scoreString[i]}

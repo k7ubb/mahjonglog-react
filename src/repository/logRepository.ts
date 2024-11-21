@@ -27,7 +27,7 @@ export const getFirestoreLogs = async (uid: string) => {
 					score: doc.data().score,
 				}
 		)
-		.sort((a, b) => a.date - b.date);
+		.sort((a, b) => b.date - a.date);
 };
 
 export const addFirestoreLog = async (uid: string, score: Score) => {

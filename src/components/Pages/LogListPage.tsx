@@ -29,18 +29,27 @@ export const LogListPage: React.FC = () => {
 				});
 			}
 		}
-		setLogsByDate(logsByDate_.sort((a, b) => b.date.localeCompare(a.date)));
+		setLogsByDate(logsByDate_);
 	}, [logs]);
 
 	return (
 		<AppWindow title="ログ表示" backTo="/app" authOnly={true} loading={loading}>
-			<ListGroup>
-				{logsByDate.map((logs) => (
-					<ListItem key={logs.date} linkTo={`/app/log/${logs.date}`}>
-						{logs.date} ({logs.logs.length})
-					</ListItem>
-				))}
-			</ListGroup>
+			{!loading && (
+				<>
+					<ListGroup>
+						<ListItem linkTo={`/app/log/all`}>
+							全てのログ ({logs.length})
+						</ListItem>
+					</ListGroup>
+					<ListGroup>
+						{logsByDate.map((logs) => (
+							<ListItem key={logs.date} linkTo={`/app/log/${logs.date}`}>
+								{logs.date} ({logs.logs.length})
+							</ListItem>
+						))}
+					</ListGroup>
+				</>
+			)}
 		</AppWindow>
 	);
 };
