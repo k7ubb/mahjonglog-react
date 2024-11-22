@@ -19,6 +19,7 @@ export const LogDeletedPage: React.FC = () => {
 				) : (
 					deletedLogs.map((log) => (
 						<LogRow
+							showDate={true}
 							key={log.id}
 							log={log}
 							buttonElement={

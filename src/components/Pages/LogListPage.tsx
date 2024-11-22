@@ -10,7 +10,7 @@ const formatDate = (date: Date) => {
 };
 
 export const LogListPage: React.FC = () => {
-	const { logs, loading } = useHandleLog();
+	const { logs, deletedLogs, loading } = useHandleLog();
 	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>(
 		[]
 	);
@@ -50,7 +50,7 @@ export const LogListPage: React.FC = () => {
 					</ListGroup>
 					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListItem linkTo={`/app/log/deleted`}>削除したログを表示</ListItem>
+						<ListItem linkTo={`/app/log/deleted`}>削除したログを表示 ({deletedLogs.length})</ListItem>
 					</ListGroup>
 				</>
 			)}
