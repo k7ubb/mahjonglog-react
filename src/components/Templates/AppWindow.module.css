@@ -85,7 +85,7 @@ body:has(.appWindow) {
 	width: 100%;
 	box-sizing: border-box;
 	padding: 16px;
-	margin-bottom: 16px;
+	margin-bottom: 32px;
 	border-radius: 16px;
 	background: var(--app-color-background2);
 	overflow: hidden;

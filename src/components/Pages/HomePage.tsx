@@ -1,34 +1,37 @@
-import { useState } from 'react';
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
-import { useHandleAuth } from '../../usecase/useHandleAuth';
+import { FaUserCircle } from 'react-icons/fa';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const HomePage: React.FC = () => {
 	const { user } = useHandleUser();
-	const { logout } = useHandleAuth();
-	const [loading, setLoading] = useState(false);
 
 	return (
 		<AppWindow title="麻雀戦績共有アプリ">
 			{user ? (
 				<>
+					<ListGroup>
+						<ListItem linkTo="/app/account" style={{ height: '64px' }}>
+							<div style={{ width: '64px' }}>
+								<FaUserCircle
+									size={48}
+									color="#999"
+									style={{ marginTop: '16px' }}
+								/>
+							</div>
+							<div style={{ lineHeight: '1.6em' }}>
+								<span style={{ fontSize: '20px' }}>{user.accountName}</span>
+								<br />
+								<span style={{ color: '#999', fontSize: '14px' }}>
+									@{user.accountID}
+								</span>
+							</div>
+						</ListItem>
+					</ListGroup>
 					<ListGroup title={`${user.accountName} さん`}>
 						<ListItem linkTo="/app/log/add">新規登録</ListItem>
 						<ListItem linkTo="/app/log">ログ表示</ListItem>
 						<ListItem linkTo="/app/player">個人記録</ListItem>
-					</ListGroup>
-					<ListGroup>
-						<ListItem
-							onClick={async () => {
-								setLoading(true);
-								await logout();
-								setLoading(false);
-							}}
-							disabled={loading}
-						>
-							ログアウト
-						</ListItem>
 					</ListGroup>
 				</>
 			) : (

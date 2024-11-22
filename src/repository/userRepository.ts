@@ -1,4 +1,4 @@
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FirebaseApp } from '../lib/firebase';
 import type { AuthUser } from '../usecase/useHandleUser';
@@ -25,5 +25,24 @@ export const getAuthUserData = async () => {
 				);
 			}
 		});
+	});
+};
+
+export const updateUserData = async (
+	uid: string,
+	{
+		email,
+		accountID,
+		accountName,
+	}: {
+		email: string;
+		accountID: string;
+		accountName: string;
+	}
+) => {
+	await setDoc(doc(getFirestore(FirebaseApp), 'account', uid), {
+		email,
+		accountID,
+		accountName,
 	});
 };

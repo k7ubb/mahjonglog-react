@@ -81,3 +81,10 @@ export const restoreFirestoreLog = async (
 		uid: uid,
 	});
 };
+
+export const deleteFirestoreLogCompletely = async (uid: string) => {
+	const logs = await getFirestoreDeletedLogs(uid);
+	for (const log of logs) {
+		await deleteDoc(doc(getFirestore(FirebaseApp), 'logs-archive', log.id));
+	}
+};

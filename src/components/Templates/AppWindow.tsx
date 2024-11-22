@@ -53,10 +53,12 @@ export const AppWindow = ({
 
 export const ListGroup = ({
 	title,
+	description,
 	error,
 	children,
 }: {
 	title?: string;
+	description?: string;
 	error?: string;
 	children: React.ReactNode;
 }) => {
@@ -69,6 +71,18 @@ export const ListGroup = ({
 				</div>
 			)}
 			<div className={styles.listgroup}>{children}</div>
+			{description && (
+				<div
+					className={styles.listtitle}
+					style={{
+						marginTop: '-28px',
+						marginBottom: '32px',
+						fontWeight: 'normal',
+					}}
+				>
+					{description}
+				</div>
+			)}
 		</>
 	);
 };

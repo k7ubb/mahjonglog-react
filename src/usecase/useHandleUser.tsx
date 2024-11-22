@@ -1,5 +1,8 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { getAuthUserData } from '../repository/userRepository.ts';
+import {
+	getAuthUserData,
+	updateUserData,
+} from '../repository/userRepository.ts';
 
 export type AuthUser = {
 	uid: string;
@@ -12,10 +15,11 @@ const AuthContext = createContext<{
 	user?: AuthUser;
 	loading: boolean;
 	update: () => Promise<void>;
+	updateProfile: (accountID: string, accountName: string) => Promise<void>;
 }>({
-	user: undefined,
 	loading: true,
 	update: async () => {},
+	updateProfile: async () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -33,8 +37,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		update();
 	}, []);
 
+	const updateProfile = async (accountID: string, accountName: string) => {
+		if (!user) {
+			throw new Error('login error');
+		}
+		await updateUserData(user.uid, {
+			email: user.email,
+			accountID,
+			accountName,
+		});
+		await update();
+	};
+
 	return (
-		<AuthContext.Provider value={{ user, loading, update }}>
+		<AuthContext.Provider value={{ user, loading, update, updateProfile }}>
 			{children}
 		</AuthContext.Provider>
 	);

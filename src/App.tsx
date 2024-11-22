@@ -3,6 +3,7 @@ import { IndexPage } from './components/Pages/IndexPage';
 import { HomePage } from './components/Pages/HomePage';
 import { LoginPage } from './components/Pages/LoginPage';
 import { RegisterPage } from './components/Pages/RegisterPage';
+import { AccountPage } from './components/Pages/AccountPage';
 import { LogAddPage } from './components/Pages/LogAddPage';
 import { LogListPage } from './components/Pages/LogListPage';
 import { LogAllPage } from './components/Pages/LogAllPage';
@@ -27,8 +28,9 @@ function App() {
 					<Route path="/app" element={<HomePage />} />
 					<Route path="/app/login" element={<LoginPage />} />
 					<Route path="/app/register" element={<RegisterPage />} />
-					<Route path="/app/log/add" element={<LogAddPage />} />
+					<Route path="/app/account" element={<AccountPage />} />
 					<Route path="/app/log" element={<LogListPage />} />
+					<Route path="/app/log/add" element={<LogAddPage />} />
 					<Route path="/app/log/:date" element={<LogDetailPage />} />
 					<Route path="/app/log/all" element={<LogAllPage />} />
 					<Route path="/app/log/deleted" element={<LogDeletedPage />} />

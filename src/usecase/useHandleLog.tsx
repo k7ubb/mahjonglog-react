@@ -5,6 +5,7 @@ import {
 	addFirestoreLog,
 	deleteFirestoreLog,
 	restoreFirestoreLog,
+	deleteFirestoreLogCompletely,
 } from '../repository/logRepository.ts';
 import { useHandleUser } from '../usecase/useHandleUser';
 
@@ -96,6 +97,14 @@ export const useHandleLog = () => {
 		await update();
 	};
 
+	const deleteLogCompletely = async () => {
+		if (!user) {
+			throw new Error('login error');
+		}
+		await deleteFirestoreLogCompletely(user.uid);
+		await update();
+	};
+
 	return {
 		logs,
 		deletedLogs,
@@ -103,6 +112,7 @@ export const useHandleLog = () => {
 		addLog,
 		deleteLog,
 		restoreLog,
+		deleteLogCompletely,
 		update,
 	};
 };
