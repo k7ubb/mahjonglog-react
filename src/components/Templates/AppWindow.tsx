@@ -2,7 +2,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useHandleUser } from '../../usecase/useHandleUser';
-import style from './AppWindow.module.css';
+import styles from './AppWindow.module.css';
 
 export const AppWindow = ({
 	title,
@@ -26,10 +26,10 @@ export const AppWindow = ({
 
 	return (
 		<>
-			<div className={style.appWindow}>
+			<div className={styles.appWindow}>
 				{!userLoading && (!authOnly || user) && (
 					<>
-						<div className={style.header}>
+						<div className={styles.header}>
 							{backTo && (
 								<Link to={backTo}>
 									<FaChevronLeft />
@@ -43,7 +43,7 @@ export const AppWindow = ({
 				)}
 			</div>
 			{(loading || userLoading) && (
-				<div className={style.loading}>
+				<div className={styles.loading}>
 					<ReactLoading type="spin" color="#999999" />
 				</div>
 			)}
@@ -62,13 +62,13 @@ export const ListGroup = ({
 }) => {
 	return (
 		<>
-			{title && <div className={style.listtitle}>{title}</div>}
+			{title && <div className={styles.listtitle}>{title}</div>}
 			{error && (
-				<div className={style.listtitle} style={{ color: '#f00' }}>
+				<div className={styles.listtitle} style={{ color: '#f00' }}>
 					{error}
 				</div>
 			)}
-			<div className={style.listgroup}>{children}</div>
+			<div className={styles.listgroup}>{children}</div>
 		</>
 	);
 };
@@ -78,24 +78,28 @@ export const ListItem = ({
 	onClick,
 	children,
 	disabled = false,
+	style,
 }: {
 	linkTo?: string;
 	onClick?: () => void;
 	children?: React.ReactNode;
 	disabled?: boolean;
+	style?: React.CSSProperties;
 }) => {
 	return linkTo ? (
-		<Link to={linkTo} className={style.listitem}>
+		<Link to={linkTo} className={styles.listitem} {...(style && { style })}>
 			{children}
 			<FaChevronRight />
 		</Link>
 	) : onClick ? (
-		<div className={style.listitem}>
+		<div className={styles.listitem} {...(style && { style })}>
 			<button onClick={onClick} disabled={disabled}>
 				{children}
 			</button>
 		</div>
 	) : (
-		<div className={`${style.listitem}`}>{children}</div>
+		<div className={`${styles.listitem}`} {...(style && { style })}>
+			{children}
+		</div>
 	);
 };

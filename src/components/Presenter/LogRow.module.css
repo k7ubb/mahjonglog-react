@@ -1,36 +1,12 @@
-div:has(> .log) {
-	height: auto;
-	font-size: 14px;
-	line-height: 2em;
-}
-
-div:has(> .log):hover {
-	background: #fff;
-}
-
-.log span {
-	position: absolute;
-	left: 170px;
-	width: 50px;
-	text-align: right;
+:has(> .deleteButton) {
+	height: 100%;
+	margin-left: auto;
 }
 
 .deleteButton {
-	display: block;
-	position: absolute;
-	top: 10px;
-	left: calc(100% - 40px);
-	width: 30px;
-	height: 30px;
+	margin: 4px;
 }
 
-.deleteButton svg {
-	padding: 0;
-	width: 30px;
-	height: 30px;
-	color: #f00;
-}
-
-.deleteButton svg:hover {
+.deleteButton:hover {
 	opacity: 0.3;
 }

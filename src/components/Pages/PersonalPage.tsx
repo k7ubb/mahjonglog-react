@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
-import style from './PersonalPage.module.css';
 
 const PointView = ({ point }: { point: number }) => {
 	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
@@ -28,34 +27,38 @@ export const PersonalPage: React.FC = () => {
 			{personalScore && (
 				<>
 					<ListGroup>
-						<div className={style.personal}>
-							<ListItem>
-								1位<span>{personalScore.rank[0]}</span>
-							</ListItem>
-							<ListItem>
-								2位<span>{personalScore.rank[1]}</span>
-							</ListItem>
-							<ListItem>
-								3位<span>{personalScore.rank[2]}</span>
-							</ListItem>
-							<ListItem>
-								4位<span>{personalScore.rank[3]}</span>
-							</ListItem>
-							<ListItem>
-								試合数<span>{personalScore.count}</span>
-							</ListItem>
-							<ListItem>
-								平均順位<span>{personalScore.average_rank}</span>
-							</ListItem>
-							<ListItem>
-								累計得点
-								<PointView point={personalScore.score} />
-							</ListItem>
-							<ListItem>
-								平均得点
-								<PointView point={personalScore.average_score} />
-							</ListItem>
-						</div>
+						<ListItem>
+							<span style={{ width: '200px' }}>1位</span>
+							{personalScore.rank[0]}
+						</ListItem>
+						<ListItem>
+							<span style={{ width: '200px' }}>1位</span>
+							{personalScore.rank[1]}
+						</ListItem>
+						<ListItem>
+							<span style={{ width: '200px' }}>3位</span>
+							{personalScore.rank[2]}
+						</ListItem>
+						<ListItem>
+							<span style={{ width: '200px' }}>4位</span>
+							{personalScore.rank[3]}
+						</ListItem>
+						<ListItem>
+							<span style={{ width: '200px' }}>試合数</span>
+							{personalScore.count}
+						</ListItem>
+						<ListItem>
+							<span style={{ width: '200px' }}>平均順位</span>
+							{personalScore.average_rank}
+						</ListItem>
+						<ListItem>
+							<span style={{ width: '200px' }}>累計特典</span>
+							<PointView point={personalScore.score} />
+						</ListItem>
+						<ListItem>
+							<span style={{ width: '200px' }}>平均得点</span>
+							<PointView point={personalScore.average_score} />
+						</ListItem>
 					</ListGroup>
 					<ListGroup>
 						<ListItem

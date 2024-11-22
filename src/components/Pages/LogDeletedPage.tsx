@@ -24,7 +24,9 @@ export const LogDeletedPage: React.FC = () => {
 							log={log}
 							buttonElement={
 								<FaArrowCircleLeft
-									style={{ color: 'var(--app-color-accent)' }}
+									size={21}
+									color="#007aff"
+									style={{ marginTop: '4px', marginRight: '4px' }}
 								/>
 							}
 							onClick={async () => {

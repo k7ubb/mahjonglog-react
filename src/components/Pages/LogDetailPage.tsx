@@ -34,7 +34,7 @@ export const LogDetailPage: React.FC = () => {
 					<LogRow
 						key={log.id}
 						log={log}
-						buttonElement={<TiDelete />}
+						buttonElement={<TiDelete size={30} color="#f00" />}
 						onClick={async () => {
 							if (confirm('ログを削除します。よろしいですか?')) {
 								await deleteLog(log.id);
