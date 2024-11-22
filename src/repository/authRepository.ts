@@ -69,14 +69,24 @@ export const fireauthRegister = async ({
 }) => {
 	await createUserWithEmailAndPassword(getAuth(), email, password);
 	const auth = getAuth();
-	onAuthStateChanged(auth, async (user) => {
-		if (!user) {
-			throw new Error('アカウント登録に失敗しました');
-		}
-		await setDoc(doc(getFirestore(FirebaseApp), 'account', user.uid), {
-			email,
-			accountID,
-			accountName,
+	return new Promise<void>((resolve, reject) => {
+		onAuthStateChanged(auth, async (user) => {
+			if (!user) {
+				throw new Error('アカウント登録に失敗しました');
+			}
+			try {
+				const result = await setDoc(
+					doc(getFirestore(FirebaseApp), 'account', user.uid),
+					{
+						email,
+						accountID,
+						accountName,
+					}
+				);
+				resolve(result);
+			} catch (e) {
+				reject(e);
+			}
 		});
 	});
 };

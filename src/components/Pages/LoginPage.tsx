@@ -6,7 +6,7 @@ import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 export const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
 	const { login } = useHandleAuth();
-	const [emailOrAccountId, setEmailOrAccountId] = useState('');
+	const [emailOrAccountID, setEmailOrAccountID] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ export const LoginPage: React.FC = () => {
 					setLoading(true);
 					try {
 						await login({
-							emailOrAccountId,
+							emailOrAccountID,
 							password,
 						});
 						navigate('/app');
@@ -37,8 +37,8 @@ export const LoginPage: React.FC = () => {
 							type="text"
 							pattern="^[a-zA-Z0-9\-_@\.]+$"
 							placeholder="アカウントID / メールアドレス"
-							value={emailOrAccountId}
-							onChange={(e) => setEmailOrAccountId(e.target.value)}
+							value={emailOrAccountID}
+							onChange={(e) => setEmailOrAccountID(e.target.value)}
 						/>
 					</ListItem>
 					<ListItem>

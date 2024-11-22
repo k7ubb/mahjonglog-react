@@ -11,15 +11,15 @@ export const useHandleAuth = () => {
 	const { update } = useHandleUser();
 
 	const login = async ({
-		emailOrAccountId,
+		emailOrAccountID,
 		password,
 	}: {
-		emailOrAccountId: string;
+		emailOrAccountID: string;
 		password: string;
 	}) => {
-		const email = emailOrAccountId.match(/^.+@.+$/)
-			? emailOrAccountId
-			: await getEmailByAccountID(emailOrAccountId);
+		const email = emailOrAccountID.match(/^.+@.+$/)
+			? emailOrAccountID
+			: await getEmailByAccountID(emailOrAccountID);
 		await fireauthLogin({ email, password });
 		update();
 	};
