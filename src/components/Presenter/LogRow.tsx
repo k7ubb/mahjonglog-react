@@ -29,61 +29,41 @@ export const LogRow = ({
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<ListItem
-			style={{
-				height: 'auto',
-				lineHeight: '2em',
-				fontSize: '14px',
-				alignItems: 'stretch',
-			}}
-		>
-			<div>
-				<p style={{ margin: 0 }}>
+		<ListItem style={{ height: 'auto' }}>
+			<div className={style.logRow}>
+				<div>
 					{showDate && (
-						<>
-							{formatDate(new Date(log.date))}
-							<br />
-						</>
+						<p style={{ margin: 0 }}>{formatDate(new Date(log.date))}</p>
 					)}
-				</p>
-				<p style={{ margin: 0 }}>
-					<span style={{ width: '160px', display: 'inline-block' }}>
-						1: {log.score[0].player}
-					</span>
-					<PointView point={log.score[0].point} />
-				</p>
-				<p style={{ margin: 0 }}>
-					<span style={{ width: '160px', display: 'inline-block' }}>
-						2: {log.score[1].player}
-					</span>
-					<PointView point={log.score[1].point} />
-				</p>
-				<p style={{ margin: 0 }}>
-					<span style={{ width: '160px', display: 'inline-block' }}>
-						3: {log.score[2].player}
-					</span>
-					<PointView point={log.score[2].point} />
-				</p>
-				<p style={{ margin: 0 }}>
-					<span style={{ width: '160px', display: 'inline-block' }}>
-						4: {log.score[3].player}
-					</span>
-					<PointView point={log.score[3].point} />
-				</p>
-			</div>
-			<div>
+					<div style={{ display: 'flex' }}>
+						<p style={{ width: '150px' }}>
+							1: {log.score[0].player} <br />
+							2: {log.score[1].player} <br />
+							3: {log.score[2].player} <br />
+							4: {log.score[3].player}
+						</p>
+						<p>
+							<PointView point={log.score[0].point} /> <br />
+							<PointView point={log.score[1].point} /> <br />
+							<PointView point={log.score[2].point} /> <br />
+							<PointView point={log.score[3].point} /> <br />
+						</p>
+					</div>
+				</div>
 				{buttonElement && (
-					<button
-						className={style.deleteButton}
-						disabled={loading}
-						onClick={async () => {
-							setLoading(true);
-							await onClick?.();
-							setLoading(false);
-						}}
-					>
-						{buttonElement}
-					</button>
+					<div>
+						<button
+							className={style.deleteButton}
+							disabled={loading}
+							onClick={async () => {
+								setLoading(true);
+								await onClick?.();
+								setLoading(false);
+							}}
+						>
+							{buttonElement}
+						</button>
+					</div>
 				)}
 			</div>
 		</ListItem>

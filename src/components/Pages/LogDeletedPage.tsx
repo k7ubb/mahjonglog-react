@@ -58,7 +58,7 @@ export const LogDeletedPage: React.FC = () => {
 								}
 							}}
 						>
-							完全に削除
+							全ての削除したログを完全に削除
 						</ListItem>
 					</ListGroup>
 				</>

@@ -13,7 +13,7 @@ const formatDate = (date: Date) => {
 	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
 };
 
-export const LogDetailPage: React.FC = () => {
+export const LogDailyPage: React.FC = () => {
 	const { date } = useParams<{ date: string }>();
 	const { logs, loading, deleteLog } = useHandleLog();
 	const [dayLogs, setDayLogs] = useState<Log[]>([]);

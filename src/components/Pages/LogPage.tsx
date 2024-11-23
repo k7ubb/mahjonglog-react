@@ -9,7 +9,7 @@ const formatDate = (date: Date) => {
 	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
 };
 
-export const LogListPage: React.FC = () => {
+export const LogPage: React.FC = () => {
 	const { logs, deletedLogs, loading } = useHandleLog();
 	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>(
 		[]
@@ -33,7 +33,12 @@ export const LogListPage: React.FC = () => {
 	}, [logs]);
 
 	return (
-		<AppWindow title="ログ表示" backTo="/app" authOnly={true} loading={loading}>
+		<AppWindow
+			title="対局ログ一覧"
+			backTo="/app"
+			authOnly={true}
+			loading={loading}
+		>
 			{!loading && (
 				<>
 					<ListGroup>

@@ -93,9 +93,7 @@ export const RegisterPage: React.FC = () => {
 
 				<ListGroup {...(error && { error })}>
 					<ListItem>
-						<button type="submit" disabled={loading}>
-							アカウント登録
-						</button>
+						<input type="submit" disabled={loading} value="アカウント登録" />
 					</ListItem>
 				</ListGroup>
 			</form>

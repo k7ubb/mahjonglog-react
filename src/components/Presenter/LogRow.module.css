@@ -1,10 +1,22 @@
-:has(> .deleteButton) {
-	height: 100%;
+.logRow {
+	display: flex;
+	line-height: 2em;
+	font-size: 14px;
+}
+
+.logRow p {
+	margin: 0;
+}
+
+.logRow div:has(> .deleteButton) {
 	margin-left: auto;
 }
 
 .deleteButton {
-	margin: 4px;
+	padding: 4px 0;
+	appearance: none;
+	border-style: none;
+	background-color: transparent;
 }
 
 .deleteButton:hover {

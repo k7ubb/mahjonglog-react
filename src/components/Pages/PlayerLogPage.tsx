@@ -5,7 +5,7 @@ import { LogRow } from '../Presenter/LogRow';
 import { AppWindow, ListGroup } from '../Templates/AppWindow';
 import type { Log } from '../../usecase/useHandleLog';
 
-export const PersonalLogPage: React.FC = () => {
+export const PlayerLogPage: React.FC = () => {
 	const { player } = useParams<{ player: string }>();
 	const { logs, loading } = useHandleLog();
 	const [playerLogs, setPlayerLogs] = useState<Log[]>([]);

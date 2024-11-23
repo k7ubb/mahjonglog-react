@@ -9,7 +9,24 @@ const PointView = ({ point }: { point: number }) => {
 	return <span style={{ color }}>{point}</span>;
 };
 
-export const PersonalPage: React.FC = () => {
+const ScoreRow = ({
+	title,
+	children,
+}: {
+	title: string;
+	children: React.ReactNode;
+}) => {
+	return (
+		<ListItem>
+			<div style={{ display: 'flex' }}>
+				<div style={{ width: '200px' }}>{title}</div>
+				{children}
+			</div>
+		</ListItem>
+	);
+};
+
+export const PlayerPage: React.FC = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
 	const { deletePlayer } = useHandlePlayer();
@@ -27,42 +44,22 @@ export const PersonalPage: React.FC = () => {
 			{personalScore && (
 				<>
 					<ListGroup>
-						<ListItem>
-							<span style={{ width: '200px' }}>1位</span>
-							{personalScore.rank[0]}
-						</ListItem>
-						<ListItem>
-							<span style={{ width: '200px' }}>1位</span>
-							{personalScore.rank[1]}
-						</ListItem>
-						<ListItem>
-							<span style={{ width: '200px' }}>3位</span>
-							{personalScore.rank[2]}
-						</ListItem>
-						<ListItem>
-							<span style={{ width: '200px' }}>4位</span>
-							{personalScore.rank[3]}
-						</ListItem>
-						<ListItem>
-							<span style={{ width: '200px' }}>試合数</span>
-							{personalScore.count}
-						</ListItem>
-						<ListItem>
-							<span style={{ width: '200px' }}>平均順位</span>
-							{personalScore.average_rank}
-						</ListItem>
-						<ListItem>
-							<span style={{ width: '200px' }}>累計特典</span>
+						<ScoreRow title="1位">{personalScore.rank[0]}</ScoreRow>
+						<ScoreRow title="2位">{personalScore.rank[1]}</ScoreRow>
+						<ScoreRow title="3位">{personalScore.rank[2]}</ScoreRow>
+						<ScoreRow title="4位">{personalScore.rank[3]}</ScoreRow>
+						<ScoreRow title="試合数">{personalScore.count}</ScoreRow>
+						<ScoreRow title="平均順位">{personalScore.average_rank}</ScoreRow>
+						<ScoreRow title="累計得点">
 							<PointView point={personalScore.score} />
-						</ListItem>
-						<ListItem>
-							<span style={{ width: '200px' }}>平均得点</span>
+						</ScoreRow>
+						<ScoreRow title="平均得点">
 							<PointView point={personalScore.average_score} />
-						</ListItem>
+						</ScoreRow>
 					</ListGroup>
 					<ListGroup>
 						<ListItem
-							linkTo={`/app/player/${player}/log`}
+							linkTo={`/app/player/${player}/logs`}
 						>{`${player}の対局記録を表示`}</ListItem>
 					</ListGroup>
 					<div style={{ height: '64px' }} />

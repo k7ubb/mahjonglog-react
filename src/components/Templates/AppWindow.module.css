@@ -1,9 +1,9 @@
 :root {
-	--app-color-background: #f2f2f6;
+	--app-color-header: #fbfbfc;
+	--app-color-header-border: #a9a9ad;
+	--app-color-background: #f2f2f7;
 	--app-color-background2: #ffffff;
 	--app-color-background-hover: #e5e5e9;
-	--app-color-main: #000000;
-	--app-color-main2: #b2b2b2;
 	--app-color-gray: #85858a;
 	--app-color-accent: #007aff;
 	--app-color-line: #c6c6c8;
@@ -43,8 +43,8 @@ body:has(.appWindow) {
 	padding-top: 10px;
 	width: calc(100% + 32px);
 	height: 34px;
-	background: var(--app-color-background2);
-	border-bottom: 1px solid var(--app-color-main2);
+	background: var(--app-color-header);
+	border-bottom: 1px solid var(--app-color-header-border);
 	z-index: 100;
 }
 
@@ -74,7 +74,6 @@ body:has(.appWindow) {
 	margin-left: 16px;
 	margin-bottom: 4px;
 	font-size: 14px;
-	font-weight: bold;
 	color: var(--app-color-gray);
 }
 
@@ -99,43 +98,58 @@ body:has(.appWindow) {
 	padding-left: 16px;
 	height: 45px;
 	line-height: 45px;
-	color: var(--app-color-main);
+	color: #000;
 	text-decoration: none;
 }
 
-.listitem:has(> button):hover,
+a.listitem:hover,
+input.listitem:hover,
 .listitem:has(input[type='submit']):hover {
-	background: var(--app-color-main2);
+	background: var(--app-color-background-hover);
+}
+
+input.listitem,
+.listitem input[type='submit'] {
+	width: 100%;
+	padding: 0 0 0 16px;
+	background: transparent;
+	border: none;
+	font-size: 16px;
+	color: var(--app-color-accent);
+	text-align: left;
+}
+
+input.listitem {
+	padding: 0 0 0 16px;
+}
+
+.listitem input[type='submit'] {
+	padding: 0;
 }
 
 .listitem:not(:first-child) {
 	border-top: 1px solid var(--app-color-background);
 }
 
-.listitem > svg {
+.listitem svg:first-child {
+	margin-left: 0;
+	padding: 0 8px 0 0;
+}
+
+.listitem svg:last-child {
 	margin-left: auto;
-	padding: 16px;
+	padding: 0 16px 0 0;
 }
 
 .listitem input,
 .listitem select {
 	border: none;
 	width: calc(100% - 16px);
-	height: calc(100% - 8px);
+	height: 40px;
 	margin: 4px 0;
 	font-size: 16px;
 	background: transparent;
 	color: #000;
-}
-
-.listitem button {
-	padding: 0;
-	width: calc(100% - 16px);
-	text-align: left;
-	background: transparent;
-	border: none;
-	font-size: 16px;
-	color: var(--app-color-accent);
 }
 
 .loading {

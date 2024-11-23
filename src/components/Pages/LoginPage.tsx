@@ -54,9 +54,7 @@ export const LoginPage: React.FC = () => {
 
 				<ListGroup {...(error && { error })}>
 					<ListItem>
-						<button type="submit" disabled={loading}>
-							ログイン
-						</button>
+						<input type="submit" disabled={loading} value="ログイン" />
 					</ListItem>
 				</ListGroup>
 			</form>

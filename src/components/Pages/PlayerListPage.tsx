@@ -12,7 +12,7 @@ export const PlayerListPage: React.FC = () => {
 
 	return (
 		<AppWindow
-			title="個人記録"
+			title="プレイヤー成績"
 			backTo="/app"
 			authOnly={true}
 			loading={loading || addLoading}
@@ -67,9 +67,7 @@ export const PlayerListPage: React.FC = () => {
 					</ListGroup>
 					<ListGroup {...(error && { error })}>
 						<ListItem>
-							<button type="submit" disabled={addLoading}>
-								追加
-							</button>
+							<input type="submit" disabled={addLoading} value="追加" />
 						</ListItem>
 					</ListGroup>
 				</form>

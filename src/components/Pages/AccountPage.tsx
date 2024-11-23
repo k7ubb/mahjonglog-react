@@ -19,7 +19,7 @@ export const AccountPage: React.FC = () => {
 
 	return (
 		<AppWindow
-			title={user?.accountName || ''}
+			title="アカウント設定"
 			backTo="/app"
 			authOnly={true}
 			loading={profEditLoading || logoutLoading}
@@ -67,9 +67,11 @@ export const AccountPage: React.FC = () => {
 
 				<ListGroup {...(profEditError && { error: profEditError })}>
 					<ListItem>
-						<button type="submit" disabled={profEditLoading}>
-							変更を保存
-						</button>
+						<input
+							type="submit"
+							disabled={profEditLoading}
+							value="変更を保存"
+						/>
 					</ListItem>
 				</ListGroup>
 			</form>

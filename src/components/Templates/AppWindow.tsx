@@ -21,7 +21,8 @@ export const AppWindow = ({
 	const { user, loading: userLoading } = useHandleUser();
 
 	if (authOnly && !userLoading && !user) {
-		navigate('/app');
+		setTimeout(() => navigate('/app'), 1);
+		return <></>;
 	}
 
 	return (
@@ -58,7 +59,7 @@ export const ListGroup = ({
 	children,
 }: {
 	title?: string;
-	description?: string;
+	description?: string | React.ReactNode;
 	error?: string;
 	children: React.ReactNode;
 }) => {
@@ -92,28 +93,35 @@ export const ListItem = ({
 	onClick,
 	children,
 	disabled = false,
+	iconElement,
 	style,
 }: {
 	linkTo?: string;
 	onClick?: () => void;
 	children?: React.ReactNode;
 	disabled?: boolean;
+	iconElement?: JSX.Element;
 	style?: React.CSSProperties;
 }) => {
 	return linkTo ? (
 		<Link to={linkTo} className={styles.listitem} {...(style && { style })}>
-			{children}
+			{iconElement}
+			<div style={{ flexGrow: 1 }}>{children}</div>
 			<FaChevronRight />
 		</Link>
 	) : onClick ? (
-		<div className={styles.listitem} {...(style && { style })}>
-			<button onClick={onClick} disabled={disabled}>
-				{children}
-			</button>
-		</div>
+		<input
+			type="button"
+			onClick={onClick}
+			disabled={disabled}
+			className={styles.listitem}
+			value={String(children)}
+			{...(style && { style })}
+		></input>
 	) : (
 		<div className={`${styles.listitem}`} {...(style && { style })}>
-			{children}
+			{iconElement}
+			<div style={{ flexGrow: 1 }}>{children}</div>
 		</div>
 	);
 };

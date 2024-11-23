@@ -22,7 +22,7 @@ export const LogAddPage: React.FC = () => {
 
 	return (
 		<AppWindow
-			title="対局記録を登録"
+			title="新規ログ作成"
 			backTo="/app"
 			authOnly={true}
 			loading={loading || addLoading}
@@ -42,47 +42,55 @@ export const LogAddPage: React.FC = () => {
 						}
 					}}
 				>
-					<ListGroup>
+					<ListGroup
+						description={
+							<>
+								同点の場合、上に記載した人が高順位となります。
+								<br />
+								25000点30000点返し / 順位点10 - 30
+							</>
+						}
+					>
 						{new Array(4).fill(null).map((_, i) => (
 							<ListItem key={i}>
-								<select
-									value={playerName[i]}
-									onChange={(e) => setPlayerName[i](e.target.value)}
-								>
-									<option disabled value="">
-										名前を選択
-									</option>
-									{players.map((player) => (
-										<option key={player} value={player}>
-											{player}
+								<div style={{ display: 'flex' }}>
+									<select
+										value={playerName[i]}
+										onChange={(e) => setPlayerName[i](e.target.value)}
+									>
+										<option disabled value="">
+											名前を選択
 										</option>
-									))}
-								</select>
-								<input
-									type="text"
-									pattern="^-?\d+$"
-									value={scoreString[i]}
-									required
-									onChange={(e) => setScoreString[i](e.target.value)}
-									style={{ width: '60px' }}
-								/>
-								<span
-									style={{
-										marginRight: '32px',
-										fontFamily: 'Arial',
-										paddingTop: '1px',
-									}}
-								>
-									00
-								</span>
+										{players.map((player) => (
+											<option key={player} value={player}>
+												{player}
+											</option>
+										))}
+									</select>
+									<input
+										type="text"
+										pattern="^-?\d+$"
+										value={scoreString[i]}
+										required
+										onChange={(e) => setScoreString[i](e.target.value)}
+										style={{ width: '60px' }}
+									/>
+									<div
+										style={{
+											marginRight: '32px',
+											height: '48px',
+											lineHeight: '48px',
+										}}
+									>
+										00
+									</div>
+								</div>
 							</ListItem>
 						))}
 					</ListGroup>
 					<ListGroup {...(error && { error })}>
 						<ListItem>
-							<button type="submit" disabled={loading}>
-								対局結果を保存
-							</button>
+							<input type="submit" disabled={loading} value="対局結果を保存" />
 						</ListItem>
 					</ListGroup>
 				</form>

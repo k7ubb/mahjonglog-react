@@ -1,5 +1,7 @@
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaDatabase } from 'react-icons/fa';
+import { IoMdCreate } from 'react-icons/io';
+import { MdPeople } from 'react-icons/md';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
@@ -11,43 +13,56 @@ export const HomePage: React.FC = () => {
 			{user ? (
 				<>
 					<ListGroup>
-						<ListItem linkTo="/app/account" style={{ height: '64px' }}>
-							<div style={{ width: '64px' }}>
+						<ListItem
+							linkTo="/app/account"
+							style={{ height: '64px', lineHeight: '1.5em' }}
+							iconElement={
 								<FaUserCircle
 									size={48}
 									color="#999"
-									style={{ marginTop: '16px' }}
+									style={{ marginLeft: '-4px' }}
 								/>
-							</div>
-							<div style={{ lineHeight: '1.6em' }}>
-								<span style={{ fontSize: '20px' }}>{user.accountName}</span>
-								<br />
-								<span style={{ color: '#999', fontSize: '14px' }}>
-									@{user.accountID}
-								</span>
-							</div>
+							}
+						>
+							<span style={{ fontSize: '20px' }}>{user.accountName}</span>
+							<br />
+							<span style={{ color: '#999', fontSize: '14px' }}>
+								@{user.accountID}
+							</span>
 						</ListItem>
 					</ListGroup>
-					<ListGroup title={`${user.accountName} さん`}>
-						<ListItem linkTo="/app/log/add">新規登録</ListItem>
-						<ListItem linkTo="/app/log">ログ表示</ListItem>
-						<ListItem linkTo="/app/player">個人記録</ListItem>
+					<ListGroup>
+						<ListItem
+							linkTo="/app/log/add"
+							iconElement={<IoMdCreate size={20} color="#FF375F" />}
+						>
+							新規ログ作成
+						</ListItem>
+						<ListItem
+							linkTo="/app/log"
+							iconElement={<FaDatabase size={20} color="#007AFF" />}
+						>
+							対局ログ一覧
+						</ListItem>
+						<ListItem
+							linkTo="/app/player"
+							iconElement={<MdPeople size={20} color="#34C759" />}
+						>
+							プレイヤー成績
+						</ListItem>
 					</ListGroup>
 				</>
 			) : (
 				<>
 					<ListGroup title={'アカウント'}>
 						<ListItem linkTo="/app/login">ログイン</ListItem>
-						<ListItem linkTo="/app/register">新規登録</ListItem>
+						<ListItem linkTo="/app/register">アカウント登録</ListItem>
 					</ListGroup>
 				</>
 			)}
 			<div style={{ height: '64px' }} />
 			<ListGroup>
-				<ListItem linkTo="/">
-					<FaArrowUpRightFromSquare
-						style={{ marginLeft: 0, padding: '14px 8px 18px 0' }}
-					/>
+				<ListItem linkTo="/" iconElement={<FaArrowUpRightFromSquare />}>
 					本アプリについて
 				</ListItem>
 			</ListGroup>
