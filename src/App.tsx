@@ -13,32 +13,35 @@ import { PlayerListPage } from './components/Pages/PlayerListPage';
 import { PlayerPage } from './components/Pages/PlayerPage';
 import { PlayerLogPage } from './components/Pages/PlayerLogPage';
 import { AuthProvider } from './usecase/useHandleUser';
+import { LogProvider } from './usecase/useHandleLog';
 
 function App() {
 	return (
 		<AuthProvider>
-			<BrowserRouter
-				future={{
-					v7_startTransition: true,
-					v7_relativeSplatPath: true,
-				}}
-			>
-				<Routes>
-					<Route path="/" element={<IndexPage />} />
-					<Route path="/app" element={<HomePage />} />
-					<Route path="/app/login" element={<LoginPage />} />
-					<Route path="/app/register" element={<RegisterPage />} />
-					<Route path="/app/account" element={<AccountPage />} />
-					<Route path="/app/log" element={<LogPage />} />
-					<Route path="/app/log/add" element={<LogAddPage />} />
-					<Route path="/app/log/all" element={<LogAllPage />} />
-					<Route path="/app/log/:date" element={<LogDailyPage />} />
-					<Route path="/app/log/deleted" element={<LogDeletedPage />} />
-					<Route path="/app/player" element={<PlayerListPage />} />
-					<Route path="/app/player/:player" element={<PlayerPage />} />
-					<Route path="/app/player/:player/logs" element={<PlayerLogPage />} />
-				</Routes>
-			</BrowserRouter>
+			<LogProvider>
+				<BrowserRouter
+					future={{
+						v7_startTransition: true,
+						v7_relativeSplatPath: true,
+					}}
+				>
+					<Routes>
+						<Route path="/" element={<IndexPage />} />
+						<Route path="/app" element={<HomePage />} />
+						<Route path="/app/login" element={<LoginPage />} />
+						<Route path="/app/register" element={<RegisterPage />} />
+						<Route path="/app/account" element={<AccountPage />} />
+						<Route path="/app/log" element={<LogPage />} />
+						<Route path="/app/log/add" element={<LogAddPage />} />
+						<Route path="/app/log/all" element={<LogAllPage />} />
+						<Route path="/app/log/:date" element={<LogDailyPage />} />
+						<Route path="/app/log/deleted" element={<LogDeletedPage />} />
+						<Route path="/app/player" element={<PlayerListPage />} />
+						<Route path="/app/player/:player" element={<PlayerPage />} />
+						<Route path="/app/player/:player/logs" element={<PlayerLogPage />} />
+					</Routes>
+				</BrowserRouter>
+			</LogProvider>
 		</AuthProvider>
 	);
 }

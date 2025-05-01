@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import {
 	getFirestoreLogs,
 	getFirestoreDeletedLogs,
@@ -27,7 +27,27 @@ const parseScore = [
 	(point: number) => Math.round((point - 500 - 1) / 10),
 ];
 
-export const useHandleLog = () => {
+const LogContext = createContext<{
+	logs: Log[];
+	deletedLogs: Log[];
+	loading: boolean;
+	addLog: (playerName: string[], scoreString: string[]) => void;
+	deleteLog: (id: string) => void;
+	restoreLog: (id: string) => void;
+	deleteLogCompletely: () => void;
+	update: () => void;
+}>({
+	logs: [],
+	deletedLogs: [],
+	loading: true,
+	addLog: async (playerName: string[], scoreString: string[]) => {},
+	deleteLog: async (id: string) => {},
+	restoreLog: async (id: string) => {},
+	deleteLogCompletely: async () => {},
+	update: async () => {},
+});
+
+export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 	const { user } = useHandleUser();
 	const [logs, setLogs] = useState<Log[]>([]);
 	const [deletedLogs, setDeletedLogs] = useState<Log[]>([]);
@@ -75,6 +95,7 @@ export const useHandleLog = () => {
 				player: scr.player,
 			}));
 		await addFirestoreLog(user.uid, score);
+		await update();
 	};
 
 	const deleteLog = async (id: string) => {
@@ -105,14 +126,20 @@ export const useHandleLog = () => {
 		await update();
 	};
 
-	return {
-		logs,
-		deletedLogs,
-		loading,
-		addLog,
-		deleteLog,
-		restoreLog,
-		deleteLogCompletely,
-		update,
-	};
+	return (
+		<LogContext.Provider value={{
+			logs,
+			deletedLogs,
+			loading,
+			addLog,
+			deleteLog,
+			restoreLog,
+			deleteLogCompletely,
+			update,
+		}}>
+			{children}
+		</LogContext.Provider>
+	);
 };
+
+export const useHandleLog = () => useContext(LogContext);
