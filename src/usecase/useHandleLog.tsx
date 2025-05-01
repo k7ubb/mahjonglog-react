@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import {
 	getFirestoreLogs,
 	getFirestoreDeletedLogs,
@@ -27,18 +27,56 @@ const parseScore = [
 	(point: number) => Math.round((point - 500 - 1) / 10),
 ];
 
-export const useHandleLog = () => {
+const LogContext = createContext<{
+	logs: Log[];
+	allLogs: Log[];
+	deletedLogs: Log[];
+	loading: boolean;
+	filter: { from?: string, to?: string };
+	addLog: (playerName: string[], scoreString: string[]) => void;
+	deleteLog: (id: string) => void;
+	restoreLog: (id: string) => void;
+	deleteLogCompletely: () => void;
+	update: () => void;
+	setFilter: (filter: { from?: string, to?: string }) => void;
+}>({
+	logs: [],
+	allLogs: [],
+	deletedLogs: [],
+	loading: true,
+	filter: {},
+	addLog: async (playerName: string[], scoreString: string[]) => {},
+	deleteLog: async (id: string) => {},
+	restoreLog: async (id: string) => {},
+	deleteLogCompletely: async () => {},
+	update: async () => {},
+	setFilter: (filter: {}) => {},
+});
+
+export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 	const { user } = useHandleUser();
 	const [logs, setLogs] = useState<Log[]>([]);
+	const [allLogs, setAllLogs] = useState<Log[]>([]);
 	const [deletedLogs, setDeletedLogs] = useState<Log[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [filter, setFilter] = useState<{ from?: string, to?: string }>({});
 
 	const update = async () => {
 		setLoading(true);
-		setLogs(user ? await getFirestoreLogs(user.uid) : []);
+		setAllLogs(user ? await getFirestoreLogs(user.uid) : []);
 		setDeletedLogs(user ? await getFirestoreDeletedLogs(user.uid) : []);
 		setLoading(false);
 	};
+
+	useEffect(() => {
+		if (filter.from && filter.to) {
+			const from = new Date(filter.from).getTime();
+			const to = new Date(filter.to).getTime();
+			setLogs(allLogs.filter(log => from <= log.date && log.date <= to));
+		} else {
+			setLogs(allLogs);
+		}
+	}, [allLogs, filter]);
 
 	useEffect(() => {
 		update();
@@ -75,6 +113,7 @@ export const useHandleLog = () => {
 				player: scr.player,
 			}));
 		await addFirestoreLog(user.uid, score);
+		await update();
 	};
 
 	const deleteLog = async (id: string) => {
@@ -105,14 +144,23 @@ export const useHandleLog = () => {
 		await update();
 	};
 
-	return {
-		logs,
-		deletedLogs,
-		loading,
-		addLog,
-		deleteLog,
-		restoreLog,
-		deleteLogCompletely,
-		update,
-	};
+	return (
+		<LogContext.Provider value={{
+			logs,
+			allLogs,
+			deletedLogs,
+			loading,
+			filter,
+			addLog,
+			deleteLog,
+			restoreLog,
+			deleteLogCompletely,
+			update,
+			setFilter
+		}}>
+			{children}
+		</LogContext.Provider>
+	);
 };
+
+export const useHandleLog = () => useContext(LogContext);

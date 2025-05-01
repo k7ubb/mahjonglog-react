@@ -2,6 +2,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useHandleUser } from '../../usecase/useHandleUser';
+import { useHandleLog } from '../../usecase/useHandleLog';
+import { FilterForm } from './FilterForm';
 import styles from './AppWindow.module.css';
 
 export const AppWindow = ({
@@ -19,6 +21,7 @@ export const AppWindow = ({
 }) => {
 	const navigate = useNavigate();
 	const { user, loading: userLoading } = useHandleUser();
+	const { filter, setFilter } = useHandleLog();
 
 	if (authOnly && !userLoading && !user) {
 		setTimeout(() => navigate('/app'), 1);
@@ -38,6 +41,7 @@ export const AppWindow = ({
 								</Link>
 							)}
 							<h1>{title}</h1>
+							{user && <FilterForm filter={filter} setFilter={setFilter} />}
 						</div>
 						{children}
 					</>

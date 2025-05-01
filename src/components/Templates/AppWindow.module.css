@@ -46,28 +46,84 @@ body:has(.appWindow) {
 	background: var(--app-color-header);
 	border-bottom: 1px solid var(--app-color-header-border);
 	z-index: 100;
+
+	h1 {
+		margin: 0;
+		font-weight: normal;
+		font-size: 20px;
+		text-align: center;
+	}
+	
+	a {
+		display: flex;
+		align-items: center;
+		position: absolute;
+		top: 12px;
+		left: 8px;
+		font-size: 18px;
+		color: var(--app-color-accent);
+		text-decoration: none;
+
+		.header a:hover {
+			opacity: 0.5;
+		}
+	}
+
+	> button {
+		appearance: none;
+		display: block;
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		border: none;
+		width: 50px;
+		height: 26px;
+		font-size: 26px;
+		background-color: transparent;
+
+		.accent {
+			color: var(--app-color-accent);
+		}
+
+		&:not(.accent) {
+			color: var(--app-color-gray);
+		}
+	}
+	
 }
 
-.header h1 {
-	margin: 0;
-	font-weight: normal;
-	font-size: 20px;
-	text-align: center;
-}
-
-.header a {
-	display: flex;
-	align-items: center;
+.filterForm {
 	position: absolute;
-	top: 12px;
-	left: 8px;
-	font-size: 18px;
-	color: var(--app-color-accent);
-	text-decoration: none;
-}
+	top: 48px;
+	left: 10px;
+	right: 10px;
+	background-color: #ddd;
+	padding: 8px 16px;
+	box-shadow: 0 1px 4px rgb(0 0 0 / 0.3);
+	text-align: center;
 
-.header a:hover {
-	opacity: 0.5;
+	&::before {
+		content: "";
+		position: absolute;
+		top: -20px;
+		right: 14px;
+		border: 10px solid transparent;
+		border-bottom: 10px solid #ddd;
+	}
+
+	button {
+		background: #ffffff;
+		border: none;
+		border-radius: 16px;
+		padding: 8px 16px;
+		margin: 8px 8px 0;
+		font-size: 16px;
+		color: var(--app-color-accent);
+
+		&:hover {
+			background-color: #eeeeee;
+		}
+	}
 }
 
 .listtitle {

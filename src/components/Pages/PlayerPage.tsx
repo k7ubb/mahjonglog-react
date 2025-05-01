@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
@@ -29,6 +30,7 @@ const ScoreRow = ({
 export const PlayerPage: React.FC = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
+	const { logs, allLogs } = useHandleLog();
 	const { deletePlayer } = useHandlePlayer();
 	const { personalScore, loading: personalScoreLoading } =
 		useHandlePersonalScore(player || '');
@@ -67,7 +69,7 @@ export const PlayerPage: React.FC = () => {
 						<ListItem
 							disabled={loading}
 							onClick={async () => {
-								if (personalScore.count !== 0) {
+								if (allLogs.some(log => log.score.some(({player: player_}) => player === player_))) {
 									alert('対局記録があるプレイヤーは削除できません');
 								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
 									setLoading(true);
