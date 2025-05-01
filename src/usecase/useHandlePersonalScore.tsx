@@ -52,7 +52,7 @@ export const useHandlePersonalScore = (player: string) => {
 		if (!logLoading) {
 			update();
 		}
-	}, [logLoading]);
+	}, [logLoading, logs]);
 
 	return {
 		personalScore,
