@@ -32,25 +32,25 @@ const LogContext = createContext<{
 	allLogs: Log[];
 	deletedLogs: Log[];
 	loading: boolean;
-	filter: { from?: string, to?: string };
+	filter: { from?: string; to?: string };
 	addLog: (playerName: string[], scoreString: string[]) => void;
 	deleteLog: (id: string) => void;
 	restoreLog: (id: string) => void;
 	deleteLogCompletely: () => void;
 	update: () => void;
-	setFilter: (filter: { from?: string, to?: string }) => void;
+	setFilter: (filter: { from?: string; to?: string }) => void;
 }>({
 	logs: [],
 	allLogs: [],
 	deletedLogs: [],
 	loading: true,
 	filter: {},
-	addLog: async (playerName: string[], scoreString: string[]) => {},
-	deleteLog: async (id: string) => {},
-	restoreLog: async (id: string) => {},
+	addLog: async () => {},
+	deleteLog: async () => {},
+	restoreLog: async () => {},
 	deleteLogCompletely: async () => {},
 	update: async () => {},
-	setFilter: (filter: {}) => {},
+	setFilter: () => {},
 });
 
 export const LogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -59,7 +59,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 	const [allLogs, setAllLogs] = useState<Log[]>([]);
 	const [deletedLogs, setDeletedLogs] = useState<Log[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [filter, setFilter] = useState<{ from?: string, to?: string }>({});
+	const [filter, setFilter] = useState<{ from?: string; to?: string }>({});
 
 	const update = async () => {
 		setLoading(true);
@@ -72,7 +72,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 		if (filter.from && filter.to) {
 			const from = new Date(filter.from).getTime();
 			const to = new Date(filter.to).getTime();
-			setLogs(allLogs.filter(log => from <= log.date && log.date <= to));
+			setLogs(allLogs.filter((log) => from <= log.date && log.date <= to));
 		} else {
 			setLogs(allLogs);
 		}
@@ -145,19 +145,21 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 	};
 
 	return (
-		<LogContext.Provider value={{
-			logs,
-			allLogs,
-			deletedLogs,
-			loading,
-			filter,
-			addLog,
-			deleteLog,
-			restoreLog,
-			deleteLogCompletely,
-			update,
-			setFilter
-		}}>
+		<LogContext.Provider
+			value={{
+				logs,
+				allLogs,
+				deletedLogs,
+				loading,
+				filter,
+				addLog,
+				deleteLog,
+				restoreLog,
+				deleteLogCompletely,
+				update,
+				setFilter,
+			}}
+		>
 			{children}
 		</LogContext.Provider>
 	);

@@ -30,7 +30,7 @@ const ScoreRow = ({
 export const PlayerPage: React.FC = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
-	const { logs, allLogs } = useHandleLog();
+	const { allLogs } = useHandleLog();
 	const { deletePlayer } = useHandlePlayer();
 	const { personalScore, loading: personalScoreLoading } =
 		useHandlePersonalScore(player || '');
@@ -69,7 +69,11 @@ export const PlayerPage: React.FC = () => {
 						<ListItem
 							disabled={loading}
 							onClick={async () => {
-								if (allLogs.some(log => log.score.some(({player: player_}) => player === player_))) {
+								if (
+									allLogs.some((log) =>
+										log.score.some(({ player: player_ }) => player === player_)
+									)
+								) {
 									alert('対局記録があるプレイヤーは削除できません');
 								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
 									setLoading(true);
