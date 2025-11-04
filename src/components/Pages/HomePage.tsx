@@ -1,6 +1,7 @@
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { FaUserCircle, FaDatabase } from 'react-icons/fa';
 import { IoMdCreate } from 'react-icons/io';
+import { IoMdDownload } from 'react-icons/io';
 import { MdPeople } from 'react-icons/md';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
@@ -49,6 +50,14 @@ export const HomePage: React.FC = () => {
 							iconElement={<MdPeople size={20} color="#34C759" />}
 						>
 							プレイヤー成績
+						</ListItem>
+					</ListGroup>
+					<ListGroup>
+						<ListItem
+							linkTo="/app/export"
+							iconElement={<IoMdDownload size={20} />}
+						>
+							CSVエクスポート
 						</ListItem>
 					</ListGroup>
 				</>
