@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MdFilterAlt, MdFilterAltOff } from 'react-icons/md';
-import styles from './AppWindow.module.css';
+import styles from './FilterForm.module.css';
 
 export const FilterForm = ({
 	filter,

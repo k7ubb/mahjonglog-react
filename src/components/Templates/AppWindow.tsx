@@ -3,7 +3,7 @@ import ReactLoading from 'react-loading';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { FilterForm } from './FilterForm';
+import { FilterForm } from '../Presenter/FilterForm';
 import styles from './AppWindow.module.css';
 
 export const AppWindow = ({
@@ -12,12 +12,14 @@ export const AppWindow = ({
 	children,
 	loading,
 	authOnly,
+	extraButton
 }: {
 	title: string;
 	backTo?: string;
 	children?: React.ReactNode;
 	loading?: boolean;
 	authOnly?: boolean;
+	extraButton?: React.ReactNode;
 }) => {
 	const navigate = useNavigate();
 	const { user, loading: userLoading } = useHandleUser();
@@ -42,6 +44,7 @@ export const AppWindow = ({
 							)}
 							<h1>{title}</h1>
 							{user && <FilterForm filter={filter} setFilter={setFilter} />}
+							{extraButton}
 						</div>
 						{children}
 					</>

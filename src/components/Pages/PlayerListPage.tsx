@@ -1,29 +1,83 @@
-import { useState } from 'react';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
+import { useState, useEffect } from 'react';
+import { match } from 'ts-pattern';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 import { Dialog } from '../Templates/Dialog';
+import { useHandlePlayer } from '../../usecase/useHandlePlayer';
+import { useHandleLog } from '../../usecase/useHandleLog';
+import { type PersonalScore, calculatePersonalScore } from '../../utils/personalScore';
+import { MdSort } from 'react-icons/md';
+import styles from '../Templates/AppWindow.module.css';
+
+type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
+
+const PointView = ({ point }: { point: number }) => {
+	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
+	return <span style={{ color }}>{point}</span>;
+};
+
+const getNextSortKey = (previousKey: SortKey): SortKey => {
+	return match(previousKey)
+		.with(null, () => "count")
+		.with("count", () => "average_rank")
+		.with("average_rank", () => "score")
+		.with("score", () => "average_score")
+		.otherwise(() => null) as SortKey;
+};
 
 export const PlayerListPage: React.FC = () => {
 	const { players, loading, addPlayer } = useHandlePlayer();
+	const { logs, loading: logLoading } = useHandleLog();
 	const [open, setOpen] = useState(false);
 	const [newPlayer, setNewPlayer] = useState('');
 	const [error, setError] = useState<string | null>(null);
 	const [addLoading, setAddLoading] = useState(false);
+	const [personalScores, setPersonalScores] = useState<{ [key: string]: PersonalScore }>({});
+	const [sortKey, setSortKey] = useState<SortKey>(null);
+
+	useEffect(() => {
+		if (logs && players) {
+			const personalScores_: { [key: string]: PersonalScore } = {};
+			players.forEach(player => personalScores_[player] = calculatePersonalScore(logs, player));
+			setPersonalScores(personalScores_);
+		}
+	}, [logs, players]);
 
 	return (
 		<AppWindow
-			title="プレイヤー成績"
+			title={match(sortKey)
+				.with("count", () => "試合数")
+				.with("average_rank", () => "平均順位")
+				.with("score", () => "累計得点")
+				.with("average_score", () => "平均得点")
+				.otherwise(() => "プレイヤー成績")
+			}
 			backTo="/app"
 			authOnly={true}
-			loading={loading || addLoading}
+			loading={loading || logLoading || addLoading}
+			extraButton={
+				<button onClick={() => setSortKey(getNextSortKey(sortKey))}>
+					<MdSort {...(sortKey && {className: styles.accent})} />
+				</button>
+			}
 		>
-			<ListGroup>
-				{players.map((player) => (
-					<ListItem key={player} linkTo={`/app/player/${player}`}>
-						{player}
-					</ListItem>
-				))}
-			</ListGroup>
+			{players && logs && (
+				<ListGroup>
+					{(
+						(!sortKey || Object.keys(personalScores).length === 0) ? players : 
+						['count', 'score', 'average_score'].includes(sortKey) ? players.sort((a, b) => personalScores[b][sortKey] - personalScores[a][sortKey]) 
+						:  players.sort((a, b) => personalScores[a][sortKey] - personalScores[b][sortKey])
+					).map((player) => (
+						<ListItem key={player} linkTo={`/app/player/${player}`}>
+							<div style={{ display: 'flex' }}>
+								<div style={{ width: '200px'}}>{player}</div>
+								<div>{sortKey && Object.keys(personalScores).length !== 0 && (
+									['score', 'average_score'].includes(sortKey) ? <PointView point={personalScores[player][sortKey]} /> : personalScores[player][sortKey]
+								)}</div>
+							</div>
+						</ListItem>
+					))}
+				</ListGroup>
+			)}
 
 			<ListGroup>
 				<ListItem onClick={() => setOpen(true)}>プレイヤーを追加</ListItem>

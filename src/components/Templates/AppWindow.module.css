@@ -71,15 +71,21 @@ body:has(.appWindow) {
 
 	> button {
 		appearance: none;
-		display: block;
 		position: absolute;
 		top: 8px;
-		right: 8px;
 		border: none;
 		width: 50px;
 		height: 26px;
 		font-size: 26px;
 		background-color: transparent;
+
+		&:first-of-type {
+			right: 8px;
+		}
+
+		&:nth-of-type(2) {
+			right: 50px;
+		}
 
 		.accent {
 			color: var(--app-color-accent);
@@ -90,40 +96,6 @@ body:has(.appWindow) {
 		}
 	}
 	
-}
-
-.filterForm {
-	position: absolute;
-	top: 48px;
-	left: 10px;
-	right: 10px;
-	background-color: #ddd;
-	padding: 8px 16px;
-	box-shadow: 0 1px 4px rgb(0 0 0 / 0.3);
-	text-align: center;
-
-	&::before {
-		content: "";
-		position: absolute;
-		top: -20px;
-		right: 14px;
-		border: 10px solid transparent;
-		border-bottom: 10px solid #ddd;
-	}
-
-	button {
-		background: #ffffff;
-		border: none;
-		border-radius: 16px;
-		padding: 8px 16px;
-		margin: 8px 8px 0;
-		font-size: 16px;
-		color: var(--app-color-accent);
-
-		&:hover {
-			background-color: #eeeeee;
-		}
-	}
 }
 
 .listtitle {

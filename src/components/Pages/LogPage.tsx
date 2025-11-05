@@ -11,9 +11,7 @@ const formatDate = (date: Date) => {
 
 export const LogPage: React.FC = () => {
 	const { logs, deletedLogs, loading } = useHandleLog();
-	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>(
-		[]
-	);
+	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>([]);
 
 	useEffect(() => {
 		const logsByDate_: { date: string; logs: Log[] }[] = [];
@@ -32,6 +30,7 @@ export const LogPage: React.FC = () => {
 		setLogsByDate(logsByDate_);
 	}, [logs]);
 
+	
 	return (
 		<AppWindow
 			title="対局ログ一覧"
