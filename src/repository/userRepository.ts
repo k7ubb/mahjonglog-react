@@ -20,8 +20,8 @@ export const getAuthUserData = async () => {
 								email: data.email,
 								accountID: data.accountID,
 								accountName: data.accountName,
-						  }
-						: undefined
+							}
+						: undefined,
 				);
 			}
 		});
@@ -38,7 +38,7 @@ export const updateUserData = async (
 		email: string;
 		accountID: string;
 		accountName: string;
-	}
+	},
 ) => {
 	await setDoc(doc(getFirestore(FirebaseApp), 'account', uid), {
 		email,

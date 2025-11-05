@@ -11,7 +11,9 @@ const formatDate = (date: Date) => {
 
 export const LogPage: React.FC = () => {
 	const { logs, deletedLogs, loading } = useHandleLog();
-	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>([]);
+	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>(
+		[],
+	);
 
 	useEffect(() => {
 		const logsByDate_: { date: string; logs: Log[] }[] = [];
@@ -30,7 +32,6 @@ export const LogPage: React.FC = () => {
 		setLogsByDate(logsByDate_);
 	}, [logs]);
 
-	
 	return (
 		<AppWindow
 			title="対局ログ一覧"
@@ -41,7 +42,7 @@ export const LogPage: React.FC = () => {
 			{!loading && (
 				<>
 					<ListGroup>
-						<ListItem linkTo={`/app/log/all`}>
+						<ListItem linkTo={'/app/log/all'}>
 							全てのログ ({logs.length})
 						</ListItem>
 					</ListGroup>
@@ -54,7 +55,7 @@ export const LogPage: React.FC = () => {
 					</ListGroup>
 					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListItem linkTo={`/app/log/deleted`}>
+						<ListItem linkTo={'/app/log/deleted'}>
 							削除したログを表示 ({deletedLogs.length})
 						</ListItem>
 					</ListGroup>

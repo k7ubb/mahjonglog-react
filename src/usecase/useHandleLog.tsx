@@ -98,7 +98,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 			throw new Error(
 				`合計点が ${Math.abs(1000 - scoreTotal) * 100} 点${
 					scoreTotal > 1000 ? '多い' : '少ない'
-				}`
+				}`,
 			);
 		}
 		const score = new Array(4)
@@ -131,7 +131,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 		await restoreFirestoreLog(
 			user.uid,
 			id,
-			deletedLogs.find((log) => log.id === id)!
+			deletedLogs.find((log) => log.id === id)!,
 		);
 		await update();
 	};

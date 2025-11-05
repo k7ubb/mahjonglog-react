@@ -12,7 +12,7 @@ export const AppWindow = ({
 	children,
 	loading,
 	authOnly,
-	extraButton
+	extraButton,
 }: {
 	title: string;
 	backTo?: string;

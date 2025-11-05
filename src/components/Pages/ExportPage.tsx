@@ -5,8 +5,12 @@ export const ExportPage: React.FC = () => {
 	const { logs, loading } = useHandleLog();
 
 	const handleExport = () => {
-		const convertedLog = [...logs].reverse().map((log) => ({date: log.date, score: log.score}));
-		const json = JSON.stringify(convertedLog).replace(/\{\"date/g, "\n  {\"date").replace(/]$/, "\n]");
+		const convertedLog = [...logs]
+			.reverse()
+			.map((log) => ({ date: log.date, score: log.score }));
+		const json = JSON.stringify(convertedLog)
+			.replace(/\{"date/g, '\n  {"date')
+			.replace(/]$/, '\n]');
 		const blob = new Blob([json], { type: 'application/json' });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
@@ -26,9 +30,7 @@ export const ExportPage: React.FC = () => {
 			loading={loading}
 		>
 			<ListGroup title={`${logs.length}件のログがあります`}>
-				<ListItem onClick={handleExport}>
-					ログファイルをエクスポート
-				</ListItem>
+				<ListItem onClick={handleExport}>ログファイルをエクスポート</ListItem>
 			</ListGroup>
 		</AppWindow>
 	);

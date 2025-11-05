@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js';
+import {
+	Chart,
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+} from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
@@ -47,12 +54,17 @@ export const PlayerPage: React.FC = () => {
 				recentRecords.push(i + 1);
 			}
 		}
-		if (recentRecords.length == 10) { break; }
+		if (recentRecords.length == 10) {
+			break;
+		}
 	}
 
-	const recentAverage = recentRecords.reduce((acc, cur) => acc + cur, 0) / recentRecords.length;
+	const recentAverage =
+		recentRecords.reduce((acc, cur) => acc + cur, 0) / recentRecords.length;
 
-	while (recentRecords.length < 10) { recentRecords.push(null); }
+	while (recentRecords.length < 10) {
+		recentRecords.push(null);
+	}
 	recentRecords.reverse();
 
 	const chartOptions = {
@@ -60,22 +72,22 @@ export const PlayerPage: React.FC = () => {
 			legend: { display: false },
 			title: {
 				display: true,
-				text: `直近10試合: 平均順位 ${Math.floor(recentAverage * 100) / 100}`
-			}
+				text: `直近10試合: 平均順位 ${Math.floor(recentAverage * 100) / 100}`,
+			},
 		},
 		scales: {
 			x: {
-				display: false
+				display: false,
 			},
 			y: {
 				min: 1,
 				max: 4,
 				reverse: true,
 				ticks: {
-					count: 4
-				}
-			}
-		}
+					count: 4,
+				},
+			},
+		},
 	};
 
 	return (
@@ -107,17 +119,20 @@ export const PlayerPage: React.FC = () => {
 						>{`${player}の対局記録を表示`}</ListItem>
 					</ListGroup>
 
-					<Line options={chartOptions} data={{
-						labels: new Array(10).fill(""),
-						datasets: [
-							{
-								data: recentRecords,
-								borderColor: "#007aff",
-								borderWidth: 3
-							}
-						],
-					}} />
-					
+					<Line
+						options={chartOptions}
+						data={{
+							labels: new Array(10).fill(''),
+							datasets: [
+								{
+									data: recentRecords,
+									borderColor: '#007aff',
+									borderWidth: 3,
+								},
+							],
+						}}
+					/>
+
 					<div style={{ height: '64px' }} />
 					<ListGroup>
 						<ListItem
@@ -125,7 +140,7 @@ export const PlayerPage: React.FC = () => {
 							onClick={async () => {
 								if (
 									allLogs.some((log) =>
-										log.score.some(({ player: player_ }) => player === player_)
+										log.score.some(({ player: player_ }) => player === player_),
 									)
 								) {
 									alert('対局記録があるプレイヤーは削除できません');

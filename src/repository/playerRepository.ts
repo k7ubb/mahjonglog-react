@@ -10,7 +10,7 @@ export const getFirestorePlayers = async (uid: string) => {
 
 export const updateFirestorePlayers = async (
 	uid: string,
-	players: string[]
+	players: string[],
 ) => {
 	await setDoc(doc(getFirestore(FirebaseApp), 'players', uid), { players });
 };

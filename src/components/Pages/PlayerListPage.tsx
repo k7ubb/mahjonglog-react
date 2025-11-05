@@ -4,7 +4,10 @@ import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 import { Dialog } from '../Templates/Dialog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { type PersonalScore, calculatePersonalScore } from '../../utils/personalScore';
+import {
+	type PersonalScore,
+	calculatePersonalScore,
+} from '../../utils/personalScore';
 import { MdSort } from 'react-icons/md';
 import styles from '../Templates/AppWindow.module.css';
 
@@ -17,10 +20,10 @@ const PointView = ({ point }: { point: number }) => {
 
 const getNextSortKey = (previousKey: SortKey): SortKey => {
 	return match(previousKey)
-		.with(null, () => "count")
-		.with("count", () => "average_rank")
-		.with("average_rank", () => "score")
-		.with("score", () => "average_score")
+		.with(null, () => 'count')
+		.with('count', () => 'average_rank')
+		.with('average_rank', () => 'score')
+		.with('score', () => 'average_score')
 		.otherwise(() => null) as SortKey;
 };
 
@@ -31,13 +34,18 @@ export const PlayerListPage: React.FC = () => {
 	const [newPlayer, setNewPlayer] = useState('');
 	const [error, setError] = useState<string | null>(null);
 	const [addLoading, setAddLoading] = useState(false);
-	const [personalScores, setPersonalScores] = useState<{ [key: string]: PersonalScore }>({});
+	const [personalScores, setPersonalScores] = useState<{
+		[key: string]: PersonalScore;
+	}>({});
 	const [sortKey, setSortKey] = useState<SortKey>(null);
 
 	useEffect(() => {
 		if (logs && players) {
 			const personalScores_: { [key: string]: PersonalScore } = {};
-			players.forEach(player => personalScores_[player] = calculatePersonalScore(logs, player));
+			players.forEach(
+				(player) =>
+					(personalScores_[player] = calculatePersonalScore(logs, player)),
+			);
 			setPersonalScores(personalScores_);
 		}
 	}, [logs, players]);
@@ -45,34 +53,46 @@ export const PlayerListPage: React.FC = () => {
 	return (
 		<AppWindow
 			title={match(sortKey)
-				.with("count", () => "試合数")
-				.with("average_rank", () => "平均順位")
-				.with("score", () => "累計得点")
-				.with("average_score", () => "平均得点")
-				.otherwise(() => "プレイヤー成績")
-			}
+				.with('count', () => '試合数')
+				.with('average_rank', () => '平均順位')
+				.with('score', () => '累計得点')
+				.with('average_score', () => '平均得点')
+				.otherwise(() => 'プレイヤー成績')}
 			backTo="/app"
 			authOnly={true}
 			loading={loading || logLoading || addLoading}
 			extraButton={
 				<button onClick={() => setSortKey(getNextSortKey(sortKey))}>
-					<MdSort {...(sortKey && {className: styles.accent})} />
+					<MdSort {...(sortKey && { className: styles.accent })} />
 				</button>
 			}
 		>
 			{players && logs && (
 				<ListGroup>
-					{(
-						(!sortKey || Object.keys(personalScores).length === 0) ? players : 
-						['count', 'score', 'average_score'].includes(sortKey) ? players.sort((a, b) => personalScores[b][sortKey] - personalScores[a][sortKey]) 
-						:  players.sort((a, b) => personalScores[a][sortKey] - personalScores[b][sortKey])
+					{(!sortKey || Object.keys(personalScores).length === 0
+						? players
+						: ['count', 'score', 'average_score'].includes(sortKey)
+							? players.sort(
+									(a, b) =>
+										personalScores[b][sortKey] - personalScores[a][sortKey],
+								)
+							: players.sort(
+									(a, b) =>
+										personalScores[a][sortKey] - personalScores[b][sortKey],
+								)
 					).map((player) => (
 						<ListItem key={player} linkTo={`/app/player/${player}`}>
 							<div style={{ display: 'flex' }}>
-								<div style={{ width: '200px'}}>{player}</div>
-								<div>{sortKey && Object.keys(personalScores).length !== 0 && (
-									['score', 'average_score'].includes(sortKey) ? <PointView point={personalScores[player][sortKey]} /> : personalScores[player][sortKey]
-								)}</div>
+								<div style={{ width: '200px' }}>{player}</div>
+								<div>
+									{sortKey &&
+										Object.keys(personalScores).length !== 0 &&
+										(['score', 'average_score'].includes(sortKey) ? (
+											<PointView point={personalScores[player][sortKey]} />
+										) : (
+											personalScores[player][sortKey]
+										))}
+								</div>
 							</div>
 						</ListItem>
 					))}

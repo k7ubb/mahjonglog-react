@@ -51,7 +51,7 @@ export const LogDeletedPage: React.FC = () => {
 							onClick={async () => {
 								if (
 									confirm(
-										'削除したログを完全に削除します。この操作は取り消せません。\n本当によろしいですか?'
+										'削除したログを完全に削除します。この操作は取り消せません。\n本当によろしいですか?',
 									)
 								) {
 									await deleteLogCompletely();

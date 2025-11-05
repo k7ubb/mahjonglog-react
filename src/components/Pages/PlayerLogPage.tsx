@@ -12,7 +12,7 @@ export const PlayerLogPage: React.FC = () => {
 
 	useEffect(() => {
 		setPlayerLogs(
-			logs.filter((log) => log.score.find((sc) => sc.player === player))
+			logs.filter((log) => log.score.find((sc) => sc.player === player)),
 		);
 	}, [logs]);
 

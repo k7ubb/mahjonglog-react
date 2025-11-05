@@ -17,8 +17,8 @@ export const getFirestoreLogs = async (uid: string) => {
 		await getDocs(
 			query(
 				collection(getFirestore(FirebaseApp), 'logs'),
-				where('uid', '==', uid)
-			)
+				where('uid', '==', uid),
+			),
 		)
 	).docs
 		.map(
@@ -27,7 +27,7 @@ export const getFirestoreLogs = async (uid: string) => {
 					id: doc.id,
 					date: doc.data().date,
 					score: doc.data().score,
-				}
+				},
 		)
 		.sort((a, b) => b.date - a.date);
 };
@@ -37,8 +37,8 @@ export const getFirestoreDeletedLogs = async (uid: string) => {
 		await getDocs(
 			query(
 				collection(getFirestore(FirebaseApp), 'logs-archive'),
-				where('uid', '==', uid)
-			)
+				where('uid', '==', uid),
+			),
 		)
 	).docs
 		.map(
@@ -47,7 +47,7 @@ export const getFirestoreDeletedLogs = async (uid: string) => {
 					id: doc.id,
 					date: doc.data().date,
 					score: doc.data().score,
-				}
+				},
 		)
 		.sort((a, b) => b.date - a.date);
 };
@@ -72,7 +72,7 @@ export const deleteFirestoreLog = async (uid: string, id: string, log: Log) => {
 export const restoreFirestoreLog = async (
 	uid: string,
 	id: string,
-	log: Log
+	log: Log,
 ) => {
 	await deleteDoc(doc(getFirestore(FirebaseApp), 'logs-archive', id));
 	await setDoc(doc(getFirestore(FirebaseApp), 'logs', id), {

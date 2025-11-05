@@ -39,7 +39,10 @@ function App() {
 						<Route path="/app/log/deleted" element={<LogDeletedPage />} />
 						<Route path="/app/player" element={<PlayerListPage />} />
 						<Route path="/app/player/:player" element={<PlayerPage />} />
-						<Route path="/app/player/:player/logs" element={<PlayerLogPage />} />
+						<Route
+							path="/app/player/:player/logs"
+							element={<PlayerLogPage />}
+						/>
 						<Route path="/app/export" element={<ExportPage />} />
 					</Routes>
 				</BrowserRouter>

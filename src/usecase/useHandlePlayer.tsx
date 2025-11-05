@@ -37,7 +37,7 @@ export const useHandlePlayer = () => {
 		}
 		await updateFirestorePlayers(
 			user.uid,
-			players.filter((_) => _ !== player)
+			players.filter((_) => _ !== player),
 		);
 		await update();
 	};

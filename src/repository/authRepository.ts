@@ -21,8 +21,8 @@ export const getEmailByAccountID = async (accountID: string) => {
 		await getDocs(
 			query(
 				collection(getFirestore(FirebaseApp), 'account'),
-				where('accountID', '==', accountID)
-			)
+				where('accountID', '==', accountID),
+			),
 		)
 	).docs;
 	if (docs.length === 0) {
@@ -47,8 +47,8 @@ export const checkAccountIDExist = async (accountID: string) => {
 		await getDocs(
 			query(
 				collection(getFirestore(FirebaseApp), 'account'),
-				where('accountID', '==', accountID)
-			)
+				where('accountID', '==', accountID),
+			),
 		)
 	).docs;
 	if (docs.length !== 0) {
@@ -81,7 +81,7 @@ export const fireauthRegister = async ({
 						email,
 						accountID,
 						accountName,
-					}
+					},
 				);
 				resolve(result);
 			} catch (e) {

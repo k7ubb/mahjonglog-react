@@ -32,7 +32,7 @@ export const calculatePersonalScore = (logs: Log[], player: string) => {
 					.map((point, i) => point * (i + 1))
 					.reduce((a, b) => a + b, 0) /
 					personalScore.count) *
-					100
+					100,
 			) / 100;
 		personalScore.average_score =
 			Math.floor((personalScore.score / personalScore.count) * 100) / 100;
