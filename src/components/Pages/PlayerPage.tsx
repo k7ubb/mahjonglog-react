@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js';
+import { Line } from 'react-chartjs-2';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
@@ -27,6 +29,8 @@ const ScoreRow = ({
 	);
 };
 
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
+
 export const PlayerPage: React.FC = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
@@ -35,6 +39,44 @@ export const PlayerPage: React.FC = () => {
 	const { personalScore, loading: personalScoreLoading } =
 		useHandlePersonalScore(player || '');
 	const [loading, setLoading] = useState(false);
+
+	let recentRecords = [];
+	for (const log of allLogs) {
+		for (let i = 0; i < 4; i++) {
+			if (log.score[i].player === player) {
+				recentRecords.push(i + 1);
+			}
+		}
+		if (recentRecords.length == 10) { break; }
+	}
+
+	const recentAverage = recentRecords.reduce((acc, cur) => acc + cur, 0) / recentRecords.length;
+
+	while (recentRecords.length < 10) { recentRecords.push(null); }
+	recentRecords.reverse();
+
+	const chartOptions = {
+		plugins: {
+			legend: { display: false },
+			title: {
+				display: true,
+				text: `直近10試合: 平均順位 ${Math.floor(recentAverage * 100) / 100}`
+			}
+		},
+		scales: {
+			x: {
+				display: false
+			},
+			y: {
+				min: 1,
+				max: 4,
+				reverse: true,
+				ticks: {
+					count: 4
+				}
+			}
+		}
+	};
 
 	return (
 		<AppWindow
@@ -64,6 +106,18 @@ export const PlayerPage: React.FC = () => {
 							linkTo={`/app/player/${player}/logs`}
 						>{`${player}の対局記録を表示`}</ListItem>
 					</ListGroup>
+
+					<Line options={chartOptions} data={{
+						labels: new Array(10).fill(""),
+						datasets: [
+							{
+								data: recentRecords,
+								borderColor: "#007aff",
+								borderWidth: 3
+							}
+						],
+					}} />
+					
 					<div style={{ height: '64px' }} />
 					<ListGroup>
 						<ListItem
