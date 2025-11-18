@@ -58,11 +58,10 @@ export const PlayerListPage: React.FC = () => {
 				.with('score', () => '累計得点')
 				.with('average_score', () => '平均得点')
 				.otherwise(() => 'プレイヤー成績')}
-			backTo="/app"
 			authOnly={true}
 			loading={loading || logLoading || addLoading}
 			extraButton={
-				<button onClick={() => setSortKey(getNextSortKey(sortKey))}>
+				<button className={styles.secondary} onClick={() => setSortKey(getNextSortKey(sortKey))}>
 					<MdSort {...(sortKey && { className: styles.accent })} />
 				</button>
 			}
@@ -81,7 +80,7 @@ export const PlayerListPage: React.FC = () => {
 										personalScores[a][sortKey] - personalScores[b][sortKey],
 								)
 					).map((player) => (
-						<ListItem key={player} linkTo={`/app/player/${player}`}>
+						<ListItem key={player} destination={{ type: 'player', player }}>
 							<div style={{ display: 'flex' }}>
 								<div style={{ width: '200px' }}>{player}</div>
 								<div>

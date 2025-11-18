@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigation } from '../contexts/PageContext';
 import { useHandleAuth } from '../../usecase/useHandleAuth';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const LoginPage: React.FC = () => {
-	const navigate = useNavigate();
+  const { navigateTo } = useNavigation();
 	const { login } = useHandleAuth();
 	const [emailOrAccountID, setEmailOrAccountID] = useState('');
 	const [password, setPassword] = useState('');
@@ -12,7 +12,7 @@ export const LoginPage: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title="ログイン" backTo="/app" loading={loading}>
+		<AppWindow title="ログイン" loading={loading}>
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
@@ -22,7 +22,7 @@ export const LoginPage: React.FC = () => {
 							emailOrAccountID,
 							password,
 						});
-						navigate('/app');
+						navigateTo({ type: 'index' });
 					} catch (e) {
 						setError((e as Error).message);
 					} finally {

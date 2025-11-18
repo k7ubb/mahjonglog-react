@@ -15,7 +15,7 @@ export const FilterForm = ({
 
 	return (
 		<>
-			<button onClick={() => setOpen(!open)}>
+			<button className={styles.filterButton} onClick={() => setOpen(!open)}>
 				{filter.from && filter.to ? (
 					<MdFilterAlt color='#007aff' />
 				) : (

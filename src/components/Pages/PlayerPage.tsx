@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import {
 	Chart,
 	CategoryScale,
@@ -13,6 +12,7 @@ import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { useNavigation } from '../contexts/PageContext';
 
 const PointView = ({ point }: { point: number }) => {
 	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
@@ -39,8 +39,10 @@ const ScoreRow = ({
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
 export const PlayerPage: React.FC = () => {
-	const navigate = useNavigate();
-	const { player } = useParams<{ player: string }>();
+  const { currentPage, goBack } = useNavigation();
+	if (currentPage.type !== "player") { throw new Error(); }
+
+	const player = currentPage.player;
 	const { allLogs } = useHandleLog();
 	const { deletePlayer } = useHandlePlayer();
 	const { personalScore, loading: personalScoreLoading } =
@@ -93,7 +95,6 @@ export const PlayerPage: React.FC = () => {
 	return (
 		<AppWindow
 			title={player!}
-			backTo="/app/player"
 			authOnly={true}
 			loading={personalScoreLoading || loading}
 		>
@@ -115,7 +116,7 @@ export const PlayerPage: React.FC = () => {
 					</ListGroup>
 					<ListGroup>
 						<ListItem
-							linkTo={`/app/player/${player}/logs`}
+							destination={{ type: 'playerLog', player: player! }}
 						>{`${player}の対局記録を表示`}</ListItem>
 					</ListGroup>
 
@@ -147,7 +148,7 @@ export const PlayerPage: React.FC = () => {
 								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
 									setLoading(true);
 									await deletePlayer(player!);
-									navigate('/app/player');
+									goBack();
 									setLoading(false);
 								}
 							}}

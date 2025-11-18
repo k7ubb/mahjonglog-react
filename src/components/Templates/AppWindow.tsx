@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigation, type PageType } from '../contexts/PageContext';
 import ReactLoading from 'react-loading';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useHandleUser } from '../../usecase/useHandleUser';
@@ -8,25 +8,23 @@ import styles from './AppWindow.module.css';
 
 export const AppWindow = ({
 	title,
-	backTo,
 	children,
 	loading,
 	authOnly,
 	extraButton,
 }: {
 	title: string;
-	backTo?: string;
 	children?: React.ReactNode;
 	loading?: boolean;
 	authOnly?: boolean;
 	extraButton?: React.ReactNode;
 }) => {
-	const navigate = useNavigate();
+  const { navigateTo, goBack, canGoBack } = useNavigation();
 	const { user, loading: userLoading } = useHandleUser();
 	const { filter, setFilter } = useHandleLog();
 
 	if (authOnly && !userLoading && !user) {
-		setTimeout(() => navigate('/app'), 1);
+		setTimeout(() => navigateTo({ type: 'index' }), 1);
 		return <></>;
 	}
 
@@ -36,11 +34,11 @@ export const AppWindow = ({
 				{!userLoading && (!authOnly || user) && (
 					<>
 						<div className={styles.header}>
-							{backTo && (
-								<Link to={backTo}>
+							{canGoBack && (
+								<button className={styles.back} onClick={() => goBack()}>
 									<FaChevronLeft />
 									戻る
-								</Link>
+								</button>
 							)}
 							<h1>{title}</h1>
 							{user && <FilterForm filter={filter} setFilter={setFilter} />}
@@ -96,26 +94,27 @@ export const ListGroup = ({
 };
 
 export const ListItem = ({
-	linkTo,
+	destination,
 	onClick,
 	children,
 	disabled = false,
 	iconElement,
 	style,
 }: {
-	linkTo?: string;
+	destination?: PageType;
 	onClick?: () => void;
 	children?: React.ReactNode;
 	disabled?: boolean;
 	iconElement?: JSX.Element;
 	style?: React.CSSProperties;
 }) => {
-	return linkTo ? (
-		<Link to={linkTo} className={styles.listitem} {...(style && { style })}>
+  const { navigateTo } = useNavigation();
+	return destination ? (
+		<button onClick={() => navigateTo(destination)} className={styles.listitem} {...(style && { style })}>
 			{iconElement}
 			<div style={{ flexGrow: 1 }}>{children}</div>
 			<FaChevronRight />
-		</Link>
+		</button>
 	) : onClick ? (
 		<input
 			type="button"

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigation } from '../contexts/PageContext';
 import { useHandleAuth } from '../../usecase/useHandleAuth';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const RegisterPage: React.FC = () => {
-	const navigate = useNavigate();
+  const { navigateTo } = useNavigation();
 	const { register } = useHandleAuth();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -15,7 +15,7 @@ export const RegisterPage: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title="新規登録" backTo="/app" loading={loading}>
+		<AppWindow title="新規登録" loading={loading}>
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
@@ -28,7 +28,7 @@ export const RegisterPage: React.FC = () => {
 							accountID,
 							accountName,
 						});
-						navigate('/app');
+						navigateTo({ type: 'index' });
 					} catch (e) {
 						setError((e as Error).message);
 					} finally {

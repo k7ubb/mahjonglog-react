@@ -25,7 +25,6 @@ export const ExportPage: React.FC = () => {
 	return (
 		<AppWindow
 			title="エクスポート"
-			backTo="/app"
 			authOnly={true}
 			loading={loading}
 		>

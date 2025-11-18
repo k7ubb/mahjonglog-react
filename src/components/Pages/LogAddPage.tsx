@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigation } from '../contexts/PageContext';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 export const LogAddPage: React.FC = () => {
-	const navigate = useNavigate();
+  const { navigateTo } = useNavigation();
 	const { players, loading } = useHandlePlayer();
 	const { addLog } = useHandleLog();
 	const [error, setError] = useState<string | null>(null);
@@ -23,7 +23,6 @@ export const LogAddPage: React.FC = () => {
 	return (
 		<AppWindow
 			title="新規ログ作成"
-			backTo="/app"
 			authOnly={true}
 			loading={loading || addLoading}
 		>
@@ -34,7 +33,7 @@ export const LogAddPage: React.FC = () => {
 						setAddLoading(true);
 						try {
 							await addLog(playerName, scoreString);
-							navigate('/app');
+							navigateTo({ type: 'index'});
 						} catch (e) {
 							setError((e as Error).message);
 						} finally {

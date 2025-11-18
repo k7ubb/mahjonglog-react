@@ -54,45 +54,35 @@ body:has(.appWindow) {
 		text-align: center;
 	}
 
-	a {
-		display: flex;
-		align-items: center;
-		position: absolute;
-		top: 12px;
-		left: 8px;
-		font-size: 18px;
-		color: var(--app-color-accent);
+	> button{
+		appearance: none;
+		border: none;
+		background-color: transparent;
 		text-decoration: none;
 
-		.header a:hover {
-			opacity: 0.5;
-		}
-	}
-
-	> button {
-		appearance: none;
-		position: absolute;
-		top: 8px;
-		border: none;
-		width: 50px;
-		height: 26px;
-		font-size: 26px;
-		background-color: transparent;
-
-		&:first-of-type {
-			right: 8px;
-		}
-
-		&:nth-of-type(2) {
-			right: 50px;
-		}
-
-		.accent {
+		&.back {
+			display: flex;
+			align-items: center;
+			position: absolute;
+			top: 12px;
+			left: 8px;
+			font-size: 18px;
 			color: var(--app-color-accent);
+
+			.header a:hover {
+				opacity: 0.5;
+			}
 		}
 
-		&:not(.accent) {
-			color: var(--app-color-gray);
+		&.secondary {
+			position: absolute;
+			top: 8px;
+			right: 50px;
+			font-size: 26px;
+
+			.accent {
+				color: var(--app-color-accent);
+			}
 		}
 	}
 }
@@ -127,6 +117,11 @@ body:has(.appWindow) {
 	line-height: 45px;
 	color: #000;
 	text-decoration: none;
+	appearance: none;
+	border: none;
+	background: transparent;
+	width: 100%;
+	text-align: left;
 }
 
 a.listitem:hover,
@@ -165,7 +160,7 @@ input.listitem {
 
 .listitem svg:last-child {
 	margin-left: auto;
-	padding: 0 16px 0 0;
+	padding: 0 24px 0 0;
 }
 
 .listitem input,

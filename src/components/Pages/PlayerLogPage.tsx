@@ -4,9 +4,12 @@ import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
 import { AppWindow, ListGroup } from '../Templates/AppWindow';
 import type { Log } from '../../usecase/useHandleLog';
+import { useNavigation } from '../contexts/PageContext';
 
 export const PlayerLogPage: React.FC = () => {
-	const { player } = useParams<{ player: string }>();
+  const { currentPage } = useNavigation();
+	if (currentPage.type !== "playerLog") { throw new Error(); }
+	const player = currentPage.player;
 	const { logs, loading } = useHandleLog();
 	const [playerLogs, setPlayerLogs] = useState<Log[]>([]);
 
@@ -19,7 +22,6 @@ export const PlayerLogPage: React.FC = () => {
 	return (
 		<AppWindow
 			title={`${player}の対局記録`}
-			backTo={`/app/player/${player}`}
 			authOnly={true}
 			loading={loading}
 		>

@@ -12,7 +12,6 @@ export const LogDeletedPage: React.FC = () => {
 	return (
 		<AppWindow
 			title="削除したログ"
-			backTo="/app/log"
 			authOnly={true}
 			loading={loading || actionLoading}
 		>

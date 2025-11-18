@@ -35,27 +35,26 @@ export const LogPage: React.FC = () => {
 	return (
 		<AppWindow
 			title="対局ログ一覧"
-			backTo="/app"
 			authOnly={true}
 			loading={loading}
 		>
 			{!loading && (
 				<>
 					<ListGroup>
-						<ListItem linkTo={'/app/log/all'}>
+						<ListItem destination={{ type: 'logAll' }}>
 							全てのログ ({logs.length})
 						</ListItem>
 					</ListGroup>
 					<ListGroup>
 						{logsByDate.map((logs) => (
-							<ListItem key={logs.date} linkTo={`/app/log/${logs.date}`}>
+							<ListItem key={logs.date} destination={{ type: 'logDaily', date: logs.date }}>
 								{logs.date} ({logs.logs.length})
 							</ListItem>
 						))}
 					</ListGroup>
 					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListItem linkTo={'/app/log/deleted'}>
+						<ListItem destination={{ type: 'logDeleted' }}>
 							削除したログを表示 ({deletedLogs.length})
 						</ListItem>
 					</ListGroup>
