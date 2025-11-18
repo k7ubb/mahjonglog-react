@@ -1,4 +1,11 @@
 import {
+	getAuth,
+	signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
+	onAuthStateChanged,
+	signOut,
+} from 'firebase/auth';
+import {
 	getFirestore,
 	collection,
 	getDocs,
@@ -7,13 +14,6 @@ import {
 	query,
 	where,
 } from 'firebase/firestore';
-import {
-	getAuth,
-	signInWithEmailAndPassword,
-	createUserWithEmailAndPassword,
-	onAuthStateChanged,
-	signOut,
-} from 'firebase/auth';
 import { FirebaseApp } from '../lib/firebase';
 
 export const getEmailByAccountID = async (accountID: string) => {

@@ -16,11 +16,11 @@ const AuthContext = createContext<{
 	loading: boolean;
 	update: () => Promise<void>;
 	updateProfile: (accountID: string, accountName: string) => Promise<void>;
-}>({
-	loading: true,
-	update: async () => {},
-	updateProfile: async () => {},
-});
+		}>({
+			loading: true,
+			update: async () => {},
+			updateProfile: async () => {},
+		});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<AuthUser | undefined>(undefined);

@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
 import { AppWindow, ListGroup } from '../Templates/AppWindow';
-import type { Log } from '../../usecase/useHandleLog';
 import { useNavigation } from '../contexts/PageContext';
+import type { Log } from '../../usecase/useHandleLog';
 
 export const PlayerLogPage: React.FC = () => {
-  const { currentPage } = useNavigation();
-	if (currentPage.type !== "playerLog") { throw new Error(); }
+	const { currentPage } = useNavigation();
+	if (currentPage.type !== 'playerLog') { throw new Error(); }
 	const player = currentPage.player;
 	const { logs, loading } = useHandleLog();
 	const [playerLogs, setPlayerLogs] = useState<Log[]>([]);

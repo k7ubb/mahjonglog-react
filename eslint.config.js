@@ -1,14 +1,16 @@
-import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import { defineConfig } from 'eslint/config';
+import importPlugin from 'eslint-plugin-import';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
 
 export default defineConfig({
-	files: ['src/**/*.{ts,tsx}'],
+	files: ['src/**/*.{js,ts,tsx}', 'eslint.config.js', 'vite.config.js'],
 	plugins: {
 		js,
 		'@typescript-eslint': tsPlugin,
+		'import': importPlugin,
 	},
 	languageOptions: {
 		parser: tseslint.parser,
@@ -30,6 +32,36 @@ export default defineConfig({
 				argsIgnorePattern: '^_',
 				varsIgnorePattern: '^_',
 				args: 'none',
+			},
+		],
+		'@typescript-eslint/consistent-type-imports': [
+			'error',
+			{
+				prefer: 'type-imports',
+				fixStyle: 'inline-type-imports',
+			},
+		],
+		'import/order': [
+			'error',
+			{
+				groups: [
+					'builtin',
+					'external',
+					'sibling',
+					'parent',
+					'object',
+					'type',
+					'index',
+				],
+				alphabetize: { order: 'asc', caseInsensitive: false },
+				'newlines-between': 'never',
+				pathGroups: [
+					{
+						pattern: '@storybook/**',
+						group: 'external',
+						position: 'before',
+					},
+				],
 			},
 		],
 	},

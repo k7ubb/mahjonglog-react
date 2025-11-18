@@ -1,5 +1,5 @@
-import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { FaUserCircle, FaDatabase } from 'react-icons/fa';
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { IoMdCreate } from 'react-icons/io';
 import { IoMdDownload } from 'react-icons/io';
 import { MdPeople } from 'react-icons/md';
@@ -15,7 +15,7 @@ export const IndexPage: React.FC = () => {
 				<>
 					<ListGroup>
 						<ListItem
-							destination={{ type: "config" }}
+							destination={{ type: 'config' }}
 							style={{ height: '64px', lineHeight: '1.5em' }}
 							iconElement={
 								<FaUserCircle
@@ -34,19 +34,19 @@ export const IndexPage: React.FC = () => {
 					</ListGroup>
 					<ListGroup>
 						<ListItem
-							destination={{ type: "logAdd" }}
+							destination={{ type: 'logAdd' }}
 							iconElement={<IoMdCreate size={20} color="#FF375F" />}
 						>
 							新規ログ作成
 						</ListItem>
 						<ListItem
-							destination={{ type: "log" }}
+							destination={{ type: 'log' }}
 							iconElement={<FaDatabase size={20} color="#007AFF" />}
 						>
 							対局ログ一覧
 						</ListItem>
 						<ListItem
-							destination={{ type: "playerList" }}
+							destination={{ type: 'playerList' }}
 							iconElement={<MdPeople size={20} color="#34C759" />}
 						>
 							プレイヤー成績
@@ -54,7 +54,7 @@ export const IndexPage: React.FC = () => {
 					</ListGroup>
 					<ListGroup>
 						<ListItem
-							destination={{ type: "export" }}
+							destination={{ type: 'export' }}
 							iconElement={<IoMdDownload size={20} />}
 						>
 							CSVエクスポート
@@ -64,14 +64,14 @@ export const IndexPage: React.FC = () => {
 			) : (
 				<>
 					<ListGroup title={'アカウント'}>
-						<ListItem destination={{ type: "login" }}>ログイン</ListItem>
-						<ListItem destination={{ type: "register" }}>アカウント登録</ListItem>
+						<ListItem destination={{ type: 'login' }}>ログイン</ListItem>
+						<ListItem destination={{ type: 'register' }}>アカウント登録</ListItem>
 					</ListGroup>
 				</>
 			)}
 			<div style={{ height: '64px' }} />
 			<ListGroup>
-				<ListItem iconElement={<FaArrowUpRightFromSquare />} onClick={() => alert("react管理外のページへのリンクを貼ります。")}>
+				<ListItem iconElement={<FaArrowUpRightFromSquare />} onClick={() => alert('react管理外のページへのリンクを貼ります。')}>
 					本アプリについて
 				</ListItem>
 			</ListGroup>

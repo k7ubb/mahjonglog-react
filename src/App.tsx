@@ -1,11 +1,11 @@
 import { pageComponents, PageProvider, useNavigation } from './components/contexts/PageContext';
-import { AuthProvider } from './usecase/useHandleUser';
 import { LogProvider } from './usecase/useHandleLog';
+import { AuthProvider } from './usecase/useHandleUser';
 
 const PageConponent = () => {
 	const { currentPage } = useNavigation();
 	const { component: Component } = pageComponents[currentPage.type];
-	const { type, ...props } = currentPage as any;
+	const { type: _, ...props } = currentPage as any;
 	
 	return <Component {...props} />;
 };

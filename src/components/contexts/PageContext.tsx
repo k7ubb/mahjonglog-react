@@ -1,32 +1,32 @@
 import { createContext, useContext, useState } from 'react';
-import { IndexPage } from '../Pages/IndexPage';
-import { LoginPage } from '../Pages/LoginPage';
-import { RegisterPage } from '../Pages/RegisterPage';
 import { ConfigPage } from '../Pages/ConfigPage';
-import { LogPage } from '../Pages/LogPage';
+import { ExportPage } from '../Pages/ExportPage';
+import { IndexPage } from '../Pages/IndexPage';
 import { LogAddPage } from '../Pages/LogAddPage';
 import { LogAllPage } from '../Pages/LogAllPage';
 import { LogDailyPage } from '../Pages/LogDailyPage';
 import { LogDeletedPage } from '../Pages/LogDeletedPage';
+import { LogPage } from '../Pages/LogPage';
+import { LoginPage } from '../Pages/LoginPage';
 import { PlayerListPage } from '../Pages/PlayerListPage';
-import { PlayerPage } from '../Pages/PlayerPage';
 import { PlayerLogPage } from '../Pages/PlayerLogPage';
-import { ExportPage } from '../Pages/ExportPage';
+import { PlayerPage } from '../Pages/PlayerPage';
+import { RegisterPage } from '../Pages/RegisterPage';
 
 export const pageComponents = {
-  index: { component: IndexPage, props: {} },
-  login: { component: LoginPage, props: {} },
-  register: { component: RegisterPage, props: {} },
-  config: { component: ConfigPage, props: {} },
-  log: { component: LogPage, props: {} },
-  logAdd: { component: LogAddPage, props: {} },
-  logAll: { component: LogAllPage, props: {} },
-  logDaily: { component: LogDailyPage, props: {} as { date: string } },
-  logDeleted: { component: LogDeletedPage, props: {} },
-  playerList: { component: PlayerListPage, props: {} },
-  player: { component: PlayerPage, props: {} as { player: string } },
-  playerLog: { component: PlayerLogPage, props: {} as { player: string } },
-  export: { component: ExportPage, props: {} },
+	index: { component: IndexPage, props: {} },
+	login: { component: LoginPage, props: {} },
+	register: { component: RegisterPage, props: {} },
+	config: { component: ConfigPage, props: {} },
+	log: { component: LogPage, props: {} },
+	logAdd: { component: LogAddPage, props: {} },
+	logAll: { component: LogAllPage, props: {} },
+	logDaily: { component: LogDailyPage, props: {} as { date: string } },
+	logDeleted: { component: LogDeletedPage, props: {} },
+	playerList: { component: PlayerListPage, props: {} },
+	player: { component: PlayerPage, props: {} as { player: string } },
+	playerLog: { component: PlayerLogPage, props: {} as { player: string } },
+	export: { component: ExportPage, props: {} },
 } as const;
 
 type PageKey = keyof typeof pageComponents;
@@ -45,39 +45,39 @@ const PageContext = createContext<{
   canGoBack: boolean;
   goBack: () => void;
   history: PageType[];  
-}>({
-  currentPage: { type: 'index' },
-  navigateTo: () => {},
-  canGoBack: false,
-  goBack: () => {},
-  history: [{ type: 'index' }],
-});
+  	}>({
+  		currentPage: { type: 'index' },
+  		navigateTo: () => {},
+  		canGoBack: false,
+  		goBack: () => {},
+  		history: [{ type: 'index' }],
+  	});
 
 export const PageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentPage, setCurrentPage] = useState<PageType>({ type: 'index' });
-  const [history, setHistory] = useState<PageType[]>([{ type: 'index' }]);
-  const [canGoBack, setCanGoBack] = useState(false);
+	const [currentPage, setCurrentPage] = useState<PageType>({ type: 'index' });
+	const [history, setHistory] = useState<PageType[]>([{ type: 'index' }]);
+	const [canGoBack, setCanGoBack] = useState(false);
 
-  const navigateTo = (page: PageType) => {
-    setCurrentPage(page);
-    setHistory(prev => [...prev, page]);
-    setCanGoBack(true);
-  };
+	const navigateTo = (page: PageType) => {
+		setCurrentPage(page);
+		setHistory(prev => [...prev, page]);
+		setCanGoBack(true);
+	};
 
-  const goBack = () => {
-    if (canGoBack) {
-      const newHistory = history.slice(0, -1);
-      setHistory(newHistory);
-      setCurrentPage(newHistory[newHistory.length - 1]);
-      setCanGoBack(newHistory.length > 1);
-    }
-  };
+	const goBack = () => {
+		if (canGoBack) {
+			const newHistory = history.slice(0, -1);
+			setHistory(newHistory);
+			setCurrentPage(newHistory[newHistory.length - 1]);
+			setCanGoBack(newHistory.length > 1);
+		}
+	};
 
-  return (
-    <PageContext.Provider value={{ currentPage, history, canGoBack, navigateTo, goBack  }}>
-      {children}
-    </PageContext.Provider>
-  );
-}
+	return (
+		<PageContext.Provider value={{ currentPage, history, canGoBack, navigateTo, goBack  }}>
+			{children}
+		</PageContext.Provider>
+	);
+};
 
 export const useNavigation = () => useContext(PageContext);

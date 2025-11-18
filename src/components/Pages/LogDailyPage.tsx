@@ -3,8 +3,8 @@ import { TiDelete } from 'react-icons/ti';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
 import { AppWindow, ListGroup } from '../Templates/AppWindow';
-import type { Log } from '../../usecase/useHandleLog';
 import { useNavigation } from '../contexts/PageContext';
+import type { Log } from '../../usecase/useHandleLog';
 
 const formatDate = (date: Date) => {
 	const year = date.getFullYear();
@@ -14,10 +14,10 @@ const formatDate = (date: Date) => {
 };
 
 export const LogDailyPage: React.FC = () => {
-  const { currentPage } = useNavigation();
+	const { currentPage } = useNavigation();
 	const { logs, loading, deleteLog } = useHandleLog();
 	const [dayLogs, setDayLogs] = useState<Log[]>([]);
-	if (currentPage.type !== "logDaily") { throw new Error(); }
+	if (currentPage.type !== 'logDaily') { throw new Error(); }
 	const date = currentPage.date;
 
 	useEffect(() => {

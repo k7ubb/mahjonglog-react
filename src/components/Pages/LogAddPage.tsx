@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useNavigation } from '../contexts/PageContext';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandleLog } from '../../usecase/useHandleLog';
+import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { useNavigation } from '../contexts/PageContext';
 
 export const LogAddPage: React.FC = () => {
-  const { navigateTo } = useNavigation();
+	const { navigateTo } = useNavigation();
 	const { players, loading } = useHandlePlayer();
 	const { addLog } = useHandleLog();
 	const [error, setError] = useState<string | null>(null);

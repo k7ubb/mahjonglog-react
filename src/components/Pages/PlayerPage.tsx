@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
 	Chart,
 	CategoryScale,
@@ -7,10 +6,11 @@ import {
 	LineElement,
 	Title,
 } from 'chart.js';
+import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
+import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 import { useNavigation } from '../contexts/PageContext';
 
@@ -39,8 +39,8 @@ const ScoreRow = ({
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
 export const PlayerPage: React.FC = () => {
-  const { currentPage, goBack } = useNavigation();
-	if (currentPage.type !== "player") { throw new Error(); }
+	const { currentPage, goBack } = useNavigation();
+	if (currentPage.type !== 'player') { throw new Error(); }
 
 	const player = currentPage.player;
 	const { allLogs } = useHandleLog();

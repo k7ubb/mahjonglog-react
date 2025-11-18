@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigation } from '../contexts/PageContext';
 import { useHandleAuth } from '../../usecase/useHandleAuth';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { useNavigation } from '../contexts/PageContext';
 
 export const LoginPage: React.FC = () => {
-  const { navigateTo } = useNavigation();
+	const { navigateTo } = useNavigation();
 	const { login } = useHandleAuth();
 	const [emailOrAccountID, setEmailOrAccountID] = useState('');
 	const [password, setPassword] = useState('');

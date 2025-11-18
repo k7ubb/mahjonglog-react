@@ -1,3 +1,4 @@
+import { useHandleUser } from './useHandleUser.tsx';
 import {
 	getEmailByAccountID,
 	checkAccountIDExist,
@@ -5,7 +6,6 @@ import {
 	fireauthRegister,
 	fireauthLogout,
 } from '../repository/authRepository.ts';
-import { useHandleUser } from './useHandleUser.tsx';
 
 export const useHandleAuth = () => {
 	const { update } = useHandleUser();

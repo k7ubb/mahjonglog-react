@@ -1,10 +1,10 @@
-import { useNavigation, type PageType } from '../contexts/PageContext';
-import ReactLoading from 'react-loading';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useHandleUser } from '../../usecase/useHandleUser';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { FilterForm } from '../Presenter/FilterForm';
+import ReactLoading from 'react-loading';
 import styles from './AppWindow.module.css';
+import { useHandleLog } from '../../usecase/useHandleLog';
+import { useHandleUser } from '../../usecase/useHandleUser';
+import { FilterForm } from '../Presenter/FilterForm';
+import { useNavigation, type PageType } from '../contexts/PageContext';
 
 export const AppWindow = ({
 	title,
@@ -19,7 +19,7 @@ export const AppWindow = ({
 	authOnly?: boolean;
 	extraButton?: React.ReactNode;
 }) => {
-  const { navigateTo, goBack, canGoBack } = useNavigation();
+	const { navigateTo, goBack, canGoBack } = useNavigation();
 	const { user, loading: userLoading } = useHandleUser();
 	const { filter, setFilter } = useHandleLog();
 
@@ -108,7 +108,7 @@ export const ListItem = ({
 	iconElement?: JSX.Element;
 	style?: React.CSSProperties;
 }) => {
-  const { navigateTo } = useNavigation();
+	const { navigateTo } = useNavigation();
 	return destination ? (
 		<button onClick={() => navigateTo(destination)} className={styles.listitem} {...(style && { style })}>
 			{iconElement}
