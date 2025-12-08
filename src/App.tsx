@@ -1,6 +1,7 @@
 import { pageComponents, PageProvider, useNavigation } from './components/contexts/PageContext';
 import { LogProvider } from './usecase/useHandleLog';
 import { AuthProvider } from './usecase/useHandleUser';
+import './index.css';
 
 const PageConponent = () => {
 	const { currentPage } = useNavigation();
