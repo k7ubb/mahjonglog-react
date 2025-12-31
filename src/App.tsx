@@ -11,6 +11,7 @@ import { LogDailyPage } from './components/Pages/LogDailyPage';
 import { LogDeletedPage } from './components/Pages/LogDeletedPage';
 import { PlayerListPage } from './components/Pages/PlayerListPage';
 import { PlayerPage } from './components/Pages/PlayerPage';
+import { PlayerGraphPage } from './components/Pages/PlayerGraphPage';
 import { PlayerLogPage } from './components/Pages/PlayerLogPage';
 import { ExportPage } from './components/Pages/ExportPage';
 import { AuthProvider } from './usecase/useHandleUser';
@@ -42,6 +43,10 @@ function App() {
 						<Route
 							path="/app/player/:player/logs"
 							element={<PlayerLogPage />}
+						/>
+						<Route
+							path="/app/player/:player/graph"
+							element={<PlayerGraphPage />}
 						/>
 						<Route path="/app/export" element={<ExportPage />} />
 					</Routes>

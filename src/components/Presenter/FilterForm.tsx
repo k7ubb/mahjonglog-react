@@ -17,9 +17,9 @@ export const FilterForm = ({
 		<>
 			<button onClick={() => setOpen(!open)}>
 				{filter.from && filter.to ? (
-					<MdFilterAlt color='#007aff' />
+					<MdFilterAlt color="#007aff" />
 				) : (
-					<MdFilterAltOff color='#85858a' />
+					<MdFilterAltOff color="#85858a" />
 				)}
 			</button>
 			{open && (

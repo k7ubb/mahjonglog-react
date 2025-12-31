@@ -113,10 +113,14 @@ export const PlayerPage: React.FC = () => {
 							<PointView point={personalScore.average_score} />
 						</ScoreRow>
 					</ListGroup>
+
 					<ListGroup>
-						<ListItem
-							linkTo={`/app/player/${player}/logs`}
-						>{`${player}の対局記録を表示`}</ListItem>
+						<ListItem linkTo={`/app/player/${player}/logs`}>
+							{'対局記録を表示'}
+						</ListItem>
+						<ListItem linkTo={`/app/player/${player}/graph`}>
+							{'点数推移を表示'}
+						</ListItem>
 					</ListGroup>
 
 					<Line
