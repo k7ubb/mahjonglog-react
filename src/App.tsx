@@ -16,6 +16,7 @@ import { PlayerPage } from './components/Pages/PlayerPage';
 import { RegisterPage } from './components/Pages/RegisterPage';
 import { LogProvider } from './usecase/useHandleLog';
 import { AuthProvider } from './usecase/useHandleUser';
+import './index.css';
 
 function App() {
 	return (
