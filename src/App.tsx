@@ -1,21 +1,21 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { IndexPage } from './components/Pages/IndexPage';
-import { HomePage } from './components/Pages/HomePage';
-import { LoginPage } from './components/Pages/LoginPage';
-import { RegisterPage } from './components/Pages/RegisterPage';
 import { AccountPage } from './components/Pages/AccountPage';
-import { LogPage } from './components/Pages/LogPage';
+import { ExportPage } from './components/Pages/ExportPage';
+import { HomePage } from './components/Pages/HomePage';
+import { IndexPage } from './components/Pages/IndexPage';
 import { LogAddPage } from './components/Pages/LogAddPage';
 import { LogAllPage } from './components/Pages/LogAllPage';
 import { LogDailyPage } from './components/Pages/LogDailyPage';
 import { LogDeletedPage } from './components/Pages/LogDeletedPage';
-import { PlayerListPage } from './components/Pages/PlayerListPage';
-import { PlayerPage } from './components/Pages/PlayerPage';
+import { LogPage } from './components/Pages/LogPage';
+import { LoginPage } from './components/Pages/LoginPage';
 import { PlayerGraphPage } from './components/Pages/PlayerGraphPage';
+import { PlayerListPage } from './components/Pages/PlayerListPage';
 import { PlayerLogPage } from './components/Pages/PlayerLogPage';
-import { ExportPage } from './components/Pages/ExportPage';
-import { AuthProvider } from './usecase/useHandleUser';
+import { PlayerPage } from './components/Pages/PlayerPage';
+import { RegisterPage } from './components/Pages/RegisterPage';
 import { LogProvider } from './usecase/useHandleLog';
+import { AuthProvider } from './usecase/useHandleUser';
 
 function App() {
 	return (

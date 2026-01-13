@@ -1,5 +1,5 @@
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { FirebaseApp } from '../lib/firebase';
 import type { AuthUser } from '../usecase/useHandleUser';
 
@@ -16,11 +16,11 @@ export const getAuthUserData = async () => {
 				resolve(
 					data?.email && data?.accountID && data?.accountName
 						? {
-								uid: user.uid,
-								email: data.email,
-								accountID: data.accountID,
-								accountName: data.accountName,
-							}
+							uid: user.uid,
+							email: data.email,
+							accountID: data.accountID,
+							accountName: data.accountName,
+						}
 						: undefined,
 				);
 			}

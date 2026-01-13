@@ -1,5 +1,5 @@
-import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { FaUserCircle, FaDatabase } from 'react-icons/fa';
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { IoMdCreate } from 'react-icons/io';
 import { IoMdDownload } from 'react-icons/io';
 import { MdPeople } from 'react-icons/md';

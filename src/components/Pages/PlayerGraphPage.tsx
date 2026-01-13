@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import {
 	Chart,
 	CategoryScale,
@@ -8,6 +7,7 @@ import {
 	Title,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { useParams } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { AppWindow } from '../Templates/AppWindow';

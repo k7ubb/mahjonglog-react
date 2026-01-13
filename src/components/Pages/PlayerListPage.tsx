@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
+import { MdSort } from 'react-icons/md';
 import { match } from 'ts-pattern';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
-import { Dialog } from '../Templates/Dialog';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { useHandleLog } from '../../usecase/useHandleLog';
+import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import {
 	type PersonalScore,
 	calculatePersonalScore,
 } from '../../utils/personalScore';
-import { MdSort } from 'react-icons/md';
+import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 import styles from '../Templates/AppWindow.module.css';
+import { Dialog } from '../Templates/Dialog';
 
 type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
 
@@ -73,13 +73,13 @@ export const PlayerListPage: React.FC = () => {
 						? players
 						: ['count', 'score', 'average_score'].includes(sortKey)
 							? players.sort(
-									(a, b) =>
-										personalScores[b][sortKey] - personalScores[a][sortKey],
-								)
+								(a, b) =>
+									personalScores[b][sortKey] - personalScores[a][sortKey],
+							)
 							: players.sort(
-									(a, b) =>
-										personalScores[a][sortKey] - personalScores[b][sortKey],
-								)
+								(a, b) =>
+									personalScores[a][sortKey] - personalScores[b][sortKey],
+							)
 					).map((player) => (
 						<ListItem key={player} linkTo={`/app/player/${player}`}>
 							<div style={{ display: 'flex' }}>

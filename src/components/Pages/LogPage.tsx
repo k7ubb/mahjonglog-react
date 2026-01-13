@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Log, useHandleLog } from '../../usecase/useHandleLog';
+import { type Log, useHandleLog } from '../../usecase/useHandleLog';
 import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
 
 const formatDate = (date: Date) => {

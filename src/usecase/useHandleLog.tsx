@@ -39,19 +39,19 @@ const LogContext = createContext<{
 	deleteLogCompletely: () => void;
 	update: () => void;
 	setFilter: (filter: { from?: string; to?: string }) => void;
-}>({
-	logs: [],
-	allLogs: [],
-	deletedLogs: [],
-	loading: true,
-	filter: {},
-	addLog: async () => {},
-	deleteLog: async () => {},
-	restoreLog: async () => {},
-	deleteLogCompletely: async () => {},
-	update: async () => {},
-	setFilter: () => {},
-});
+		}>({
+			logs: [],
+			allLogs: [],
+			deletedLogs: [],
+			loading: true,
+			filter: {},
+			addLog: async () => {},
+			deleteLog: async () => {},
+			restoreLog: async () => {},
+			deleteLogCompletely: async () => {},
+			update: async () => {},
+			setFilter: () => {},
+		});
 
 export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 	const { user } = useHandleUser();

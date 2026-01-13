@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ListItem } from '../Templates/AppWindow';
-import { Log } from '../../usecase/useHandleLog';
 import style from './LogRow.module.css';
+import { type Log } from '../../usecase/useHandleLog';
+import { ListItem } from '../Templates/AppWindow';
 
 const PointView = ({ point }: { point: number }) => {
 	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
