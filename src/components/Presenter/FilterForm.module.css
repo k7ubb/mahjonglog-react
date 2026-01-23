@@ -24,7 +24,7 @@
 		padding: 8px 16px;
 		margin: 8px 8px 0;
 		font-size: 16px;
-		color: var(--app-color-accent);
+		color: #007aff;
 
 		&:hover {
 			background-color: #eeeeee;

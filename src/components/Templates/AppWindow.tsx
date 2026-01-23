@@ -1,134 +1,65 @@
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { type ComponentPropsWithoutRef } from 'react';
+import { FaChevronLeft } from 'react-icons/fa';
 import ReactLoading from 'react-loading';
 import { useNavigate, Link } from 'react-router-dom';
-import styles from './AppWindow.module.css';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { FilterForm } from '../Presenter/FilterForm';
 
-export const AppWindow = ({
-	title,
-	backTo,
-	children,
-	loading,
-	authOnly,
-	extraButton,
-}: {
+type AppWindowProps = {
 	title: string;
 	backTo?: string;
-	children?: React.ReactNode;
 	loading?: boolean;
 	authOnly?: boolean;
-	extraButton?: React.ReactNode;
-}) => {
+	extraButtons?: React.ReactNode[];
+};
+
+export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProps) => {
+	const { title, backTo, children, loading, authOnly, extraButtons, className, ...rest } = props;
 	const navigate = useNavigate();
 	const { user, loading: userLoading } = useHandleUser();
 	const { filter, setFilter } = useHandleLog();
 
 	if (authOnly && !userLoading && !user) {
-		setTimeout(() => navigate('/app'), 1);
-		return <></>;
+		setTimeout(() => navigate('/'), 1);
+		return null;
 	}
 
 	return (
 		<>
-			<div className={styles.appWindow}>
+			<div className={`mx-auto p-4 pt-0 w-full box-border max-w-md bg-stone-100 overflow-y-auto h-full ${className}`} {...rest}>
 				{!userLoading && (!authOnly || user) && (
 					<>
-						<div className={styles.header}>
+						<div className="sticky top-0 z-10 -mx-4 px-2
+														mb-8 h-12 bg-white border-b border-stone-300
+														grid grid-cols-[1fr_auto_1fr] items-center">
 							{backTo && (
-								<Link to={backTo}>
+								<Link to={backTo} className="flex items-center gap-1 text-lg text-green-600 hover:text-green-800">
 									<FaChevronLeft />
 									戻る
 								</Link>
 							)}
-							<h1>{title}</h1>
-							{user && <FilterForm filter={filter} setFilter={setFilter} />}
-							{extraButton}
+
+							<h1 className="col-start-2 text-xl">{title}</h1>
+
+							<div className='flex justify-end'>
+								{user && <FilterForm filter={filter} setFilter={setFilter} />}
+								{extraButtons && extraButtons.map((button, i) => (
+									<div key={i}>{button}</div>
+								))}
+							</div>
 						</div>
+
 						{children}
 					</>
 				)}
 			</div>
+
 			{(loading || userLoading) && (
-				<div className={styles.loading}>
+				<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
 					<ReactLoading type="spin" color="#999999" />
 				</div>
 			)}
 		</>
-	);
-};
-
-export const ListGroup = ({
-	title,
-	description,
-	error,
-	children,
-}: {
-	title?: string;
-	description?: string | React.ReactNode;
-	error?: string;
-	children: React.ReactNode;
-}) => {
-	return (
-		<>
-			{title && <div className={styles.listtitle}>{title}</div>}
-			{error && (
-				<div className={styles.listtitle} style={{ color: '#f00' }}>
-					{error}
-				</div>
-			)}
-			<div className={styles.listgroup}>{children}</div>
-			{description && (
-				<div
-					className={styles.listtitle}
-					style={{
-						marginTop: '-28px',
-						marginBottom: '32px',
-						fontWeight: 'normal',
-					}}
-				>
-					{description}
-				</div>
-			)}
-		</>
-	);
-};
-
-export const ListItem = ({
-	linkTo,
-	onClick,
-	children,
-	disabled = false,
-	iconElement,
-	style,
-}: {
-	linkTo?: string;
-	onClick?: () => void;
-	children?: React.ReactNode;
-	disabled?: boolean;
-	iconElement?: JSX.Element;
-	style?: React.CSSProperties;
-}) => {
-	return linkTo ? (
-		<Link to={linkTo} className={styles.listitem} {...(style && { style })}>
-			{iconElement}
-			<div style={{ flexGrow: 1 }}>{children}</div>
-			<FaChevronRight />
-		</Link>
-	) : onClick ? (
-		<input
-			type="button"
-			onClick={onClick}
-			disabled={disabled}
-			className={styles.listitem}
-			value={String(children)}
-			{...(style && { style })}
-		></input>
-	) : (
-		<div className={`${styles.listitem}`} {...(style && { style })}>
-			{iconElement}
-			<div style={{ flexGrow: 1 }}>{children}</div>
-		</div>
 	);
 };

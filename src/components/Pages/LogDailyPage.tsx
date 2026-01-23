@@ -3,7 +3,7 @@ import { TiDelete } from 'react-icons/ti';
 import { useParams } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
-import { AppWindow, ListGroup } from '../Templates/AppWindow';
+import { AppWindow, ListGroup } from '../Templates';
 import type { Log } from '../../usecase/useHandleLog';
 
 const formatDate = (date: Date) => {

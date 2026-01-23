@@ -7,8 +7,7 @@ import {
 	type PersonalScore,
 	calculatePersonalScore,
 } from '../../utils/personalScore';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
-import styles from '../Templates/AppWindow.module.css';
+import { AppWindow, ListGroup, ListLinkItem, ListButtonItem, ListInputItem } from '../Templates';
 import { Dialog } from '../Templates/Dialog';
 
 type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
@@ -61,11 +60,11 @@ export const PlayerListPage: React.FC = () => {
 			backTo="/app"
 			authOnly={true}
 			loading={loading || logLoading || addLoading}
-			extraButton={
+			extraButtons={[
 				<button onClick={() => setSortKey(getNextSortKey(sortKey))}>
-					<MdSort {...(sortKey && { className: styles.accent })} />
+					<MdSort {...(sortKey && { className: 'text-green-600' })} />
 				</button>
-			}
+			]}
 		>
 			{players && logs && (
 				<ListGroup>
@@ -81,26 +80,22 @@ export const PlayerListPage: React.FC = () => {
 									personalScores[a][sortKey] - personalScores[b][sortKey],
 							)
 					).map((player) => (
-						<ListItem key={player} linkTo={`/app/player/${player}`}>
-							<div style={{ display: 'flex' }}>
-								<div style={{ width: '200px' }}>{player}</div>
-								<div>
-									{sortKey &&
-										Object.keys(personalScores).length !== 0 &&
-										(['score', 'average_score'].includes(sortKey) ? (
-											<PointView point={personalScores[player][sortKey]} />
-										) : (
-											personalScores[player][sortKey]
-										))}
-								</div>
-							</div>
-						</ListItem>
+						<ListLinkItem key={player} to={`/app/player/${player}`}>
+							<div className='w-50'>{player}</div>
+							{sortKey &&
+								Object.keys(personalScores).length !== 0 &&
+								(['score', 'average_score'].includes(sortKey) ? (
+									<PointView point={personalScores[player][sortKey]} />
+								) : (
+									personalScores[player][sortKey]
+								))}
+						</ListLinkItem>
 					))}
 				</ListGroup>
 			)}
 
 			<ListGroup>
-				<ListItem onClick={() => setOpen(true)}>プレイヤーを追加</ListItem>
+				<ListButtonItem onClick={() => setOpen(true)}>プレイヤーを追加</ListButtonItem>
 			</ListGroup>
 
 			<Dialog
@@ -128,21 +123,17 @@ export const PlayerListPage: React.FC = () => {
 					}}
 				>
 					<ListGroup title="プレイヤー名">
-						<ListItem>
-							<input
-								required
-								type="text"
-								placeholder="名前"
-								pattern="^[^\s\/]+$"
-								value={newPlayer}
-								onChange={(e) => setNewPlayer(e.target.value)}
-							/>
-						</ListItem>
+						<ListInputItem
+							required
+							type="text"
+							placeholder="名前"
+							pattern="^[^\s\/]+$"
+							value={newPlayer}
+							onChange={(e) => setNewPlayer(e.target.value)}
+						/>
 					</ListGroup>
 					<ListGroup {...(error && { error })}>
-						<ListItem>
-							<input type="submit" disabled={addLoading} value="追加" />
-						</ListItem>
+						<ListButtonItem type="submit" disabled={addLoading} value="追加" />
 					</ListGroup>
 				</form>
 			</Dialog>

@@ -3,8 +3,9 @@ import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { IoMdCreate } from 'react-icons/io';
 import { IoMdDownload } from 'react-icons/io';
 import { MdPeople } from 'react-icons/md';
+import colors from 'tailwindcss/colors';
 import { useHandleUser } from '../../usecase/useHandleUser';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
 
 export const HomePage: React.FC = () => {
 	const { user } = useHandleUser();
@@ -14,66 +15,65 @@ export const HomePage: React.FC = () => {
 			{user ? (
 				<>
 					<ListGroup>
-						<ListItem
-							linkTo="/app/account"
-							style={{ height: '64px', lineHeight: '1.5em' }}
-							iconElement={
-								<FaUserCircle
-									size={48}
-									color="#999"
-									style={{ marginLeft: '-4px' }}
-								/>
-							}
+						<ListLinkItem
+							to="/app/account"
+							className='py-8'
+							icon={FaUserCircle}
+							iconSize={48}
+							iconColor={colors.stone[300]}
 						>
-							<span style={{ fontSize: '20px' }}>{user.accountName}</span>
-							<br />
-							<span style={{ color: '#999', fontSize: '14px' }}>
-								@{user.accountID}
-							</span>
-						</ListItem>
+							<div className='h-full flex flex-col justify-center'>
+								<div className="text-xl">{user.accountName}</div>
+								<div className="text-stone-400 text-sm">@{user.accountID}</div>
+							</div>
+						</ListLinkItem>
 					</ListGroup>
 					<ListGroup>
-						<ListItem
-							linkTo="/app/log/add"
-							iconElement={<IoMdCreate size={20} color="#FF375F" />}
+						<ListLinkItem
+							to="/app/log/add"
+							icon={IoMdCreate}
+							iconColor={colors.red[400]}
 						>
 							新規ログ作成
-						</ListItem>
-						<ListItem
-							linkTo="/app/log"
-							iconElement={<FaDatabase size={20} color="#007AFF" />}
+						</ListLinkItem>
+						<ListLinkItem
+							to="/app/log"
+							icon={FaDatabase}
+							iconColor={colors.blue[400]}
 						>
 							対局ログ一覧
-						</ListItem>
-						<ListItem
-							linkTo="/app/player"
-							iconElement={<MdPeople size={20} color="#34C759" />}
+						</ListLinkItem>
+						<ListLinkItem
+							to="/app/player"
+							icon={MdPeople}
+							iconColor={colors.green[400]}
 						>
 							プレイヤー成績
-						</ListItem>
+						</ListLinkItem>
 					</ListGroup>
 					<ListGroup>
-						<ListItem
-							linkTo="/app/export"
-							iconElement={<IoMdDownload size={20} />}
+						<ListLinkItem
+							to="/app/export"
+							icon={IoMdDownload}
+							iconColor={colors.stone[600]}
 						>
 							CSVエクスポート
-						</ListItem>
+						</ListLinkItem>
 					</ListGroup>
 				</>
 			) : (
 				<>
 					<ListGroup title={'アカウント'}>
-						<ListItem linkTo="/app/login">ログイン</ListItem>
-						<ListItem linkTo="/app/register">アカウント登録</ListItem>
+						<ListLinkItem to="/app/login">ログイン</ListLinkItem>
+						<ListLinkItem to="/app/register">アカウント登録</ListLinkItem>
 					</ListGroup>
 				</>
 			)}
 			<div style={{ height: '64px' }} />
 			<ListGroup>
-				<ListItem linkTo="/" iconElement={<FaArrowUpRightFromSquare />}>
+				<ListLinkItem to="/" icon={FaArrowUpRightFromSquare} iconSize={16} iconColor={colors.stone[600]}>
 					本アプリについて
-				</ListItem>
+				</ListLinkItem>
 			</ListGroup>
 		</AppWindow>
 	);

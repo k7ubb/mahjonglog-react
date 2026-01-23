@@ -1,5 +1,5 @@
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { AppWindow, ListGroup, ListButtonItem } from '../Templates';
 
 export const ExportPage: React.FC = () => {
 	const { logs, loading } = useHandleLog();
@@ -30,7 +30,7 @@ export const ExportPage: React.FC = () => {
 			loading={loading}
 		>
 			<ListGroup title={`${logs.length}件のログがあります`}>
-				<ListItem onClick={handleExport}>ログファイルをエクスポート</ListItem>
+				<ListButtonItem onClick={handleExport}>ログファイルをエクスポート</ListButtonItem>
 			</ListGroup>
 		</AppWindow>
 	);

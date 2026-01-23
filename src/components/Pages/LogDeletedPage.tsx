@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaArrowCircleLeft } from 'react-icons/fa';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { AppWindow, ListGroup, ListItem, ListButtonItem } from '../Templates';
 
 export const LogDeletedPage: React.FC = () => {
 	const { deletedLogs, loading, restoreLog, deleteLogCompletely } =
@@ -47,7 +47,7 @@ export const LogDeletedPage: React.FC = () => {
 						))}
 					</ListGroup>
 					<ListGroup>
-						<ListItem
+						<ListButtonItem
 							onClick={async () => {
 								if (
 									confirm(
@@ -57,9 +57,10 @@ export const LogDeletedPage: React.FC = () => {
 									await deleteLogCompletely();
 								}
 							}}
+							className='text-red-600 hover:text-red-600 hover:bg-red-50'
 						>
 							全ての削除したログを完全に削除
-						</ListItem>
+						</ListButtonItem>
 					</ListGroup>
 				</>
 			)}

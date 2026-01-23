@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { LogRow } from '../Presenter/LogRow';
-import { AppWindow, ListGroup } from '../Templates/AppWindow';
+import { AppWindow, ListGroup } from '../Templates';
 
 export const LogAllPage: React.FC = () => {
 	const { logs, loading, deleteLog } = useHandleLog();

@@ -12,7 +12,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '../Templates';
 
 const PointView = ({ point }: { point: number }) => {
 	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
@@ -28,10 +28,8 @@ const ScoreRow = ({
 }) => {
 	return (
 		<ListItem>
-			<div style={{ display: 'flex' }}>
-				<div style={{ width: '200px' }}>{title}</div>
-				{children}
-			</div>
+			<div className='w-50'>{title}</div>
+			{children}
 		</ListItem>
 	);
 };
@@ -115,12 +113,12 @@ export const PlayerPage: React.FC = () => {
 					</ListGroup>
 
 					<ListGroup>
-						<ListItem linkTo={`/app/player/${player}/logs`}>
-							{'対局記録を表示'}
-						</ListItem>
-						<ListItem linkTo={`/app/player/${player}/graph`}>
-							{'点数推移を表示'}
-						</ListItem>
+						<ListLinkItem to={`/app/player/${player}/logs`}>
+							対局記録を表示
+						</ListLinkItem>
+						<ListLinkItem to={`/app/player/${player}/graph`}>
+							点数推移を表示
+						</ListLinkItem>
 					</ListGroup>
 
 					<Line
@@ -139,7 +137,7 @@ export const PlayerPage: React.FC = () => {
 
 					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListItem
+						<ListButtonItem
 							disabled={loading}
 							onClick={async () => {
 								if (
@@ -157,7 +155,7 @@ export const PlayerPage: React.FC = () => {
 							}}
 						>
 							プレイヤーを削除
-						</ListItem>
+						</ListButtonItem>
 					</ListGroup>
 				</>
 			)}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHandleAuth } from '../../usecase/useHandleAuth';
 import { useHandleUser } from '../../usecase/useHandleUser';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
 
 export const AccountPage: React.FC = () => {
 	const { user, updateProfile } = useHandleUser();
@@ -38,55 +38,51 @@ export const AccountPage: React.FC = () => {
 				}}
 			>
 				<ListGroup title="アカウント名">
-					<ListItem>
-						<input
-							required
-							type="text"
-							placeholder="アカウント名を設定"
-							value={accountName}
-							onChange={(e) => setAccountName(e.target.value)}
-						/>
-					</ListItem>
+					<ListInputItem
+						required
+						type="text"
+						placeholder="アカウント名を設定"
+						value={accountName}
+						onChange={(e) => setAccountName(e.target.value)}
+					/>
 				</ListGroup>
 
 				<ListGroup
 					title="アカウントID"
 					description="ログイン時に使用します。必要に応じて、変更後のアカウントIDをメンバーに共有してください。"
 				>
-					<ListItem>
-						<input
-							required
-							type="text"
-							pattern="^[a-zA-Z0-9\-_]+$"
-							placeholder="アカウントIDを設定"
-							value={accountID}
-							onChange={(e) => setAccountID(e.target.value)}
-						/>
-					</ListItem>
+					<ListInputItem
+						required
+						type="text"
+						pattern="^[a-zA-Z0-9\-_]+$"
+						placeholder="アカウントIDを設定"
+						value={accountID}
+						onChange={(e) => setAccountID(e.target.value)}
+					/>
 				</ListGroup>
 
 				<ListGroup {...(profEditError && { error: profEditError })}>
-					<ListItem>
-						<input
-							type="submit"
-							disabled={profEditLoading}
-							value="変更を保存"
-						/>
-					</ListItem>
+					<ListButtonItem
+						type="submit"
+						disabled={profEditLoading}
+					>
+						変更を保存
+					</ListButtonItem>
 				</ListGroup>
 			</form>
-			<div style={{ height: '64px' }} />
+			<div className='h-16' />
 			<ListGroup>
-				<ListItem
+				<ListButtonItem
 					onClick={async () => {
 						setLogoutLoading(true);
 						await logout();
 						setLogoutLoading(false);
 					}}
 					disabled={logoutLoading}
+					className='text-red-600 hover:bg-red-50'
 				>
 					ログアウト
-				</ListItem>
+				</ListButtonItem>
 			</ListGroup>
 		</AppWindow>
 	);

@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import style from './LogRow.module.css';
 import { type Log } from '../../usecase/useHandleLog';
-import { ListItem } from '../Templates/AppWindow';
+import { ListItem } from '../Templates';
 
 const PointView = ({ point }: { point: number }) => {
 	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
@@ -29,43 +28,30 @@ export const LogRow = ({
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<ListItem style={{ height: 'auto' }}>
-			<div className={style.logRow}>
-				<div>
-					{showDate && (
-						<p style={{ margin: 0 }}>{formatDate(new Date(log.date))}</p>
-					)}
-					<div style={{ display: 'flex' }}>
-						<p style={{ width: '150px' }}>
-							1: {log.score[0].player} <br />
-							2: {log.score[1].player} <br />
-							3: {log.score[2].player} <br />
-							4: {log.score[3].player}
-						</p>
-						<p>
-							<PointView point={log.score[0].point} /> <br />
-							<PointView point={log.score[1].point} /> <br />
-							<PointView point={log.score[2].point} /> <br />
-							<PointView point={log.score[3].point} /> <br />
-						</p>
+		<ListItem className='h-auto'>
+			<div>
+				{showDate && <p className='mb-2'>{formatDate(new Date(log.date))}</p>}
+				{new Array(4).fill(null).map((_, i) => (
+					<div className='flex mb-1'>
+						<p className='w-50'>{i+1}: {log.score[i].player}</p>
+						<PointView point={log.score[i].point} />
 					</div>
-				</div>
-				{buttonElement && (
-					<div>
-						<button
-							className={style.deleteButton}
-							disabled={loading}
-							onClick={async () => {
-								setLoading(true);
-								await onClick?.();
-								setLoading(false);
-							}}
-						>
-							{buttonElement}
-						</button>
-					</div>
-				)}
+				))}
 			</div>
+			{buttonElement && (
+				<div className='ml-auto h-full'>
+					<button
+						disabled={loading}
+						onClick={async () => {
+							setLoading(true);
+							await onClick?.();
+							setLoading(false);
+						}}
+					>
+						{buttonElement}
+					</button>
+				</div>
+			)}
 		</ListItem>
 	);
 };
