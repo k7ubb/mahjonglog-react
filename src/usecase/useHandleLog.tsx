@@ -33,24 +33,28 @@ const LogContext = createContext<{
 	deletedLogs: Log[];
 	loading: boolean;
 	filter: { from?: string; to?: string };
+	filterDialogOpen: boolean;
 	addLog: (playerName: string[], scoreString: string[]) => void;
 	deleteLog: (id: string) => void;
 	restoreLog: (id: string) => void;
 	deleteLogCompletely: () => void;
 	update: () => void;
 	setFilter: (filter: { from?: string; to?: string }) => void;
+	setFilterDialogOpen: (open: boolean) => void;
 		}>({
 			logs: [],
 			allLogs: [],
 			deletedLogs: [],
 			loading: true,
 			filter: {},
+			filterDialogOpen: false,
 			addLog: async () => {},
 			deleteLog: async () => {},
 			restoreLog: async () => {},
 			deleteLogCompletely: async () => {},
 			update: async () => {},
 			setFilter: () => {},
+			setFilterDialogOpen: () => {},
 		});
 
 export const LogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -60,6 +64,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 	const [deletedLogs, setDeletedLogs] = useState<Log[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [filter, setFilter] = useState<{ from?: string; to?: string }>({});
+	const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
 	const update = async () => {
 		setLoading(true);
@@ -152,12 +157,14 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 				deletedLogs,
 				loading,
 				filter,
+				filterDialogOpen,
 				addLog,
 				deleteLog,
 				restoreLog,
 				deleteLogCompletely,
 				update,
 				setFilter,
+				setFilterDialogOpen,
 			}}
 		>
 			{children}

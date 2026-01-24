@@ -1,5 +1,7 @@
 import { type ComponentPropsWithoutRef } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
+import { type IconType } from 'react-icons/lib';
+import { MdFilterAlt, MdFilterAltOff } from 'react-icons/md';
 import ReactLoading from 'react-loading';
 import { useNavigate, Link } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
@@ -11,14 +13,23 @@ type AppWindowProps = {
 	backTo?: string;
 	loading?: boolean;
 	authOnly?: boolean;
-	extraButtons?: React.ReactNode[];
+	extraButtons?: ({
+		icon: IconType;
+		iconColor?: string;
+	} & ComponentPropsWithoutRef<'button'>)[]
 };
 
 export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProps) => {
 	const { title, backTo, children, loading, authOnly, extraButtons, className, ...rest } = props;
 	const navigate = useNavigate();
 	const { user, loading: userLoading } = useHandleUser();
-	const { filter, setFilter } = useHandleLog();
+	const { filterDialogOpen, setFilterDialogOpen } = useHandleLog();
+
+	const filterDialogButton = {
+		icon: filterDialogOpen ? MdFilterAlt : MdFilterAltOff,
+		iconColor: filterDialogOpen ? '#007aff' : '#85858a',
+		onClick: () => setFilterDialogOpen(!filterDialogOpen),
+	};
 
 	if (authOnly && !userLoading && !user) {
 		setTimeout(() => navigate('/'), 1);
@@ -42,15 +53,20 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 
 							<h1 className="col-start-2 text-xl">{title}</h1>
 
-							<div className='flex justify-end'>
-								{user && <FilterForm filter={filter} setFilter={setFilter} />}
-								{extraButtons && extraButtons.map((button, i) => (
-									<div key={i}>{button}</div>
+							<div className='flex flex-row-reverse pr-2 gap-1'>
+								{[
+									...(user ? [filterDialogButton] : []),
+									...(extraButtons ?? []),
+								].map(({ icon: Icon, iconColor, ...buttonProps }, i) => (
+									<button key={i} className='ml-2' {...buttonProps}><Icon size={24} color={iconColor} /></button>
 								))}
 							</div>
 						</div>
 
 						{children}
+
+						{user && filterDialogOpen && <FilterForm />}
+
 					</>
 				)}
 			</div>

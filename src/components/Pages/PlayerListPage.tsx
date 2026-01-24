@@ -61,9 +61,13 @@ export const PlayerListPage: React.FC = () => {
 			authOnly={true}
 			loading={loading || logLoading || addLoading}
 			extraButtons={[
-				<button onClick={() => setSortKey(getNextSortKey(sortKey))}>
-					<MdSort {...(sortKey && { className: 'text-green-600' })} />
-				</button>
+				{
+					icon: MdSort,
+					iconColor: sortKey ? 'green' : undefined,
+					onClick: () => {
+						setSortKey(getNextSortKey(sortKey));
+					}
+				}
 			]}
 		>
 			{players && logs && (
