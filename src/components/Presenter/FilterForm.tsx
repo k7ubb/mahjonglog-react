@@ -4,15 +4,21 @@ import { useHandleLog } from '../../usecase/useHandleLog';
 const dateInputClass = 'px-4 py-2 border border-stone-400 rounded-xl bg-white';
 const buttonClass = 'mx-2 px-4 py-2 border border-stone-400 rounded-xl hover:bg-stone-300';
 
-export const FilterForm = () => {
+type FilterFormProps = {
+	open: boolean;
+};
+
+export const FilterForm = (props: FilterFormProps) => {
+	const { open } = props;
 	const { filter, setFilter, setFilterDialogOpen } = useHandleLog();
 	const [from, setFrom] = useState(filter.from || '');
 	const [to, setTo] = useState(filter.to || '');
 
 	return (
 		<form
-			className='absolute top-14 left-1/2 -translate-x-1/2 w-full max-w-100 rounded-2xl p-4
-								 shadow-md bg-black/20 backdrop-blur-sm'
+			className={`absolute top-14 left-1/2 -translate-x-1/2 w-full max-w-100 rounded-2xl p-4
+								  shadow-md bg-black/20 backdrop-blur-sm
+								  transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
 			onSubmit={(e) => {
 				setFilter({ from, to });
 				setFilterDialogOpen(false);

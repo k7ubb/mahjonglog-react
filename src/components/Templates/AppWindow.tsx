@@ -64,7 +64,7 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 							</div>
 						</div>
 						{children}
-						{user && filterDialogOpen && <FilterForm />}
+						{user && <FilterForm open={filterDialogOpen} />}
 					</>
 				)}
 			</div>
