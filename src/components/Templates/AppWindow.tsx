@@ -4,6 +4,7 @@ import { type IconType } from 'react-icons/lib';
 import { MdFilterAlt, MdFilterAltOff } from 'react-icons/md';
 import ReactLoading from 'react-loading';
 import { useNavigate, Link } from 'react-router-dom';
+import colors from 'tailwindcss/colors';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { FilterForm } from '../Presenter/FilterForm';
@@ -27,7 +28,7 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 
 	const filterDialogButton = {
 		icon: (filter.from && filter.to) ? MdFilterAlt : MdFilterAltOff,
-		iconColor: (filter.from && filter.to) ? '#007aff' : '#85858a',
+		iconColor: (filter.from && filter.to) ? colors.green[600] : colors.stone[600],
 		onClick: () => setFilterDialogOpen(!filterDialogOpen),
 	};
 
@@ -62,11 +63,8 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 								))}
 							</div>
 						</div>
-
 						{children}
-
 						{user && filterDialogOpen && <FilterForm />}
-
 					</>
 				)}
 			</div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdSort } from 'react-icons/md';
+import colors from 'tailwindcss/colors';
 import { match } from 'ts-pattern';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
@@ -58,7 +59,7 @@ export const PlayerListPage: React.FC = () => {
 			extraButtons={[
 				{
 					icon: MdSort,
-					iconColor: sortKey ? 'green' : undefined,
+					iconColor: sortKey ? colors.green[600] : colors.stone[600],
 					onClick: () => {
 						setSortKey(getNextSortKey(sortKey));
 					}
