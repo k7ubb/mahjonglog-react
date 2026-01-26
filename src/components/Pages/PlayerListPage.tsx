@@ -7,8 +7,7 @@ import {
 	type PersonalScore,
 	calculatePersonalScore,
 } from '../../utils/personalScore';
-import { AppWindow, ListGroup, ListLinkItem, ListButtonItem, ListInputItem } from '../Templates';
-import { Dialog } from '../Templates/Dialog';
+import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
 
 type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
 
@@ -27,12 +26,8 @@ const getNextSortKey = (previousKey: SortKey): SortKey => {
 };
 
 export const PlayerListPage: React.FC = () => {
-	const { players, loading, addPlayer } = useHandlePlayer();
+	const { players, loading } = useHandlePlayer();
 	const { logs, loading: logLoading } = useHandleLog();
-	const [open, setOpen] = useState(false);
-	const [newPlayer, setNewPlayer] = useState('');
-	const [error, setError] = useState<string | null>(null);
-	const [addLoading, setAddLoading] = useState(false);
 	const [personalScores, setPersonalScores] = useState<{
 		[key: string]: PersonalScore;
 	}>({});
@@ -59,7 +54,7 @@ export const PlayerListPage: React.FC = () => {
 				.otherwise(() => 'プレイヤー成績')}
 			backTo="/app"
 			authOnly={true}
-			loading={loading || logLoading || addLoading}
+			loading={loading || logLoading}
 			extraButtons={[
 				{
 					icon: MdSort,
@@ -99,48 +94,8 @@ export const PlayerListPage: React.FC = () => {
 			)}
 
 			<ListGroup>
-				<ListButtonItem onClick={() => setOpen(true)}>プレイヤーを追加</ListButtonItem>
+				<ListLinkItem to="/app/player/add">プレイヤーを追加</ListLinkItem>
 			</ListGroup>
-
-			<Dialog
-				open={open}
-				onClose={() => {
-					setNewPlayer('');
-					setError('');
-					setOpen(false);
-				}}
-			>
-				<form
-					onSubmit={async (e) => {
-						e.preventDefault();
-						setError('');
-						setAddLoading(true);
-						try {
-							await addPlayer(newPlayer);
-							setNewPlayer('');
-							setOpen(false);
-						} catch (e) {
-							setError((e as Error).message);
-						} finally {
-							setAddLoading(false);
-						}
-					}}
-				>
-					<ListGroup title="プレイヤー名">
-						<ListInputItem
-							required
-							type="text"
-							placeholder="名前"
-							pattern="^[^\s\/]+$"
-							value={newPlayer}
-							onChange={(e) => setNewPlayer(e.target.value)}
-						/>
-					</ListGroup>
-					<ListGroup {...(error && { error })}>
-						<ListButtonItem type="submit" disabled={addLoading} value="追加" />
-					</ListGroup>
-				</form>
-			</Dialog>
 		</AppWindow>
 	);
 };
