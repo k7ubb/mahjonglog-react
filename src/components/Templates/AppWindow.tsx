@@ -23,11 +23,11 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 	const { title, backTo, children, loading, authOnly, extraButtons, className, ...rest } = props;
 	const navigate = useNavigate();
 	const { user, loading: userLoading } = useHandleUser();
-	const { filterDialogOpen, setFilterDialogOpen } = useHandleLog();
+	const { filter, filterDialogOpen, setFilterDialogOpen } = useHandleLog();
 
 	const filterDialogButton = {
-		icon: filterDialogOpen ? MdFilterAlt : MdFilterAltOff,
-		iconColor: filterDialogOpen ? '#007aff' : '#85858a',
+		icon: (filter.from && filter.to) ? MdFilterAlt : MdFilterAltOff,
+		iconColor: (filter.from && filter.to) ? '#007aff' : '#85858a',
 		onClick: () => setFilterDialogOpen(!filterDialogOpen),
 	};
 
