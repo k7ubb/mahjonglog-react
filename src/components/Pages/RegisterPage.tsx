@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useHandleAuth } from '../../usecase/useHandleAuth';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
 
-export const RegisterPage: React.FC = () => {
+export const RegisterPage = () => {
 	const navigate = useNavigate();
 	const { register } = useHandleAuth();
 	const [email, setEmail] = useState('');

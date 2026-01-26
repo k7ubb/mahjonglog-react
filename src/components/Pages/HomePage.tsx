@@ -7,7 +7,7 @@ import colors from 'tailwindcss/colors';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
 
-export const HomePage: React.FC = () => {
+export const HomePage = () => {
 	const { user } = useHandleUser();
 
 	return (

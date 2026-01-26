@@ -12,12 +12,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
+import { ColoredNumber } from '../Presenter/ColoredNumber';
 import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '../Templates';
-
-const PointView = ({ point }: { point: number }) => {
-	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
-	return <span style={{ color }}>{point}</span>;
-};
 
 const ScoreRow = ({
 	title,
@@ -36,7 +32,7 @@ const ScoreRow = ({
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
-export const PlayerPage: React.FC = () => {
+export const PlayerPage = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
 	const { allLogs } = useHandleLog();
@@ -105,10 +101,10 @@ export const PlayerPage: React.FC = () => {
 						<ScoreRow title="試合数">{personalScore.count}</ScoreRow>
 						<ScoreRow title="平均順位">{personalScore.average_rank}</ScoreRow>
 						<ScoreRow title="累計得点">
-							<PointView point={personalScore.score} />
+							<ColoredNumber point={personalScore.score} />
 						</ScoreRow>
 						<ScoreRow title="平均得点">
-							<PointView point={personalScore.average_score} />
+							<ColoredNumber point={personalScore.average_score} />
 						</ScoreRow>
 					</ListGroup>
 

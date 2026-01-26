@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import style from './IndexPage.module.css';
 
-export const IndexPage: React.FC = () => {
+export const IndexPage = () => {
 	const [pwaOption, setPwaOption] = useState<string | undefined>(undefined);
 
 	useEffect(() => {

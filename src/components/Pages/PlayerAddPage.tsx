@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
 
-export const PlayerAddPage: React.FC = () => {
+export const PlayerAddPage = () => {
 	const navigate = useNavigate();
 	const { addPlayer } = useHandlePlayer();
 	const [newPlayer, setNewPlayer] = useState('');

@@ -8,14 +8,10 @@ import {
 	type PersonalScore,
 	calculatePersonalScore,
 } from '../../utils/personalScore';
+import { ColoredNumber } from '../Presenter/ColoredNumber';
 import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
 
 type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
-
-const PointView = ({ point }: { point: number }) => {
-	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
-	return <span style={{ color }}>{point}</span>;
-};
 
 const getNextSortKey = (previousKey: SortKey): SortKey => {
 	return match(previousKey)
@@ -26,7 +22,7 @@ const getNextSortKey = (previousKey: SortKey): SortKey => {
 		.otherwise(() => null) as SortKey;
 };
 
-export const PlayerListPage: React.FC = () => {
+export const PlayerListPage = () => {
 	const { players, loading } = useHandlePlayer();
 	const { logs, loading: logLoading } = useHandleLog();
 	const [personalScores, setPersonalScores] = useState<{
@@ -85,7 +81,7 @@ export const PlayerListPage: React.FC = () => {
 							{sortKey &&
 								Object.keys(personalScores).length !== 0 &&
 								(['score', 'average_score'].includes(sortKey) ? (
-									<PointView point={personalScores[player][sortKey]} />
+									<ColoredNumber point={personalScores[player][sortKey]} />
 								) : (
 									personalScores[player][sortKey]
 								))}

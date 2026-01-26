@@ -2,18 +2,12 @@ import { useState, useEffect } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { useParams } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { LogRow } from '../Presenter/LogRow';
+import { formatDate } from '../../utils/formatDate';
+import { LogItem } from '../Presenter/LogItem';
 import { AppWindow, ListGroup } from '../Templates';
 import type { Log } from '../../usecase/useHandleLog';
 
-const formatDate = (date: Date) => {
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
-};
-
-export const LogDailyPage: React.FC = () => {
+export const LogDailyPage = () => {
 	const { date } = useParams<{ date: string }>();
 	const { logs, loading, deleteLog } = useHandleLog();
 	const [dayLogs, setDayLogs] = useState<Log[]>([]);
@@ -31,7 +25,7 @@ export const LogDailyPage: React.FC = () => {
 		>
 			<ListGroup>
 				{dayLogs.map((log) => (
-					<LogRow
+					<LogItem
 						key={log.id}
 						log={log}
 						buttonElement={<TiDelete size={30} color="#f00" />}

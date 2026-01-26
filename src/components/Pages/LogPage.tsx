@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import { type Log, useHandleLog } from '../../usecase/useHandleLog';
+import { formatDate } from '../../utils/formatDate';
 import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
 
-const formatDate = (date: Date) => {
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
-};
-
-export const LogPage: React.FC = () => {
+export const LogPage = () => {
 	const { logs, deletedLogs, loading } = useHandleLog();
 	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>(
 		[],

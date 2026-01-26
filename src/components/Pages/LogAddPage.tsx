@@ -4,7 +4,7 @@ import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
 import { AppWindow, ListGroup, ListItem, ListButtonItem } from '../Templates';
 
-export const LogAddPage: React.FC = () => {
+export const LogAddPage = () => {
 	const navigate = useNavigate();
 	const { players, loading } = useHandlePlayer();
 	const { addLog } = useHandleLog();

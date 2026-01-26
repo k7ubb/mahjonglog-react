@@ -1,7 +1,7 @@
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { AppWindow, ListGroup, ListButtonItem } from '../Templates';
 
-export const ExportPage: React.FC = () => {
+export const ExportPage = () => {
 	const { logs, loading } = useHandleLog();
 
 	const handleExport = () => {

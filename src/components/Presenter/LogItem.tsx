@@ -1,20 +1,10 @@
 import { useState } from 'react';
+import { ColoredNumber } from './ColoredNumber';
 import { type Log } from '../../usecase/useHandleLog';
+import { formatDate } from '../../utils/formatDate';
 import { ListItem } from '../Templates';
 
-const PointView = ({ point }: { point: number }) => {
-	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
-	return <span style={{ color }}>{point}</span>;
-};
-
-const formatDate = (date: Date) => {
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
-};
-
-export const LogRow = ({
+export const LogItem = ({
 	log,
 	showDate,
 	buttonElement,
@@ -34,7 +24,7 @@ export const LogRow = ({
 				{new Array(4).fill(null).map((_, i) => (
 					<div className='flex mb-1'>
 						<p className='w-50'>{i+1}: {log.score[i].player}</p>
-						<PointView point={log.score[i].point} />
+						<ColoredNumber point={log.score[i].point} />
 					</div>
 				))}
 			</div>

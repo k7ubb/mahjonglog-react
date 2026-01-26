@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { LogRow } from '../Presenter/LogRow';
+import { LogItem } from '../Presenter/LogItem';
 import { AppWindow, ListGroup } from '../Templates';
 import type { Log } from '../../usecase/useHandleLog';
 
-export const PlayerLogPage: React.FC = () => {
+export const PlayerLogPage = () => {
 	const { player } = useParams<{ player: string }>();
 	const { logs, loading } = useHandleLog();
 	const [playerLogs, setPlayerLogs] = useState<Log[]>([]);
@@ -25,7 +25,7 @@ export const PlayerLogPage: React.FC = () => {
 		>
 			<ListGroup>
 				{playerLogs.map((log) => (
-					<LogRow showDate={true} key={log.id} log={log} />
+					<LogItem showDate={true} key={log.id} log={log} />
 				))}
 			</ListGroup>
 		</AppWindow>

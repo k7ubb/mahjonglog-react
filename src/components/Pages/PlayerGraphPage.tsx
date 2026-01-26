@@ -10,18 +10,12 @@ import { Line } from 'react-chartjs-2';
 import { useParams } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
+import { formatDate } from '../../utils/formatDate';
 import { AppWindow } from '../Templates';
-
-const formatDate = (date: Date) => {
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
-};
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
-export const PlayerGraphPage: React.FC = () => {
+export const PlayerGraphPage = () => {
 	const { player } = useParams<{ player: string }>();
 	const { allLogs, loading } = useHandleLog();
 	const { personalScore, loading: personalScoreLoading } =

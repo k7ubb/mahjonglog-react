@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { LogRow } from '../Presenter/LogRow';
+import { LogItem } from '../Presenter/LogItem';
 import { AppWindow, ListGroup } from '../Templates';
 
-export const LogAllPage: React.FC = () => {
+export const LogAllPage = () => {
 	const { logs, loading, deleteLog } = useHandleLog();
 	const [actionLoading, setActionLoading] = useState(false);
 
@@ -17,7 +17,7 @@ export const LogAllPage: React.FC = () => {
 		>
 			<ListGroup>
 				{logs.map((log) => (
-					<LogRow
+					<LogItem
 						showDate={true}
 						key={log.id}
 						log={log}

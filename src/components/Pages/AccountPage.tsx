@@ -3,7 +3,7 @@ import { useHandleAuth } from '../../usecase/useHandleAuth';
 import { useHandleUser } from '../../usecase/useHandleUser';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
 
-export const AccountPage: React.FC = () => {
+export const AccountPage = () => {
 	const { user, updateProfile } = useHandleUser();
 	const { logout } = useHandleAuth();
 	const [accountID, setAccountID] = useState('');

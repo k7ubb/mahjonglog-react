@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { FaArrowCircleLeft } from 'react-icons/fa';
 import { useHandleLog } from '../../usecase/useHandleLog';
-import { LogRow } from '../Presenter/LogRow';
+import { LogItem } from '../Presenter/LogItem';
 import { AppWindow, ListGroup, ListItem, ListButtonItem } from '../Templates';
 
-export const LogDeletedPage: React.FC = () => {
+export const LogDeletedPage = () => {
 	const { deletedLogs, loading, restoreLog, deleteLogCompletely } =
 		useHandleLog();
 	const [actionLoading, setActionLoading] = useState(false);
@@ -25,7 +25,7 @@ export const LogDeletedPage: React.FC = () => {
 				<>
 					<ListGroup>
 						{deletedLogs.map((log) => (
-							<LogRow
+							<LogItem
 								showDate={true}
 								key={log.id}
 								log={log}
@@ -57,7 +57,7 @@ export const LogDeletedPage: React.FC = () => {
 									await deleteLogCompletely();
 								}
 							}}
-							className='text-red-600 hover:text-red-600 hover:bg-red-50'
+							className='text-red-600 hover:bg-red-50'
 						>
 							全ての削除したログを完全に削除
 						</ListButtonItem>
