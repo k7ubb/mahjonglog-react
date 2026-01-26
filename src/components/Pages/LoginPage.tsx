@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHandleAuth } from '../../usecase/useHandleAuth';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
 
-export const LoginPage: React.FC = () => {
+export const LoginPage = () => {
 	const navigate = useNavigate();
 	const { login } = useHandleAuth();
 	const [emailOrAccountID, setEmailOrAccountID] = useState('');
@@ -31,31 +31,27 @@ export const LoginPage: React.FC = () => {
 				}}
 			>
 				<ListGroup>
-					<ListItem>
-						<input
-							required
-							type="text"
-							pattern="^[a-zA-Z0-9\-_@\.]+$"
-							placeholder="アカウントID / メールアドレス"
-							value={emailOrAccountID}
-							onChange={(e) => setEmailOrAccountID(e.target.value)}
-						/>
-					</ListItem>
-					<ListItem>
-						<input
-							required
-							type="password"
-							placeholder="パスワード"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</ListItem>
+					<ListInputItem
+						required
+						type="text"
+						pattern="^[a-zA-Z0-9\-_@\.]+$"
+						placeholder="アカウントID / メールアドレス"
+						value={emailOrAccountID}
+						onChange={(e) => setEmailOrAccountID(e.target.value)}
+					/>
+					<ListInputItem
+						required
+						type="password"
+						placeholder="パスワード"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
 				</ListGroup>
 
 				<ListGroup {...(error && { error })}>
-					<ListItem>
-						<input type="submit" disabled={loading} value="ログイン" />
-					</ListItem>
+					<ListButtonItem type="submit" disabled={loading}>
+						ログイン
+					</ListButtonItem>
 				</ListGroup>
 			</form>
 		</AppWindow>

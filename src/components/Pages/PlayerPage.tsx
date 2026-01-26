@@ -12,12 +12,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
-
-const PointView = ({ point }: { point: number }) => {
-	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
-	return <span style={{ color }}>{point}</span>;
-};
+import { ColoredNumber } from '../Presenter/ColoredNumber';
+import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '../Templates';
 
 const ScoreRow = ({
 	title,
@@ -28,17 +24,15 @@ const ScoreRow = ({
 }) => {
 	return (
 		<ListItem>
-			<div style={{ display: 'flex' }}>
-				<div style={{ width: '200px' }}>{title}</div>
-				{children}
-			</div>
+			<div className='w-50'>{title}</div>
+			{children}
 		</ListItem>
 	);
 };
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
-export const PlayerPage: React.FC = () => {
+export const PlayerPage = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
 	const { allLogs } = useHandleLog();
@@ -107,20 +101,20 @@ export const PlayerPage: React.FC = () => {
 						<ScoreRow title="試合数">{personalScore.count}</ScoreRow>
 						<ScoreRow title="平均順位">{personalScore.average_rank}</ScoreRow>
 						<ScoreRow title="累計得点">
-							<PointView point={personalScore.score} />
+							<ColoredNumber point={personalScore.score} />
 						</ScoreRow>
 						<ScoreRow title="平均得点">
-							<PointView point={personalScore.average_score} />
+							<ColoredNumber point={personalScore.average_score} />
 						</ScoreRow>
 					</ListGroup>
 
 					<ListGroup>
-						<ListItem linkTo={`/app/player/${player}/logs`}>
-							{'対局記録を表示'}
-						</ListItem>
-						<ListItem linkTo={`/app/player/${player}/graph`}>
-							{'点数推移を表示'}
-						</ListItem>
+						<ListLinkItem to={`/app/player/${player}/logs`}>
+							対局記録を表示
+						</ListLinkItem>
+						<ListLinkItem to={`/app/player/${player}/graph`}>
+							点数推移を表示
+						</ListLinkItem>
 					</ListGroup>
 
 					<Line
@@ -139,7 +133,7 @@ export const PlayerPage: React.FC = () => {
 
 					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListItem
+						<ListButtonItem
 							disabled={loading}
 							onClick={async () => {
 								if (
@@ -157,7 +151,7 @@ export const PlayerPage: React.FC = () => {
 							}}
 						>
 							プレイヤーを削除
-						</ListItem>
+						</ListButtonItem>
 					</ListGroup>
 				</>
 			)}

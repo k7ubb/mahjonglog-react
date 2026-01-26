@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import { type Log, useHandleLog } from '../../usecase/useHandleLog';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { formatDate } from '../../utils/formatDate';
+import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
 
-const formatDate = (date: Date) => {
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
-};
-
-export const LogPage: React.FC = () => {
+export const LogPage = () => {
 	const { logs, deletedLogs, loading } = useHandleLog();
 	const [logsByDate, setLogsByDate] = useState<{ date: string; logs: Log[] }[]>(
 		[],
@@ -42,22 +36,22 @@ export const LogPage: React.FC = () => {
 			{!loading && (
 				<>
 					<ListGroup>
-						<ListItem linkTo={'/app/log/all'}>
+						<ListLinkItem to={'/app/log/all'}>
 							全てのログ ({logs.length})
-						</ListItem>
+						</ListLinkItem>
 					</ListGroup>
 					<ListGroup>
 						{logsByDate.map((logs) => (
-							<ListItem key={logs.date} linkTo={`/app/log/${logs.date}`}>
+							<ListLinkItem key={logs.date} to={`/app/log/${logs.date}`}>
 								{logs.date} ({logs.logs.length})
-							</ListItem>
+							</ListLinkItem>
 						))}
 					</ListGroup>
 					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListItem linkTo={'/app/log/deleted'}>
+						<ListLinkItem to={'/app/log/deleted'}>
 							削除したログを表示 ({deletedLogs.length})
-						</ListItem>
+						</ListLinkItem>
 					</ListGroup>
 				</>
 			)}

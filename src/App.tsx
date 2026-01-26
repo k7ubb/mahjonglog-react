@@ -9,6 +9,7 @@ import { LogDailyPage } from './components/Pages/LogDailyPage';
 import { LogDeletedPage } from './components/Pages/LogDeletedPage';
 import { LogPage } from './components/Pages/LogPage';
 import { LoginPage } from './components/Pages/LoginPage';
+import { PlayerAddPage } from './components/Pages/PlayerAddPage';
 import { PlayerGraphPage } from './components/Pages/PlayerGraphPage';
 import { PlayerListPage } from './components/Pages/PlayerListPage';
 import { PlayerLogPage } from './components/Pages/PlayerLogPage';
@@ -16,6 +17,7 @@ import { PlayerPage } from './components/Pages/PlayerPage';
 import { RegisterPage } from './components/Pages/RegisterPage';
 import { LogProvider } from './usecase/useHandleLog';
 import { AuthProvider } from './usecase/useHandleUser';
+import './index.css';
 
 function App() {
 	return (
@@ -39,6 +41,7 @@ function App() {
 						<Route path="/app/log/:date" element={<LogDailyPage />} />
 						<Route path="/app/log/deleted" element={<LogDeletedPage />} />
 						<Route path="/app/player" element={<PlayerListPage />} />
+						<Route path="/app/player/add" element={<PlayerAddPage />} />
 						<Route path="/app/player/:player" element={<PlayerPage />} />
 						<Route
 							path="/app/player/:player/logs"

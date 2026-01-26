@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
+import { AppWindow, ListGroup, ListItem, ListButtonItem } from '../Templates';
 
-export const LogAddPage: React.FC = () => {
+export const LogAddPage = () => {
 	const navigate = useNavigate();
 	const { players, loading } = useHandlePlayer();
 	const { addLog } = useHandleLog();
@@ -53,45 +53,36 @@ export const LogAddPage: React.FC = () => {
 					>
 						{new Array(4).fill(null).map((_, i) => (
 							<ListItem key={i}>
-								<div style={{ display: 'flex' }}>
-									<select
-										value={playerName[i]}
-										onChange={(e) => setPlayerName[i](e.target.value)}
-									>
-										<option disabled value="">
-											名前を選択
+								<select
+									value={playerName[i]}
+									onChange={(e) => setPlayerName[i](e.target.value)}
+									className='w-50'
+								>
+									<option disabled value="">
+										名前を選択
+									</option>
+									{players.map((player) => (
+										<option key={player} value={player}>
+											{player}
 										</option>
-										{players.map((player) => (
-											<option key={player} value={player}>
-												{player}
-											</option>
-										))}
-									</select>
-									<input
-										type="text"
-										pattern="^-?\d+$"
-										value={scoreString[i]}
-										required
-										onChange={(e) => setScoreString[i](e.target.value)}
-										style={{ width: '60px' }}
-									/>
-									<div
-										style={{
-											marginRight: '32px',
-											height: '48px',
-											lineHeight: '48px',
-										}}
-									>
-										00
-									</div>
-								</div>
+									))}
+								</select>
+								<input
+									type="text"
+									pattern="^-?\d+$"
+									value={scoreString[i]}
+									required
+									onChange={(e) => setScoreString[i](e.target.value)}
+									className='ml-auto mr-4 pr-4 w-20 text-right'
+								/>
+								00
 							</ListItem>
 						))}
 					</ListGroup>
 					<ListGroup {...(error && { error })}>
-						<ListItem>
-							<input type="submit" disabled={loading} value="対局結果を保存" />
-						</ListItem>
+						<ListButtonItem type="submit" disabled={loading}>
+							対局結果を保存
+						</ListButtonItem>
 					</ListGroup>
 				</form>
 			)}

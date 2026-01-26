@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdSort } from 'react-icons/md';
+import colors from 'tailwindcss/colors';
 import { match } from 'ts-pattern';
 import { useHandleLog } from '../../usecase/useHandleLog';
 import { useHandlePlayer } from '../../usecase/useHandlePlayer';
@@ -7,16 +8,10 @@ import {
 	type PersonalScore,
 	calculatePersonalScore,
 } from '../../utils/personalScore';
-import { AppWindow, ListGroup, ListItem } from '../Templates/AppWindow';
-import styles from '../Templates/AppWindow.module.css';
-import { Dialog } from '../Templates/Dialog';
+import { ColoredNumber } from '../Presenter/ColoredNumber';
+import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
 
 type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
-
-const PointView = ({ point }: { point: number }) => {
-	const color = point > 0 ? '#00f' : point < 0 ? '#f00' : '#000';
-	return <span style={{ color }}>{point}</span>;
-};
 
 const getNextSortKey = (previousKey: SortKey): SortKey => {
 	return match(previousKey)
@@ -27,13 +22,9 @@ const getNextSortKey = (previousKey: SortKey): SortKey => {
 		.otherwise(() => null) as SortKey;
 };
 
-export const PlayerListPage: React.FC = () => {
-	const { players, loading, addPlayer } = useHandlePlayer();
+export const PlayerListPage = () => {
+	const { players, loading } = useHandlePlayer();
 	const { logs, loading: logLoading } = useHandleLog();
-	const [open, setOpen] = useState(false);
-	const [newPlayer, setNewPlayer] = useState('');
-	const [error, setError] = useState<string | null>(null);
-	const [addLoading, setAddLoading] = useState(false);
 	const [personalScores, setPersonalScores] = useState<{
 		[key: string]: PersonalScore;
 	}>({});
@@ -60,12 +51,16 @@ export const PlayerListPage: React.FC = () => {
 				.otherwise(() => 'プレイヤー成績')}
 			backTo="/app"
 			authOnly={true}
-			loading={loading || logLoading || addLoading}
-			extraButton={
-				<button onClick={() => setSortKey(getNextSortKey(sortKey))}>
-					<MdSort {...(sortKey && { className: styles.accent })} />
-				</button>
-			}
+			loading={loading || logLoading}
+			extraButtons={[
+				{
+					icon: MdSort,
+					iconColor: sortKey ? colors.green[600] : colors.stone[600],
+					onClick: () => {
+						setSortKey(getNextSortKey(sortKey));
+					}
+				}
+			]}
 		>
 			{players && logs && (
 				<ListGroup>
@@ -81,71 +76,23 @@ export const PlayerListPage: React.FC = () => {
 									personalScores[a][sortKey] - personalScores[b][sortKey],
 							)
 					).map((player) => (
-						<ListItem key={player} linkTo={`/app/player/${player}`}>
-							<div style={{ display: 'flex' }}>
-								<div style={{ width: '200px' }}>{player}</div>
-								<div>
-									{sortKey &&
-										Object.keys(personalScores).length !== 0 &&
-										(['score', 'average_score'].includes(sortKey) ? (
-											<PointView point={personalScores[player][sortKey]} />
-										) : (
-											personalScores[player][sortKey]
-										))}
-								</div>
-							</div>
-						</ListItem>
+						<ListLinkItem key={player} to={`/app/player/${player}`}>
+							<div className='w-50'>{player}</div>
+							{sortKey &&
+								Object.keys(personalScores).length !== 0 &&
+								(['score', 'average_score'].includes(sortKey) ? (
+									<ColoredNumber point={personalScores[player][sortKey]} />
+								) : (
+									personalScores[player][sortKey]
+								))}
+						</ListLinkItem>
 					))}
 				</ListGroup>
 			)}
 
 			<ListGroup>
-				<ListItem onClick={() => setOpen(true)}>プレイヤーを追加</ListItem>
+				<ListLinkItem to="/app/player/add">プレイヤーを追加</ListLinkItem>
 			</ListGroup>
-
-			<Dialog
-				open={open}
-				onClose={() => {
-					setNewPlayer('');
-					setError('');
-					setOpen(false);
-				}}
-			>
-				<form
-					onSubmit={async (e) => {
-						e.preventDefault();
-						setError('');
-						setAddLoading(true);
-						try {
-							await addPlayer(newPlayer);
-							setNewPlayer('');
-							setOpen(false);
-						} catch (e) {
-							setError((e as Error).message);
-						} finally {
-							setAddLoading(false);
-						}
-					}}
-				>
-					<ListGroup title="プレイヤー名">
-						<ListItem>
-							<input
-								required
-								type="text"
-								placeholder="名前"
-								pattern="^[^\s\/]+$"
-								value={newPlayer}
-								onChange={(e) => setNewPlayer(e.target.value)}
-							/>
-						</ListItem>
-					</ListGroup>
-					<ListGroup {...(error && { error })}>
-						<ListItem>
-							<input type="submit" disabled={addLoading} value="追加" />
-						</ListItem>
-					</ListGroup>
-				</form>
-			</Dialog>
 		</AppWindow>
 	);
 };
