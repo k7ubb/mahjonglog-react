@@ -9,11 +9,11 @@ import {
 import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
-import { ColoredNumber } from '../Presenter/ColoredNumber';
-import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '../Templates';
+import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
+import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '@/components/Templates';
+import { useHandleLog } from '@/usecase/useHandleLog';
+import { useHandlePersonalScore } from '@/usecase/useHandlePersonalScore';
+import { useHandlePlayer } from '@/usecase/useHandlePlayer';
 
 const ScoreRow = ({
 	title,
@@ -21,14 +21,12 @@ const ScoreRow = ({
 }: {
 	title: string;
 	children: React.ReactNode;
-}) => {
-	return (
-		<ListItem>
-			<div className='w-50'>{title}</div>
-			{children}
-		</ListItem>
-	);
-};
+}) => (
+	<ListItem>
+		<div className='w-50'>{title}</div>
+		{children}
+	</ListItem>
+);
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
@@ -41,7 +39,7 @@ export const PlayerPage = () => {
 		useHandlePersonalScore(player || '');
 	const [loading, setLoading] = useState(false);
 
-	let recentRecords = [];
+	const recentRecords = [];
 	for (const log of allLogs) {
 		for (let i = 0; i < 4; i++) {
 			if (log.score[i].player === player) {
@@ -135,7 +133,7 @@ export const PlayerPage = () => {
 					<ListGroup>
 						<ListButtonItem
 							disabled={loading}
-							onClick={async () => {
+							onClick={() => {
 								if (
 									allLogs.some((log) =>
 										log.score.some(({ player: player_ }) => player === player_),
@@ -144,9 +142,11 @@ export const PlayerPage = () => {
 									alert('対局記録があるプレイヤーは削除できません');
 								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
 									setLoading(true);
-									await deletePlayer(player!);
-									navigate('/app/player');
-									setLoading(false);
+									void deletePlayer(player!)
+										.then(() => {
+											navigate('/app/player');
+											setLoading(false);
+										});
 								}
 							}}
 						>

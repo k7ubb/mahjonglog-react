@@ -5,9 +5,9 @@ import { MdFilterAlt, MdFilterAltOff } from 'react-icons/md';
 import ReactLoading from 'react-loading';
 import { useNavigate, Link } from 'react-router-dom';
 import colors from 'tailwindcss/colors';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { useHandleUser } from '../../usecase/useHandleUser';
-import { FilterForm } from '../Presenter/FilterForm';
+import { FilterForm } from '@/components/Presenter/FilterForm';
+import { useHandleLog } from '@/usecase/useHandleLog';
+import { useHandleUser } from '@/usecase/useHandleUser';
 
 type AppWindowProps = {
 	title: string;

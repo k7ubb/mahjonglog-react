@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
-import { AppWindow, ListGroup, ListItem, ListButtonItem } from '../Templates';
+import { AppWindow, ListGroup, ListItem, ListButtonItem } from '@/components/Templates';
+import { useHandleLog } from '@/usecase/useHandleLog';
+import { useHandlePlayer } from '@/usecase/useHandlePlayer';
 
 export const LogAddPage = () => {
 	const navigate = useNavigate();
@@ -28,20 +28,16 @@ export const LogAddPage = () => {
 			loading={loading || addLoading}
 		>
 			{!loading && (
-				<form
-					onSubmit={async (e) => {
-						e.preventDefault();
-						setAddLoading(true);
-						try {
-							await addLog(playerName, scoreString);
-							navigate('/app');
-						} catch (e) {
+				<form onSubmit={(e) => {
+					e.preventDefault();
+					setAddLoading(true);
+					addLog(playerName, scoreString)
+						.then(() => navigate('/app'))
+						.catch((e) => {
 							setError((e as Error).message);
-						} finally {
-							setAddLoading(false);
-						}
-					}}
-				>
+						})
+						.finally(() => setAddLoading(false));
+				}}>
 					<ListGroup
 						description={
 							<>

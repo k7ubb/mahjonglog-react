@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
-import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
+import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
+import { useHandlePlayer } from '@/usecase/useHandlePlayer';
 
 export const PlayerAddPage = () => {
 	const navigate = useNavigate();
@@ -18,19 +18,19 @@ export const PlayerAddPage = () => {
 			loading={addLoading}
 		>
 			<form
-				onSubmit={async (e) => {
+				onSubmit={(e) => {
 					e.preventDefault();
 					setError('');
 					setAddLoading(true);
-					try {
-						await addPlayer(newPlayer);
-						setNewPlayer('');
-						navigate('/app/player');
-					} catch (e) {
-						setError((e as Error).message);
-					} finally {
-						setAddLoading(false);
-					}
+					addPlayer(newPlayer)
+						.then(() => {
+							setNewPlayer('');
+							navigate('/app/player');
+						}).catch((e) => {
+							setError((e as Error).message);
+						}).finally(() => {
+							setAddLoading(false);
+						});
 				}}
 			>
 				<ListGroup title="プレイヤー名">

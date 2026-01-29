@@ -14,7 +14,7 @@ import {
 	query,
 	where,
 } from 'firebase/firestore';
-import { FirebaseApp } from '../lib/firebase';
+import { FirebaseApp } from '@/lib/firebase';
 
 export const getEmailByAccountID = async (accountID: string) => {
 	const docs = (
@@ -28,7 +28,7 @@ export const getEmailByAccountID = async (accountID: string) => {
 	if (docs.length === 0) {
 		throw new Error('登録されていないIDです。');
 	} else {
-		return docs[0].data().email;
+		return docs[0].data().email as string;
 	}
 };
 
@@ -70,23 +70,18 @@ export const fireauthRegister = async ({
 	await createUserWithEmailAndPassword(getAuth(), email, password);
 	const auth = getAuth();
 	return new Promise<void>((resolve, reject) => {
-		onAuthStateChanged(auth, async (user) => {
+		onAuthStateChanged(auth, (user) => {
 			if (!user) {
 				throw new Error('アカウント登録に失敗しました');
 			}
-			try {
-				const result = await setDoc(
-					doc(getFirestore(FirebaseApp), 'account', user.uid),
-					{
-						email,
-						accountID,
-						accountName,
-					},
-				);
-				resolve(result);
-			} catch (e) {
-				reject(e);
-			}
+			setDoc(
+				doc(getFirestore(FirebaseApp), 'account', user.uid),
+				{
+					email,
+					accountID,
+					accountName,
+				},
+			).then(resolve).catch(reject);
 		});
 	});
 };

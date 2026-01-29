@@ -4,8 +4,8 @@ import { IoMdCreate } from 'react-icons/io';
 import { IoMdDownload } from 'react-icons/io';
 import { MdPeople } from 'react-icons/md';
 import colors from 'tailwindcss/colors';
-import { useHandleUser } from '../../usecase/useHandleUser';
-import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
+import { AppWindow, ListGroup, ListLinkItem } from '@/components/Templates';
+import { useHandleUser } from '@/usecase/useHandleUser';
 
 export const HomePage = () => {
 	const { user } = useHandleUser();

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { useParams } from 'react-router-dom';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { formatDate } from '../../utils/formatDate';
-import { LogItem } from '../Presenter/LogItem';
-import { AppWindow, ListGroup } from '../Templates';
-import type { Log } from '../../usecase/useHandleLog';
+import { LogItem } from '@/components/Presenter/LogItem';
+import { AppWindow, ListGroup } from '@/components/Templates';
+import { type Log } from '@/usecase/useHandleLog';
+import { useHandleLog } from '@/usecase/useHandleLog';
+import { formatDate } from '@/utils/formatDate';
 
 export const LogDailyPage = () => {
 	const { date } = useParams<{ date: string }>();

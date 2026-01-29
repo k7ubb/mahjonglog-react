@@ -1,11 +1,11 @@
 import { getFirestore, getDoc, setDoc, doc } from 'firebase/firestore';
-import { FirebaseApp } from '../lib/firebase';
+import { FirebaseApp } from '@/lib/firebase';
 
 export const getFirestorePlayers = async (uid: string) => {
 	const data = (
 		await getDoc(doc(getFirestore(FirebaseApp), 'players', uid))
 	).data();
-	return data ? data.players : [];
+	return data ? data.players as string[] : [];
 };
 
 export const updateFirestorePlayers = async (

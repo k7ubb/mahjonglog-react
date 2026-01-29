@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { LogItem } from '../Presenter/LogItem';
-import { AppWindow, ListGroup } from '../Templates';
+import { LogItem } from '@/components/Presenter/LogItem';
+import { AppWindow, ListGroup } from '@/components/Templates';
+import { useHandleLog } from '@/usecase/useHandleLog';
 
 export const LogAllPage = () => {
 	const { logs, loading, deleteLog } = useHandleLog();

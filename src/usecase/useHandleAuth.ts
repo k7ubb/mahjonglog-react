@@ -1,11 +1,11 @@
-import { useHandleUser } from './useHandleUser.tsx';
 import {
 	getEmailByAccountID,
 	checkAccountIDExist,
 	fireauthLogin,
 	fireauthRegister,
 	fireauthLogout,
-} from '../repository/authRepository.ts';
+} from '@/repository/authRepository';
+import { useHandleUser } from '@/usecase/useHandleUser';
 
 export const useHandleAuth = () => {
 	const { update } = useHandleUser();
@@ -21,7 +21,7 @@ export const useHandleAuth = () => {
 			? emailOrAccountID
 			: await getEmailByAccountID(emailOrAccountID);
 		await fireauthLogin({ email, password });
-		update();
+		await update();
 	};
 
 	const register = async ({
@@ -42,12 +42,12 @@ export const useHandleAuth = () => {
 		}
 		await checkAccountIDExist(accountID);
 		await fireauthRegister({ email, password, accountID, accountName });
-		update();
+		await update();
 	};
 
 	const logout = async () => {
 		await fireauthLogout();
-		update();
+		await update();
 	};
 
 	return {

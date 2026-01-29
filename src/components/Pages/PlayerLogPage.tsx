@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { LogItem } from '../Presenter/LogItem';
-import { AppWindow, ListGroup } from '../Templates';
-import type { Log } from '../../usecase/useHandleLog';
+import { LogItem } from '@/components/Presenter/LogItem';
+import { AppWindow, ListGroup } from '@/components/Templates';
+import { type Log } from '@/usecase/useHandleLog';
+import { useHandleLog } from '@/usecase/useHandleLog';
 
 export const PlayerLogPage = () => {
 	const { player } = useParams<{ player: string }>();

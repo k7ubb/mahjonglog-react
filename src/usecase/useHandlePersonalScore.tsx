@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useHandleLog } from './useHandleLog';
+import { useHandleLog } from '@/usecase/useHandleLog';
 import {
 	type PersonalScore,
 	calculatePersonalScore,
-} from '../utils/personalScore';
+} from '@/utils/personalScore';
 
 export const useHandlePersonalScore = (player: string) => {
 	const { logs, loading: logLoading } = useHandleLog();
@@ -12,14 +12,10 @@ export const useHandlePersonalScore = (player: string) => {
 	>();
 	const [loading, setLoading] = useState(true);
 
-	const update = async () => {
-		setPersonalScore(calculatePersonalScore(logs, player));
-		setLoading(false);
-	};
-
 	useEffect(() => {
 		if (!logLoading) {
-			update();
+			setPersonalScore(calculatePersonalScore(logs, player));
+			setLoading(false);
 		}
 	}, [logLoading, logs]);
 

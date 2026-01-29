@@ -1,4 +1,4 @@
-import { type Log } from '../usecase/useHandleLog';
+import { type Log } from '@/usecase/useHandleLog';
 
 export type PersonalScore = {
 	rank: [number, number, number, number];

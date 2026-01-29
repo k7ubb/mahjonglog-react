@@ -9,48 +9,40 @@ import {
 	query,
 	where,
 } from 'firebase/firestore';
-import { FirebaseApp } from '../lib/firebase';
-import type { Score, Log } from '../usecase/useHandleLog';
+import type { Score, Log } from '@/usecase/useHandleLog';
+import { FirebaseApp } from '@/lib/firebase';
 
-export const getFirestoreLogs = async (uid: string) => {
-	return (
-		await getDocs(
-			query(
-				collection(getFirestore(FirebaseApp), 'logs'),
-				where('uid', '==', uid),
-			),
-		)
-	).docs
-		.map(
-			(doc) =>
-				<Log>{
-					id: doc.id,
-					date: doc.data().date,
-					score: doc.data().score,
-				},
-		)
-		.sort((a, b) => b.date - a.date);
-};
+export const getFirestoreLogs = async (uid: string) => (
+	await getDocs(
+		query(
+			collection(getFirestore(FirebaseApp), 'logs'),
+			where('uid', '==', uid),
+		),
+	)
+).docs
+	.map((doc) => ({
+		id: doc.id,
+		date: doc.data().date as number,
+		score: doc.data().score as Score,
+	}) as Log)
+	.sort((a, b) => b.date - a.date);
 
-export const getFirestoreDeletedLogs = async (uid: string) => {
-	return (
-		await getDocs(
-			query(
-				collection(getFirestore(FirebaseApp), 'logs-archive'),
-				where('uid', '==', uid),
-			),
-		)
-	).docs
-		.map(
-			(doc) =>
-				<Log>{
-					id: doc.id,
-					date: doc.data().date,
-					score: doc.data().score,
-				},
-		)
-		.sort((a, b) => b.date - a.date);
-};
+export const getFirestoreDeletedLogs = async (uid: string) => (
+	await getDocs(
+		query(
+			collection(getFirestore(FirebaseApp), 'logs-archive'),
+			where('uid', '==', uid),
+		),
+	)
+).docs
+	.map(
+		(doc) => ({
+			id: doc.id,
+			date: doc.data().date as number,
+			score: doc.data().score as Score,
+		}) as Log
+	)
+	.sort((a, b) => b.date - a.date);
 
 export const addFirestoreLog = async (uid: string, score: Score) => {
 	await addDoc(collection(getFirestore(FirebaseApp), 'logs'), {

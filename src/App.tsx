@@ -1,23 +1,23 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AccountPage } from './components/Pages/AccountPage';
-import { ExportPage } from './components/Pages/ExportPage';
-import { HomePage } from './components/Pages/HomePage';
-import { IndexPage } from './components/Pages/IndexPage';
-import { LogAddPage } from './components/Pages/LogAddPage';
-import { LogAllPage } from './components/Pages/LogAllPage';
-import { LogDailyPage } from './components/Pages/LogDailyPage';
-import { LogDeletedPage } from './components/Pages/LogDeletedPage';
-import { LogPage } from './components/Pages/LogPage';
-import { LoginPage } from './components/Pages/LoginPage';
-import { PlayerAddPage } from './components/Pages/PlayerAddPage';
-import { PlayerGraphPage } from './components/Pages/PlayerGraphPage';
-import { PlayerListPage } from './components/Pages/PlayerListPage';
-import { PlayerLogPage } from './components/Pages/PlayerLogPage';
-import { PlayerPage } from './components/Pages/PlayerPage';
-import { RegisterPage } from './components/Pages/RegisterPage';
-import { LogProvider } from './usecase/useHandleLog';
-import { AuthProvider } from './usecase/useHandleUser';
-import './index.css';
+import { AccountPage } from '@/components/Pages/AccountPage';
+import { ExportPage } from '@/components/Pages/ExportPage';
+import { HomePage } from '@/components/Pages/HomePage';
+import { IndexPage } from '@/components/Pages/IndexPage';
+import { LogAddPage } from '@/components/Pages/LogAddPage';
+import { LogAllPage } from '@/components/Pages/LogAllPage';
+import { LogDailyPage } from '@/components/Pages/LogDailyPage';
+import { LogDeletedPage } from '@/components/Pages/LogDeletedPage';
+import { LoginPage } from '@/components/Pages/LoginPage';
+import { LogPage } from '@/components/Pages/LogPage';
+import { PlayerAddPage } from '@/components/Pages/PlayerAddPage';
+import { PlayerGraphPage } from '@/components/Pages/PlayerGraphPage';
+import { PlayerListPage } from '@/components/Pages/PlayerListPage';
+import { PlayerLogPage } from '@/components/Pages/PlayerLogPage';
+import { PlayerPage } from '@/components/Pages/PlayerPage';
+import { RegisterPage } from '@/components/Pages/RegisterPage';
+import { LogProvider } from '@/usecase/useHandleLog';
+import { AuthProvider } from '@/usecase/useHandleUser';
+import '@/index.css';
 
 function App() {
 	return (

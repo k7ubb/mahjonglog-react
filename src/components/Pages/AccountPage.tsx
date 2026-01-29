@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useHandleAuth } from '../../usecase/useHandleAuth';
-import { useHandleUser } from '../../usecase/useHandleUser';
-import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
+import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
+import { useHandleAuth } from '@/usecase/useHandleAuth';
+import { useHandleUser } from '@/usecase/useHandleUser';
 
 export const AccountPage = () => {
 	const { user, updateProfile } = useHandleUser();
@@ -25,16 +25,12 @@ export const AccountPage = () => {
 			loading={profEditLoading || logoutLoading}
 		>
 			<form
-				onSubmit={async (e) => {
+				onSubmit={(e) => {
 					e.preventDefault();
 					setProfEditLoading(true);
-					try {
-						await updateProfile(accountID, accountName);
-					} catch (e) {
-						setProfEditError((e as Error).message);
-					} finally {
-						setProfEditLoading(false);
-					}
+					updateProfile(accountID, accountName)
+						.catch((e) => setProfEditError((e as Error).message))
+						.finally(() => setProfEditLoading(false));
 				}}
 			>
 				<ListGroup title="アカウント名">
@@ -73,10 +69,9 @@ export const AccountPage = () => {
 			<div className='h-16' />
 			<ListGroup>
 				<ListButtonItem
-					onClick={async () => {
+					onClick={() => {
 						setLogoutLoading(true);
-						await logout();
-						setLogoutLoading(false);
+						void logout().finally(() => setLogoutLoading(false));
 					}}
 					disabled={logoutLoading}
 					className='text-red-600 hover:bg-red-50'

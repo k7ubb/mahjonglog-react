@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import {
 	getAuthUserData,
 	updateUserData,
-} from '../repository/userRepository.ts';
+} from '@/repository/userRepository';
 
 export type AuthUser = {
 	uid: string;
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	};
 
 	useEffect(() => {
-		update();
+		void update();
 	}, []);
 
 	const updateProfile = async (accountID: string, accountName: string) => {

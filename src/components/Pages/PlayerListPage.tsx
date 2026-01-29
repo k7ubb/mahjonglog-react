@@ -2,25 +2,23 @@ import { useState, useEffect } from 'react';
 import { MdSort } from 'react-icons/md';
 import colors from 'tailwindcss/colors';
 import { match } from 'ts-pattern';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { useHandlePlayer } from '../../usecase/useHandlePlayer';
+import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
+import { AppWindow, ListGroup, ListLinkItem } from '@/components/Templates';
+import { useHandleLog } from '@/usecase/useHandleLog';
+import { useHandlePlayer } from '@/usecase/useHandlePlayer';
 import {
 	type PersonalScore,
 	calculatePersonalScore,
-} from '../../utils/personalScore';
-import { ColoredNumber } from '../Presenter/ColoredNumber';
-import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
+} from '@/utils/personalScore';
 
 type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
 
-const getNextSortKey = (previousKey: SortKey): SortKey => {
-	return match(previousKey)
-		.with(null, () => 'count')
-		.with('count', () => 'average_rank')
-		.with('average_rank', () => 'score')
-		.with('score', () => 'average_score')
-		.otherwise(() => null) as SortKey;
-};
+const getNextSortKey = (previousKey: SortKey): SortKey => match(previousKey)
+	.with(null, () => 'count')
+	.with('count', () => 'average_rank')
+	.with('average_rank', () => 'score')
+	.with('score', () => 'average_score')
+	.otherwise(() => null) as SortKey;
 
 export const PlayerListPage = () => {
 	const { players, loading } = useHandlePlayer();
@@ -67,11 +65,11 @@ export const PlayerListPage = () => {
 					{(!sortKey || Object.keys(personalScores).length === 0
 						? players
 						: ['count', 'score', 'average_score'].includes(sortKey)
-							? players.sort(
+							? players.toSorted(
 								(a, b) =>
 									personalScores[b][sortKey] - personalScores[a][sortKey],
 							)
-							: players.sort(
+							: players.toSorted(
 								(a, b) =>
 									personalScores[a][sortKey] - personalScores[b][sortKey],
 							)

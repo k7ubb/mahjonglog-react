@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useHandleAuth } from '../../usecase/useHandleAuth';
-import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '../Templates';
+import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
+import { useHandleAuth } from '@/usecase/useHandleAuth';
 
 export const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -17,23 +17,23 @@ export const RegisterPage = () => {
 	return (
 		<AppWindow title="新規登録" backTo="/app" loading={loading}>
 			<form
-				onSubmit={async (e) => {
+				onSubmit={(e) => {
 					e.preventDefault();
 					setLoading(true);
-					try {
-						await register({
-							email,
-							password,
-							passwordCheck,
-							accountID,
-							accountName,
+					register({
+						email,
+						password,
+						passwordCheck,
+						accountID,
+						accountName,
+					})
+						.then(() => {
+							navigate('/app');
+						}).catch((e) => {
+							setError((e as Error).message);
+						}).finally(() => {
+							setLoading(false);
 						});
-						navigate('/app');
-					} catch (e) {
-						setError((e as Error).message);
-					} finally {
-						setLoading(false);
-					}
 				}}
 			>
 				<ListGroup title="メールアドレス">

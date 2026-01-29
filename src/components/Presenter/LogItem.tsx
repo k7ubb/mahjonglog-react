@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { ColoredNumber } from './ColoredNumber';
-import { type Log } from '../../usecase/useHandleLog';
-import { formatDate } from '../../utils/formatDate';
-import { ListItem } from '../Templates';
+import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
+import { ListItem } from '@/components/Templates';
+import { type Log } from '@/usecase/useHandleLog';
+import { formatDate } from '@/utils/formatDate';
 
 export const LogItem = ({
 	log,
@@ -32,10 +32,10 @@ export const LogItem = ({
 				<div className='ml-auto h-full'>
 					<button
 						disabled={loading}
-						onClick={async () => {
+						onClick={() => {
 							setLoading(true);
-							await onClick?.();
-							setLoading(false);
+							void onClick?.()
+								.then(() => setLoading(false));
 						}}
 					>
 						{buttonElement}

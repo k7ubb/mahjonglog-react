@@ -6,8 +6,8 @@ import {
 	deleteFirestoreLog,
 	restoreFirestoreLog,
 	deleteFirestoreLogCompletely,
-} from '../repository/logRepository.ts';
-import { useHandleUser } from '../usecase/useHandleUser';
+} from '@/repository/logRepository';
+import { useHandleUser } from '@/usecase/useHandleUser';
 
 export type Score = {
 	point: number;
@@ -34,11 +34,11 @@ const LogContext = createContext<{
 	loading: boolean;
 	filter: { from?: string; to?: string };
 	filterDialogOpen: boolean;
-	addLog: (playerName: string[], scoreString: string[]) => void;
-	deleteLog: (id: string) => void;
-	restoreLog: (id: string) => void;
-	deleteLogCompletely: () => void;
-	update: () => void;
+	addLog: (playerName: string[], scoreString: string[]) => Promise<void>;
+	deleteLog: (id: string) => Promise<void>;
+	restoreLog: (id: string) => Promise<void>;
+	deleteLogCompletely: () => Promise<void>;
+	update: () => Promise<void>;
 	setFilter: (filter: { from?: string; to?: string }) => void;
 	setFilterDialogOpen: (open: boolean) => void;
 		}>({
@@ -84,7 +84,7 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 	}, [allLogs, filter]);
 
 	useEffect(() => {
-		update();
+		void update();
 	}, [user]);
 
 	const addLog = async (playerName: string[], scoreString: string[]) => {
@@ -125,7 +125,11 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 		if (!user) {
 			throw new Error('login error');
 		}
-		await deleteFirestoreLog(user.uid, id, logs.find((log) => log.id === id)!);
+		const deleteTarget = logs.find((log) => log.id === id);
+		if (!deleteTarget) {
+			throw new Error('log not found');
+		}
+		await deleteFirestoreLog(user.uid, id, deleteTarget);
 		await update();
 	};
 
@@ -133,11 +137,11 @@ export const LogProvider = ({ children }: { children: React.ReactNode }) => {
 		if (!user) {
 			throw new Error('login error');
 		}
-		await restoreFirestoreLog(
-			user.uid,
-			id,
-			deletedLogs.find((log) => log.id === id)!,
-		);
+		const restoreTarget = deletedLogs.find((log) => log.id === id);
+		if (!restoreTarget) {
+			throw new Error('log not found');
+		}
+		await restoreFirestoreLog( user.uid, id, restoreTarget );
 		await update();
 	};
 

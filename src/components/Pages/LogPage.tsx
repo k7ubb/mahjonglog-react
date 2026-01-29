@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { type Log, useHandleLog } from '../../usecase/useHandleLog';
-import { formatDate } from '../../utils/formatDate';
-import { AppWindow, ListGroup, ListLinkItem } from '../Templates';
+import { AppWindow, ListGroup, ListLinkItem } from '@/components/Templates';
+import { type Log, useHandleLog } from '@/usecase/useHandleLog';
+import { formatDate } from '@/utils/formatDate';
 
 export const LogPage = () => {
 	const { logs, deletedLogs, loading } = useHandleLog();

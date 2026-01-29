@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHandleLog } from '../../usecase/useHandleLog';
+import { useHandleLog } from '@/usecase/useHandleLog';
 
 const dateInputClass = 'px-4 py-2 border border-stone-400 rounded-xl bg-white';
 const buttonClass = 'mx-2 px-4 py-2 border border-stone-400 rounded-xl hover:bg-stone-300';

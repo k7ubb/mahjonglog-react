@@ -1,5 +1,5 @@
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { AppWindow, ListGroup, ListButtonItem } from '../Templates';
+import { AppWindow, ListGroup, ListButtonItem } from '@/components/Templates';
+import { useHandleLog } from '@/usecase/useHandleLog';
 
 export const ExportPage = () => {
 	const { logs, loading } = useHandleLog();

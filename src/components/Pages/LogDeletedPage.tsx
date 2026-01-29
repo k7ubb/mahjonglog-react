@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { FaArrowCircleLeft } from 'react-icons/fa';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { LogItem } from '../Presenter/LogItem';
-import { AppWindow, ListGroup, ListItem, ListButtonItem } from '../Templates';
+import { LogItem } from '@/components/Presenter/LogItem';
+import { AppWindow, ListGroup, ListItem, ListButtonItem } from '@/components/Templates';
+import { useHandleLog } from '@/usecase/useHandleLog';
 
 export const LogDeletedPage = () => {
 	const { deletedLogs, loading, restoreLog, deleteLogCompletely } =
@@ -48,13 +48,13 @@ export const LogDeletedPage = () => {
 					</ListGroup>
 					<ListGroup>
 						<ListButtonItem
-							onClick={async () => {
+							onClick={() => {
 								if (
 									confirm(
 										'削除したログを完全に削除します。この操作は取り消せません。\n本当によろしいですか?',
 									)
 								) {
-									await deleteLogCompletely();
+									void deleteLogCompletely();
 								}
 							}}
 							className='text-red-600 hover:bg-red-50'

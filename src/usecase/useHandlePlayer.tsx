@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import {
 	getFirestorePlayers,
 	updateFirestorePlayers,
-} from '../repository/playerRepository';
-import { useHandleUser } from '../usecase/useHandleUser';
+} from '@/repository/playerRepository';
+import { useHandleUser } from '@/usecase/useHandleUser';
 
 export const useHandlePlayer = () => {
 	const { user } = useHandleUser();
@@ -17,7 +17,7 @@ export const useHandlePlayer = () => {
 	};
 
 	useEffect(() => {
-		update();
+		void update();
 	}, [user]);
 
 	const addPlayer = async (newPlayer: string) => {

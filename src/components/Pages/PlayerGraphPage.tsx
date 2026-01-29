@@ -8,10 +8,10 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useParams } from 'react-router-dom';
-import { useHandleLog } from '../../usecase/useHandleLog';
-import { useHandlePersonalScore } from '../../usecase/useHandlePersonalScore';
-import { formatDate } from '../../utils/formatDate';
-import { AppWindow } from '../Templates';
+import { AppWindow } from '@/components/Templates';
+import { useHandleLog } from '@/usecase/useHandleLog';
+import { useHandlePersonalScore } from '@/usecase/useHandlePersonalScore';
+import { formatDate } from '@/utils/formatDate';
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
@@ -25,7 +25,7 @@ export const PlayerGraphPage = () => {
 		score: number;
 	}[] = [];
 
-	for (const log of [...allLogs].reverse()) {
+	for (const log of allLogs.toReversed()) {
 		for (let i = 0; i < 4; i++) {
 			if (log.score[i].player === player) {
 				graphData.push({
