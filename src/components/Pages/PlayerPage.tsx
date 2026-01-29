@@ -12,8 +12,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
 import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '@/components/Templates';
 import { useHandleLog } from '@/usecase/useHandleLog';
-import { useHandlePersonalScore } from '@/usecase/useHandlePersonalScore';
 import { useHandlePlayer } from '@/usecase/useHandlePlayer';
+import { calculatePersonalScore } from '@/utils/calculatePersonalScore';
 
 const ScoreRow = ({
 	title,
@@ -33,10 +33,9 @@ Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 export const PlayerPage = () => {
 	const navigate = useNavigate();
 	const { player } = useParams<{ player: string }>();
-	const { allLogs } = useHandleLog();
+	const { logs, allLogs } = useHandleLog();
 	const { deletePlayer } = useHandlePlayer();
-	const { personalScore, loading: personalScoreLoading } =
-		useHandlePersonalScore(player || '');
+	const personalScore = calculatePersonalScore(logs, player!);
 	const [loading, setLoading] = useState(false);
 
 	const recentRecords = [];
@@ -87,7 +86,7 @@ export const PlayerPage = () => {
 			title={player!}
 			backTo="/app/player"
 			authOnly={true}
-			loading={personalScoreLoading || loading}
+			loading={loading}
 		>
 			{personalScore && (
 				<>

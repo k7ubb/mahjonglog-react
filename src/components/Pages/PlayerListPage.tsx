@@ -9,7 +9,7 @@ import { useHandlePlayer } from '@/usecase/useHandlePlayer';
 import {
 	type PersonalScore,
 	calculatePersonalScore,
-} from '@/utils/personalScore';
+} from '@/utils/calculatePersonalScore';
 
 type SortKey = null | 'count' | 'average_rank' | 'score' | 'average_score';
 
