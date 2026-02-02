@@ -2,6 +2,7 @@ import { FaUserCircle, FaDatabase } from 'react-icons/fa';
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { IoMdCreate } from 'react-icons/io';
 import { IoMdDownload } from 'react-icons/io';
+import { IoAnalytics } from 'react-icons/io5';
 import { MdPeople } from 'react-icons/md';
 import colors from 'tailwindcss/colors';
 import { AppWindow, ListGroup, ListLinkItem } from '@/components/Templates';
@@ -49,6 +50,13 @@ export const HomePage = () => {
 							iconColor={colors.green[400]}
 						>
 							プレイヤー成績
+						</ListLinkItem>
+						<ListLinkItem
+							to="/app/analysis"
+							icon={IoAnalytics}
+							iconColor={colors.orange[400]}
+						>
+							詳細分析β
 						</ListLinkItem>
 					</ListGroup>
 					<ListGroup>
