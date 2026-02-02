@@ -9,6 +9,7 @@ import {
 import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useParams, useNavigate } from 'react-router-dom';
+import colors from 'tailwindcss/colors';
 import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
 import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '@/components/Templates';
 import { useHandleLog } from '@/usecase/useHandleLog';
@@ -60,7 +61,6 @@ export const PlayerPage = () => {
 
 	const chartOptions = {
 		plugins: {
-			legend: { display: false },
 			title: {
 				display: true,
 				text: `直近10試合: 平均順位 ${Math.floor(recentAverage * 100) / 100}`,
@@ -121,7 +121,7 @@ export const PlayerPage = () => {
 							datasets: [
 								{
 									data: recentRecords,
-									borderColor: '#007aff',
+									borderColor: colors.blue[500],
 									borderWidth: 3,
 								},
 							],

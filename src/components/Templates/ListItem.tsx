@@ -48,10 +48,10 @@ export const ListLinkItem = (props: ComponentPropsWithoutRef<typeof Link> & Part
 };
 
 export const ListButtonItem = (props: ComponentPropsWithoutRef<'button'> & Partial<IconProps>) => {
-	const { icon, iconSize, iconColor, iconClassName, className, children, ...rest } = props;
+	const { icon, iconSize, iconColor, iconClassName, className, disabled, children, ...rest } = props;
 	return (
 		<button
-			className={`${listItemBaseClass} ${className} text-left text-green-600 hover:bg-green-50`}
+			className={`${listItemBaseClass} ${className} text-left ${disabled ? 'text-stone-500 line-through' : 'text-green-600 hover:bg-green-50'}`}
 			{...rest}
 		>
 			{icon && <Icon icon={icon} iconSize={iconSize} iconColor={iconColor} iconClassName={iconClassName} />}
