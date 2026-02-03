@@ -47,6 +47,13 @@ export const AnalysisListPage = () => {
 						>
 							グラフで比較
 						</ListButtonItem>
+						<ListButtonItem
+							onClick={() => navigate(`/app/analysis/matrix/${selectedPlayers.join(',')}`)}
+							disabled={selectedPlayers.length < 2}
+							className='justify-center'
+						>
+							マトリクスで比較
+						</ListButtonItem>
 					</ListGroup>
 				</>
 			)}

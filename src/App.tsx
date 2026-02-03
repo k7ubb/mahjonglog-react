@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AccountPage } from '@/components/Pages/AccountPage';
 import { AnalysisGraphPage } from '@/components/Pages/AnalysisGraphPage';
 import { AnalysisListPage } from '@/components/Pages/AnalysisListPage';
+import { AnalysisMatrixPage } from '@/components/Pages/AnalysisMatrixPage';
 import { ExportPage } from '@/components/Pages/ExportPage';
 import { HomePage } from '@/components/Pages/HomePage';
 import { IndexPage } from '@/components/Pages/IndexPage';
@@ -57,6 +58,10 @@ function App() {
 						<Route
 							path="/app/analysis/graph/:players"
 							element={<AnalysisGraphPage />}
+						/>
+						<Route
+							path="/app/analysis/matrix/:players"
+							element={<AnalysisMatrixPage />}
 						/>
 						<Route path="/app/export" element={<ExportPage />} />
 					</Routes>
