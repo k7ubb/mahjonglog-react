@@ -28,7 +28,7 @@ export const LogDailyPage = () => {
 					<LogItem
 						key={log.id}
 						log={log}
-						buttonElement={<TiDelete size={30} color="#f00" />}
+						buttonElement={<TiDelete size={30} color="#f00" className='hover:opacity-50' />}
 						onClick={async () => {
 							if (confirm('ログを削除します。よろしいですか?')) {
 								await deleteLog(log.id);

@@ -33,7 +33,7 @@ export const LogDeletedPage = () => {
 									<FaArrowCircleLeft
 										size={21}
 										color="#007aff"
-										style={{ marginTop: '4px', marginRight: '4px' }}
+										className='hover:opacity-50'
 									/>
 								}
 								onClick={async () => {

@@ -1,4 +1,4 @@
-import { type ComponentPropsWithoutRef } from 'react';
+import { useEffect, type ComponentPropsWithoutRef } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
 import { type IconType } from 'react-icons/lib';
 import { MdFilterAlt, MdFilterAltOff } from 'react-icons/md';
@@ -32,10 +32,11 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 		onClick: () => setFilterDialogOpen(!filterDialogOpen),
 	};
 
-	if (authOnly && !userLoading && !user) {
-		setTimeout(() => navigate('/'), 1);
-		return null;
-	}
+	useEffect(() => {
+		if (authOnly && !userLoading && !user) {
+			navigate('/');
+		}
+	}, [authOnly, userLoading, user, navigate]);
 
 	return (
 		<>

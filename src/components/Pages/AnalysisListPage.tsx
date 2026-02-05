@@ -43,14 +43,14 @@ export const AnalysisListPage = () => {
 						<ListButtonItem
 							onClick={() => navigate(`/app/analysis/graph/${selectedPlayers.join(',')}`)}
 							disabled={selectedPlayers.length < 2}
-							className='justify-center'
+							className={`justify-center ${selectedPlayers.length < 2 && 'text-stone-500 line-through'}`}
 						>
 							グラフで比較
 						</ListButtonItem>
 						<ListButtonItem
 							onClick={() => navigate(`/app/analysis/matrix/${selectedPlayers.join(',')}`)}
 							disabled={selectedPlayers.length < 2}
-							className='justify-center'
+							className={`justify-center ${selectedPlayers.length < 2 && 'text-stone-500 line-through'}`}
 						>
 							マトリクスで比較
 						</ListButtonItem>
