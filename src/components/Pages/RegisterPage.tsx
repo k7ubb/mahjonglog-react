@@ -15,7 +15,7 @@ export const RegisterPage = () => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title="新規登録" backTo="/app" loading={loading}>
+		<AppWindow title='新規登録' backTo='/app' loading={loading}>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -36,53 +36,53 @@ export const RegisterPage = () => {
 						});
 				}}
 			>
-				<ListGroup title="メールアドレス">
+				<ListGroup title='メールアドレス'>
 					<ListInputItem
 						required
-						type="email"
-						placeholder="メールアドレス"
+						type='email'
+						placeholder='メールアドレス'
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</ListGroup>
 
-				<ListGroup title="パスワード">
+				<ListGroup title='パスワード'>
 					<ListInputItem
 						required
-						type="password"
-						placeholder="パスワード"
+						type='password'
+						placeholder='パスワード'
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 					<ListInputItem
 						required
-						type="password"
-						placeholder="パスワード (確認)"
+						type='password'
+						placeholder='パスワード (確認)'
 						value={passwordCheck}
 						onChange={(e) => setPasswordCheck(e.target.value)}
 					/>
 				</ListGroup>
 
-				<ListGroup title="アカウント設定">
+				<ListGroup title='アカウント設定'>
 					<ListInputItem
 						required
-						type="text"
-						pattern="^[a-zA-Z0-9\-_]+$"
-						placeholder="アカウントID (半角英数のみ)"
+						type='text'
+						pattern='^[a-zA-Z0-9\-_]+$'
+						placeholder='アカウントID (半角英数のみ)'
 						value={accountID}
 						onChange={(e) => setAccountID(e.target.value)}
 					/>
 					<ListInputItem
 						required
-						type="text"
-						placeholder="アカウント名"
+						type='text'
+						placeholder='アカウント名'
 						value={accountName}
 						onChange={(e) => setAccountName(e.target.value)}
 					/>
 				</ListGroup>
 
 				<ListGroup {...(error && { error })}>
-					<ListButtonItem type="submit" disabled={loading}>
+					<ListButtonItem type='submit' disabled={loading}>
 						アカウント登録
 					</ListButtonItem>
 				</ListGroup>

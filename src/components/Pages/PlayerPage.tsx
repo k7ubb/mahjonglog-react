@@ -84,23 +84,23 @@ export const PlayerPage = () => {
 	return (
 		<AppWindow
 			title={player!}
-			backTo="/app/player"
+			backTo='/app/player'
 			authOnly={true}
 			loading={loading}
 		>
 			{personalScore && (
 				<>
 					<ListGroup>
-						<ScoreRow title="1位">{personalScore.rank[0]}</ScoreRow>
-						<ScoreRow title="2位">{personalScore.rank[1]}</ScoreRow>
-						<ScoreRow title="3位">{personalScore.rank[2]}</ScoreRow>
-						<ScoreRow title="4位">{personalScore.rank[3]}</ScoreRow>
-						<ScoreRow title="試合数">{personalScore.count}</ScoreRow>
-						<ScoreRow title="平均順位">{personalScore.average_rank}</ScoreRow>
-						<ScoreRow title="累計得点">
+						<ScoreRow title='1位'>{personalScore.rank[0]}</ScoreRow>
+						<ScoreRow title='2位'>{personalScore.rank[1]}</ScoreRow>
+						<ScoreRow title='3位'>{personalScore.rank[2]}</ScoreRow>
+						<ScoreRow title='4位'>{personalScore.rank[3]}</ScoreRow>
+						<ScoreRow title='試合数'>{personalScore.count}</ScoreRow>
+						<ScoreRow title='平均順位'>{personalScore.average_rank}</ScoreRow>
+						<ScoreRow title='累計得点'>
 							<ColoredNumber point={personalScore.score} />
 						</ScoreRow>
-						<ScoreRow title="平均得点">
+						<ScoreRow title='平均得点'>
 							<ColoredNumber point={personalScore.average_score} />
 						</ScoreRow>
 					</ListGroup>

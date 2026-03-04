@@ -12,8 +12,8 @@ export const PlayerAddPage = () => {
 
 	return (
 		<AppWindow
-			title="プレイヤーを追加"
-			backTo="/app/player"
+			title='プレイヤーを追加'
+			backTo='/app/player'
 			authOnly={true}
 			loading={addLoading}
 		>
@@ -33,18 +33,18 @@ export const PlayerAddPage = () => {
 						});
 				}}
 			>
-				<ListGroup title="プレイヤー名">
+				<ListGroup title='プレイヤー名'>
 					<ListInputItem
 						required
-						type="text"
-						placeholder="名前"
-						pattern="^[^\s\/]+$"
+						type='text'
+						placeholder='名前'
+						pattern='^[^\s\/]+$'
 						value={newPlayer}
 						onChange={(e) => setNewPlayer(e.target.value)}
 					/>
 				</ListGroup>
 				<ListGroup {...(error && { error })}>
-					<ListButtonItem type="submit" disabled={addLoading}>追加</ListButtonItem>
+					<ListButtonItem type='submit' disabled={addLoading}>追加</ListButtonItem>
 				</ListGroup>
 			</form>
 		</AppWindow>

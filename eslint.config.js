@@ -32,6 +32,7 @@ export default tseslint.config(
 			semi: ['warn', 'always'],
 			quotes: ['warn', 'single'],
 			indent: ['warn', 'tab'],
+			'jsx-quotes': ['warn', 'prefer-single'],
 			'arrow-body-style': ['warn', 'as-needed'],
 			'no-restricted-imports': [
 				'error',

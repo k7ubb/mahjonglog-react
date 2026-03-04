@@ -12,7 +12,7 @@ export const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title="ログイン" backTo="/app" loading={loading}>
+		<AppWindow title='ログイン' backTo='/app' loading={loading}>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -34,23 +34,23 @@ export const LoginPage = () => {
 				<ListGroup>
 					<ListInputItem
 						required
-						type="text"
-						pattern="^[a-zA-Z0-9\-_@\.]+$"
-						placeholder="アカウントID / メールアドレス"
+						type='text'
+						pattern='^[a-zA-Z0-9\-_@\.]+$'
+						placeholder='アカウントID / メールアドレス'
 						value={emailOrAccountID}
 						onChange={(e) => setEmailOrAccountID(e.target.value)}
 					/>
 					<ListInputItem
 						required
-						type="password"
-						placeholder="パスワード"
+						type='password'
+						placeholder='パスワード'
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</ListGroup>
 
 				<ListGroup {...(error && { error })}>
-					<ListButtonItem type="submit" disabled={loading}>
+					<ListButtonItem type='submit' disabled={loading}>
 						ログイン
 					</ListButtonItem>
 				</ListGroup>

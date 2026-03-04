@@ -20,8 +20,8 @@ export const IndexPage = () => {
 	return (
 		<div className={style.indexPage}>
 			<header>
-				<Link to="/" className={style.sitename}>
-					<img src="/icon.png" alt="sitelogo" />
+				<Link to='/' className={style.sitename}>
+					<img src='/icon.png' alt='sitelogo' />
 					麻雀戦績共有アプリ
 				</Link>
 			</header>
@@ -34,8 +34,8 @@ export const IndexPage = () => {
 					</span>
 				</p>
 				{pwaOption === '' && (
-					<Link to="/app" className={style.download_button}>
-						<i className="fa-solid fa-arrow-up-right-from-square" />
+					<Link to='/app' className={style.download_button}>
+						<i className='fa-solid fa-arrow-up-right-from-square' />
 						アプリを開く
 					</Link>
 				)}
@@ -51,14 +51,14 @@ export const IndexPage = () => {
 									<li>
 										メニューバーの{' '}
 										<span>
-											<i className="fa-solid fa-arrow-up-from-bracket" />
+											<i className='fa-solid fa-arrow-up-from-bracket' />
 										</span>{' '}
 										をタップ
 									</li>
 									<li>
 										<span>
 											ホーム画面に追加{' '}
-											<i className="fa-regular fa-square-plus" />
+											<i className='fa-regular fa-square-plus' />
 										</span>{' '}
 										を選択
 									</li>
@@ -70,7 +70,7 @@ export const IndexPage = () => {
 									<li>
 										アドレスバーの{' '}
 										<span>
-											<i className="fa-solid fa-ellipsis-vertical" />
+											<i className='fa-solid fa-ellipsis-vertical' />
 										</span>{' '}
 										をタップ
 									</li>
@@ -82,8 +82,8 @@ export const IndexPage = () => {
 						</div>
 						<p style={{ margin: '-8px 0 0 20px' }}>
 							または{' '}
-							<Link to="/app">
-								<i className="fa-solid fa-arrow-up-right-from-square" />
+							<Link to='/app'>
+								<i className='fa-solid fa-arrow-up-right-from-square' />
 								この画面で開く
 							</Link>
 						</p>
@@ -92,7 +92,7 @@ export const IndexPage = () => {
 				<h2>本アプリについて</h2>
 				<p>
 					リポジトリ:{' '}
-					<a href="https://github.com/k7ubb/mahjonglog-react" target="_blank">
+					<a href='https://github.com/k7ubb/mahjonglog-react' target='_blank'>
 						https://github.com/k7ubb/mahjonglog-react
 					</a>
 				</p>
@@ -117,7 +117,7 @@ export const IndexPage = () => {
 			</main>
 			<footer>
 				© 2023{' '}
-				<a href="https://bb.xrea.jp/" target="_blank" className={style.icon}>
+				<a href='https://bb.xrea.jp/' target='_blank' className={style.icon}>
 					bb.xrea.jp
 				</a>
 			</footer>

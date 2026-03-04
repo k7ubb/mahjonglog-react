@@ -24,8 +24,8 @@ export const ExportPage = () => {
 
 	return (
 		<AppWindow
-			title="エクスポート"
-			backTo="/app"
+			title='エクスポート'
+			backTo='/app'
 			authOnly={true}
 			loading={loading}
 		>

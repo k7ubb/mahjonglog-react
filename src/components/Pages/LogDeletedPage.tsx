@@ -11,8 +11,8 @@ export const LogDeletedPage = () => {
 
 	return (
 		<AppWindow
-			title="削除したログ"
-			backTo="/app/log"
+			title='削除したログ'
+			backTo='/app/log'
 			authOnly={true}
 			loading={loading || actionLoading}
 		>
@@ -32,7 +32,7 @@ export const LogDeletedPage = () => {
 								buttonElement={
 									<FaArrowCircleLeft
 										size={21}
-										color="#007aff"
+										color='#007aff'
 										className='hover:opacity-50'
 									/>
 								}

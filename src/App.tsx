@@ -33,37 +33,37 @@ function App() {
 					}}
 				>
 					<Routes>
-						<Route path="/" element={<IndexPage />} />
-						<Route path="/app" element={<HomePage />} />
-						<Route path="/app/login" element={<LoginPage />} />
-						<Route path="/app/register" element={<RegisterPage />} />
-						<Route path="/app/account" element={<AccountPage />} />
-						<Route path="/app/log" element={<LogPage />} />
-						<Route path="/app/log/add" element={<LogAddPage />} />
-						<Route path="/app/log/all" element={<LogAllPage />} />
-						<Route path="/app/log/:date" element={<LogDailyPage />} />
-						<Route path="/app/log/deleted" element={<LogDeletedPage />} />
-						<Route path="/app/player" element={<PlayerListPage />} />
-						<Route path="/app/player/add" element={<PlayerAddPage />} />
-						<Route path="/app/player/:player" element={<PlayerPage />} />
+						<Route path='/' element={<IndexPage />} />
+						<Route path='/app' element={<HomePage />} />
+						<Route path='/app/login' element={<LoginPage />} />
+						<Route path='/app/register' element={<RegisterPage />} />
+						<Route path='/app/account' element={<AccountPage />} />
+						<Route path='/app/log' element={<LogPage />} />
+						<Route path='/app/log/add' element={<LogAddPage />} />
+						<Route path='/app/log/all' element={<LogAllPage />} />
+						<Route path='/app/log/:date' element={<LogDailyPage />} />
+						<Route path='/app/log/deleted' element={<LogDeletedPage />} />
+						<Route path='/app/player' element={<PlayerListPage />} />
+						<Route path='/app/player/add' element={<PlayerAddPage />} />
+						<Route path='/app/player/:player' element={<PlayerPage />} />
 						<Route
-							path="/app/player/:player/logs"
+							path='/app/player/:player/logs'
 							element={<PlayerLogPage />}
 						/>
 						<Route
-							path="/app/player/:player/graph"
+							path='/app/player/:player/graph'
 							element={<PlayerGraphPage />}
 						/>
-						<Route path="/app/analysis" element={<AnalysisListPage />} />
+						<Route path='/app/analysis' element={<AnalysisListPage />} />
 						<Route
-							path="/app/analysis/graph/:players"
+							path='/app/analysis/graph/:players'
 							element={<AnalysisGraphPage />}
 						/>
 						<Route
-							path="/app/analysis/matrix/:players"
+							path='/app/analysis/matrix/:players'
 							element={<AnalysisMatrixPage />}
 						/>
-						<Route path="/app/export" element={<ExportPage />} />
+						<Route path='/app/export' element={<ExportPage />} />
 					</Routes>
 				</BrowserRouter>
 			</LogProvider>

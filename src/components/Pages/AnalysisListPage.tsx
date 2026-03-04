@@ -15,7 +15,7 @@ export const AnalysisListPage = () => {
 	return (
 		<AppWindow
 			title='詳細分析'
-			backTo="/app"
+			backTo='/app'
 			authOnly={true}
 			loading={loading || logLoading}
 		>

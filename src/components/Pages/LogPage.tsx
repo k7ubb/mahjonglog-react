@@ -28,8 +28,8 @@ export const LogPage = () => {
 
 	return (
 		<AppWindow
-			title="対局ログ一覧"
-			backTo="/app"
+			title='対局ログ一覧'
+			backTo='/app'
 			authOnly={true}
 			loading={loading}
 		>

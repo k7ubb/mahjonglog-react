@@ -19,8 +19,8 @@ export const AccountPage = () => {
 
 	return (
 		<AppWindow
-			title="アカウント設定"
-			backTo="/app"
+			title='アカウント設定'
+			backTo='/app'
 			authOnly={true}
 			loading={profEditLoading || logoutLoading}
 		>
@@ -33,25 +33,25 @@ export const AccountPage = () => {
 						.finally(() => setProfEditLoading(false));
 				}}
 			>
-				<ListGroup title="アカウント名">
+				<ListGroup title='アカウント名'>
 					<ListInputItem
 						required
-						type="text"
-						placeholder="アカウント名を設定"
+						type='text'
+						placeholder='アカウント名を設定'
 						value={accountName}
 						onChange={(e) => setAccountName(e.target.value)}
 					/>
 				</ListGroup>
 
 				<ListGroup
-					title="アカウントID"
-					description="ログイン時に使用します。必要に応じて、変更後のアカウントIDをメンバーに共有してください。"
+					title='アカウントID'
+					description='ログイン時に使用します。必要に応じて、変更後のアカウントIDをメンバーに共有してください。'
 				>
 					<ListInputItem
 						required
-						type="text"
-						pattern="^[a-zA-Z0-9\-_]+$"
-						placeholder="アカウントIDを設定"
+						type='text'
+						pattern='^[a-zA-Z0-9\-_]+$'
+						placeholder='アカウントIDを設定'
 						value={accountID}
 						onChange={(e) => setAccountID(e.target.value)}
 					/>
@@ -59,7 +59,7 @@ export const AccountPage = () => {
 
 				<ListGroup {...(profEditError && { error: profEditError })}>
 					<ListButtonItem
-						type="submit"
+						type='submit'
 						disabled={profEditLoading}
 					>
 						変更を保存

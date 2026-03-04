@@ -27,7 +27,7 @@ export const FilterForm = (props: FilterFormProps) => {
 		>
 			<div className='flex gap-4 items-center justify-center mb-4'>
 				<input
-					type="date"
+					type='date'
 					value={from}
 					required
 					onChange={(e) => setFrom(e.target.value)}
@@ -35,7 +35,7 @@ export const FilterForm = (props: FilterFormProps) => {
 				/>
 				-
 				<input
-					type="date"
+					type='date'
 					value={to}
 					required
 					onChange={(e) => setTo(e.target.value)}
@@ -43,9 +43,9 @@ export const FilterForm = (props: FilterFormProps) => {
 				/>
 			</div>
 			<div className='flex justify-center'>
-				<button type="submit" className={buttonClass}>適用</button>
+				<button type='submit' className={buttonClass}>適用</button>
 				<button
-					type="button"
+					type='button'
 					onClick={() => {
 						setFrom('');
 						setTo('');

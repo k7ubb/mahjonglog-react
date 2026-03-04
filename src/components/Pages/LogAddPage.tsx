@@ -22,8 +22,8 @@ export const LogAddPage = () => {
 
 	return (
 		<AppWindow
-			title="新規ログ作成"
-			backTo="/app"
+			title='新規ログ作成'
+			backTo='/app'
 			authOnly={true}
 			loading={loading || addLoading}
 		>
@@ -54,7 +54,7 @@ export const LogAddPage = () => {
 									onChange={(e) => setPlayerName[i](e.target.value)}
 									className='w-50'
 								>
-									<option disabled value="">
+									<option disabled value=''>
 										名前を選択
 									</option>
 									{players.map((player) => (
@@ -64,8 +64,8 @@ export const LogAddPage = () => {
 									))}
 								</select>
 								<input
-									type="text"
-									pattern="^-?\d+$"
+									type='text'
+									pattern='^-?\d+$'
 									value={scoreString[i]}
 									required
 									onChange={(e) => setScoreString[i](e.target.value)}
@@ -76,7 +76,7 @@ export const LogAddPage = () => {
 						))}
 					</ListGroup>
 					<ListGroup {...(error && { error })}>
-						<ListButtonItem type="submit" disabled={loading}>
+						<ListButtonItem type='submit' disabled={loading}>
 							対局結果を保存
 						</ListButtonItem>
 					</ListGroup>

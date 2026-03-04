@@ -10,8 +10,8 @@ export const LogAllPage = () => {
 
 	return (
 		<AppWindow
-			title="全てのログ"
-			backTo="/app/log"
+			title='全てのログ'
+			backTo='/app/log'
 			authOnly={true}
 			loading={loading || actionLoading}
 		>
@@ -21,7 +21,7 @@ export const LogAllPage = () => {
 						showDate={true}
 						key={log.id}
 						log={log}
-						buttonElement={<TiDelete size={30} color="#f00" className='hover:opacity-50' />}
+						buttonElement={<TiDelete size={30} color='#f00' className='hover:opacity-50' />}
 						onClick={async () => {
 							if (confirm('ログを削除します。よろしいですか?')) {
 								setActionLoading(true);

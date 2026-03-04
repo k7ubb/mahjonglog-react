@@ -29,7 +29,7 @@ export const ListItem = (props: ComponentPropsWithoutRef<'div'> & Partial<IconPr
 	return (
 		<div className={`${listItemBaseClass} ${className}`} {...rest}>
 			{icon && <Icon icon={icon} iconSize={iconSize} iconColor={iconColor} iconClassName={iconClassName} />}
-			<div className="grow h-full flex items-center py-1">{children}</div>
+			<div className='grow h-full flex items-center py-1'>{children}</div>
 		</div>
 	);
 };
@@ -39,8 +39,8 @@ export const ListLinkItem = (props: ComponentPropsWithoutRef<typeof Link> & Part
 	return (
 		<Link className={`${listItemBaseClass} ${className} hover:bg-green-50`} {...rest}>
 			{icon && <Icon icon={icon} iconSize={iconSize} iconColor={iconColor} iconClassName={iconClassName} />}
-			<div className="grow h-full flex items-center py-1">{children}</div>
-			<div className="ml-auto">
+			<div className='grow h-full flex items-center py-1'>{children}</div>
+			<div className='ml-auto'>
 				<FaChevronRight />
 			</div>
 		</Link>
@@ -55,7 +55,7 @@ export const ListButtonItem = (props: ComponentPropsWithoutRef<'button'> & Parti
 			{...rest}
 		>
 			{icon && <Icon icon={icon} iconSize={iconSize} iconColor={iconColor} iconClassName={iconClassName} />}
-			<div className="grow h-full flex items-center py-1 ">{children}</div>
+			<div className='grow h-full flex items-center py-1 '>{children}</div>
 		</button>
 	);
 };
