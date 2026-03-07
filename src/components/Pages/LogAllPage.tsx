@@ -11,7 +11,7 @@ export const LogAllPage = () => {
 	return (
 		<AppWindow
 			title='全てのログ'
-			backTo='/app/log'
+			backTo='/log'
 			authOnly={true}
 			loading={loading || actionLoading}
 		>

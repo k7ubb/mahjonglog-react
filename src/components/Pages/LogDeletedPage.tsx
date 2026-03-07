@@ -12,7 +12,7 @@ export const LogDeletedPage = () => {
 	return (
 		<AppWindow
 			title='削除したログ'
-			backTo='/app/log'
+			backTo='/log'
 			authOnly={true}
 			loading={loading || actionLoading}
 		>

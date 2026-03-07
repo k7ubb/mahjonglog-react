@@ -22,7 +22,7 @@ export const AnalysisMatrixPage = () => {
 	return (
 		<AppWindow
 			title='マトリクスで比較'
-			backTo='/app/analysis'
+			backTo='/analysis'
 			authOnly={true}
 			loading={loading}
 		>

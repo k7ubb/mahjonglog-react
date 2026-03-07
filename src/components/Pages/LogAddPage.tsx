@@ -23,7 +23,7 @@ export const LogAddPage = () => {
 	return (
 		<AppWindow
 			title='新規ログ作成'
-			backTo='/app'
+			backTo='/'
 			authOnly={true}
 			loading={loading || addLoading}
 		>
@@ -32,7 +32,7 @@ export const LogAddPage = () => {
 					e.preventDefault();
 					setAddLoading(true);
 					addLog(playerName, scoreString)
-						.then(() => navigate('/app'))
+						.then(() => navigate('/'))
 						.catch((e) => {
 							setError((e as Error).message);
 						})

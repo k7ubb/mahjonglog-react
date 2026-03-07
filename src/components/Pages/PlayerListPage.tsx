@@ -47,7 +47,7 @@ export const PlayerListPage = () => {
 				.with('score', () => '累計得点')
 				.with('average_score', () => '平均得点')
 				.otherwise(() => 'プレイヤー成績')}
-			backTo='/app'
+			backTo='/'
 			authOnly={true}
 			loading={loading || logLoading}
 			extraButtons={[
@@ -89,7 +89,7 @@ export const PlayerListPage = () => {
 			)}
 
 			<ListGroup>
-				<ListLinkItem to='/app/player/add'>プレイヤーを追加</ListLinkItem>
+				<ListLinkItem to='/player/add'>プレイヤーを追加</ListLinkItem>
 			</ListGroup>
 		</AppWindow>
 	);

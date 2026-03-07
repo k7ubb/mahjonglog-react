@@ -15,7 +15,7 @@ export const RegisterPage = () => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title='新規登録' backTo='/app' loading={loading}>
+		<AppWindow title='新規登録' backTo='/' loading={loading}>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -28,7 +28,7 @@ export const RegisterPage = () => {
 						accountName,
 					})
 						.then(() => {
-							navigate('/app');
+							navigate('/');
 						}).catch((e) => {
 							setError((e as Error).message);
 						}).finally(() => {

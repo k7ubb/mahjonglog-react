@@ -19,7 +19,7 @@ export const LogDailyPage = () => {
 	return (
 		<AppWindow
 			title={date!}
-			backTo='/app/log'
+			backTo='/log'
 			authOnly={true}
 			loading={loading}
 		>

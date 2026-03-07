@@ -62,7 +62,7 @@ export const AnalysisGraphPage = () => {
 	return (
 		<AppWindow
 			title='グラフで比較'
-			backTo='/app/analysis'
+			backTo='/analysis'
 			authOnly={true}
 			loading={loading}
 			extraButtons={[
