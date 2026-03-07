@@ -20,7 +20,7 @@ export const AccountPage = () => {
 	return (
 		<AppWindow
 			title='アカウント設定'
-			backTo='/app'
+			backTo='/'
 			authOnly={true}
 			loading={profEditLoading || logoutLoading}
 		>

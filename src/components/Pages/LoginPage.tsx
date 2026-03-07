@@ -12,7 +12,7 @@ export const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title='ログイン' backTo='/app' loading={loading}>
+		<AppWindow title='ログイン' backTo='/' loading={loading}>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -22,7 +22,7 @@ export const LoginPage = () => {
 						password,
 					})
 						.then(() => {
-							navigate('/app');
+							navigate('/');
 						})
 						.catch((e) => {
 							setError((e as Error).message);

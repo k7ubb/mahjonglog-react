@@ -29,14 +29,14 @@ export const LogPage = () => {
 	return (
 		<AppWindow
 			title='対局ログ一覧'
-			backTo='/app'
+			backTo='/'
 			authOnly={true}
 			loading={loading}
 		>
 			{!loading && (
 				<>
 					<ListGroup>
-						<ListLinkItem to={'/app/log/all'}>
+						<ListLinkItem to={'/log/all'}>
 							全てのログ ({logs.length})
 						</ListLinkItem>
 					</ListGroup>
@@ -49,7 +49,7 @@ export const LogPage = () => {
 					</ListGroup>
 					<div style={{ height: '64px' }} />
 					<ListGroup>
-						<ListLinkItem to={'/app/log/deleted'}>
+						<ListLinkItem to={'/log/deleted'}>
 							削除したログを表示 ({deletedLogs.length})
 						</ListLinkItem>
 					</ListGroup>

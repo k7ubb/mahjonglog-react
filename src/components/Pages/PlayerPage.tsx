@@ -84,7 +84,7 @@ export const PlayerPage = () => {
 	return (
 		<AppWindow
 			title={player!}
-			backTo='/app/player'
+			backTo='/player'
 			authOnly={true}
 			loading={loading}
 		>
@@ -143,7 +143,7 @@ export const PlayerPage = () => {
 									setLoading(true);
 									void deletePlayer(player!)
 										.then(() => {
-											navigate('/app/player');
+											navigate('/player');
 											setLoading(false);
 										});
 								}

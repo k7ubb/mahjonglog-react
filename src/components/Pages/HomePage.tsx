@@ -10,6 +10,7 @@ import { useHandleUser } from '@/usecase/useHandleUser';
 
 export const HomePage = () => {
 	const { user } = useHandleUser();
+	const indexPageUrl = import.meta.env.VITE_APP_INDEX_PAGE_URL;
 
 	return (
 		<AppWindow title='麻雀戦績共有アプリ'>
@@ -17,7 +18,7 @@ export const HomePage = () => {
 				<>
 					<ListGroup>
 						<ListLinkItem
-							to='/app/account'
+							to='/account'
 							className='py-8'
 							icon={FaUserCircle}
 							iconSize={48}
@@ -31,28 +32,28 @@ export const HomePage = () => {
 					</ListGroup>
 					<ListGroup>
 						<ListLinkItem
-							to='/app/log/add'
+							to='/log/add'
 							icon={IoMdCreate}
 							iconColor={colors.red[400]}
 						>
 							新規ログ作成
 						</ListLinkItem>
 						<ListLinkItem
-							to='/app/log'
+							to='/log'
 							icon={FaDatabase}
 							iconColor={colors.blue[400]}
 						>
 							対局ログ一覧
 						</ListLinkItem>
 						<ListLinkItem
-							to='/app/player'
+							to='/player'
 							icon={MdPeople}
 							iconColor={colors.green[400]}
 						>
 							プレイヤー成績
 						</ListLinkItem>
 						<ListLinkItem
-							to='/app/analysis'
+							to='/analysis'
 							icon={IoAnalytics}
 							iconColor={colors.orange[400]}
 						>
@@ -61,7 +62,7 @@ export const HomePage = () => {
 					</ListGroup>
 					<ListGroup>
 						<ListLinkItem
-							to='/app/export'
+							to='/export'
 							icon={IoMdDownload}
 							iconColor={colors.stone[600]}
 						>
@@ -72,17 +73,19 @@ export const HomePage = () => {
 			) : (
 				<>
 					<ListGroup title={'アカウント'}>
-						<ListLinkItem to='/app/login'>ログイン</ListLinkItem>
-						<ListLinkItem to='/app/register'>アカウント登録</ListLinkItem>
+						<ListLinkItem to='/login'>ログイン</ListLinkItem>
+						<ListLinkItem to='/register'>アカウント登録</ListLinkItem>
 					</ListGroup>
 				</>
 			)}
-			<div style={{ height: '64px' }} />
-			<ListGroup>
-				<ListLinkItem to='/' icon={FaArrowUpRightFromSquare} iconSize={16} iconColor={colors.stone[600]}>
-					本アプリについて
-				</ListLinkItem>
-			</ListGroup>
+			{indexPageUrl && <>
+				<div style={{ height: '64px' }} />
+				<ListGroup>
+					<ListLinkItem to={indexPageUrl} icon={FaArrowUpRightFromSquare} iconSize={16} iconColor={colors.stone[600]}>
+						本アプリについて
+					</ListLinkItem>
+				</ListGroup>
+			</>}
 		</AppWindow>
 	);
 };

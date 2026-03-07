@@ -13,7 +13,7 @@ export const PlayerAddPage = () => {
 	return (
 		<AppWindow
 			title='プレイヤーを追加'
-			backTo='/app/player'
+			backTo='/player'
 			authOnly={true}
 			loading={addLoading}
 		>
@@ -25,7 +25,7 @@ export const PlayerAddPage = () => {
 					addPlayer(newPlayer)
 						.then(() => {
 							setNewPlayer('');
-							navigate('/app/player');
+							navigate('/player');
 						}).catch((e) => {
 							setError((e as Error).message);
 						}).finally(() => {
