@@ -5,7 +5,6 @@ import { AnalysisListPage } from '@/components/Pages/AnalysisListPage';
 import { AnalysisMatrixPage } from '@/components/Pages/AnalysisMatrixPage';
 import { ExportPage } from '@/components/Pages/ExportPage';
 import { HomePage } from '@/components/Pages/HomePage';
-import { IndexPage } from '@/components/Pages/IndexPage';
 import { LogAddPage } from '@/components/Pages/LogAddPage';
 import { LogAllPage } from '@/components/Pages/LogAllPage';
 import { LogDailyPage } from '@/components/Pages/LogDailyPage';
@@ -33,7 +32,6 @@ function App() {
 					}}
 				>
 					<Routes>
-						<Route path='/' element={<IndexPage />} />
 						<Route path='/app' element={<HomePage />} />
 						<Route path='/app/login' element={<LoginPage />} />
 						<Route path='/app/register' element={<RegisterPage />} />
