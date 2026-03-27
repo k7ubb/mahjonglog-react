@@ -31,6 +31,16 @@ function manifestPlugin(env: Record<string, string>) {
 				next();
 			});
 		},
+		transformIndexHtml: {
+			enforce: 'pre',
+			transform(html: string) {
+				const basePath = env.VITE_BASE_PATH || '/';
+				return html.replace(
+					/href="\/manifest\.json"/,
+					`href="${basePath}manifest.json"`
+				);
+			},
+		},
 		generateBundle(this: { emitFile: (file: { type: string; fileName: string; source: string }) => void }) {
 			this.emitFile({
 				type: 'asset',
