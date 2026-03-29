@@ -42,7 +42,7 @@ export const LogPage = () => {
 					</ListGroup>
 					<ListGroup>
 						{logsByDate.map((logs) => (
-							<ListLinkItem key={logs.date} to={`/app/log/${logs.date}`}>
+							<ListLinkItem key={logs.date} to={`/log/${logs.date}`}>
 								{logs.date} ({logs.logs.length})
 							</ListLinkItem>
 						))}

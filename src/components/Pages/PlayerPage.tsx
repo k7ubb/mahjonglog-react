@@ -106,10 +106,10 @@ export const PlayerPage = () => {
 					</ListGroup>
 
 					<ListGroup>
-						<ListLinkItem to={`/app/player/${player}/logs`}>
+						<ListLinkItem to={`/player/${player}/logs`}>
 							対局記録を表示
 						</ListLinkItem>
-						<ListLinkItem to={`/app/player/${player}/graph`}>
+						<ListLinkItem to={`/player/${player}/graph`}>
 							点数推移を表示
 						</ListLinkItem>
 					</ListGroup>

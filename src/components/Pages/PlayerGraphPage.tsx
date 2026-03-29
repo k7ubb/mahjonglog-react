@@ -39,7 +39,7 @@ export const PlayerGraphPage = () => {
 	return (
 		<AppWindow
 			title={`${player}の点数推移`}
-			backTo={`/app/player/${player}`}
+			backTo={`/player/${player}`}
 			authOnly={true}
 			loading={loading}
 		>

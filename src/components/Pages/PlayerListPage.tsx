@@ -74,7 +74,7 @@ export const PlayerListPage = () => {
 									personalScores[a][sortKey] - personalScores[b][sortKey],
 							)
 					).map((player) => (
-						<ListLinkItem key={player} to={`/app/player/${player}`}>
+						<ListLinkItem key={player} to={`/player/${player}`}>
 							<div className='w-50'>{player}</div>
 							{sortKey &&
 								Object.keys(personalScores).length !== 0 &&

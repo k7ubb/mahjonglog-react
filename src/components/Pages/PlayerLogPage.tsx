@@ -19,7 +19,7 @@ export const PlayerLogPage = () => {
 	return (
 		<AppWindow
 			title={`${player}の対局記録`}
-			backTo={`/app/player/${player}`}
+			backTo={`/player/${player}`}
 			authOnly={true}
 			loading={loading}
 		>
