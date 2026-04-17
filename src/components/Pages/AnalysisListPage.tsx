@@ -41,7 +41,7 @@ export const AnalysisListPage = () => {
 					</ListGroup>
 					<ListGroup>
 						<ListButtonItem
-							onClick={() => navigate(`analysis/graph/${selectedPlayers.join(',')}`)}
+							onClick={() => navigate(`/analysis/graph/${selectedPlayers.join(',')}`)}
 							disabled={selectedPlayers.length < 2}
 							className={`justify-center ${selectedPlayers.length < 2 && 'text-stone-500 line-through'}`}
 						>
