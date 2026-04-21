@@ -88,6 +88,12 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 				</div>
 			</div>
 			{children}
+			{isFilterDialogOpen && (
+				<div
+					className='fixed inset-0'
+					onClick={closeFilterDialog}
+				/>
+			)}
 			{login && <FilterForm open={isFilterDialogOpen} />}
 		</div>
 	);
