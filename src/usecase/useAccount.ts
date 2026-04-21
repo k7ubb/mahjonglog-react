@@ -1,3 +1,4 @@
+import { useUserData } from '@/contexts/useUserData';
 import {
 	getEmailByAccountID,
 	checkAccountIDExist,
@@ -5,10 +6,9 @@ import {
 	fireauthRegister,
 	fireauthLogout,
 } from '@/repository/authRepository';
-import { useHandleUser } from '@/usecase/useHandleUser';
 
-export const useHandleAuth = () => {
-	const { update } = useHandleUser();
+export const useAccount = () => {
+	const { update } = useUserData();
 
 	const login = async ({
 		emailOrAccountID,

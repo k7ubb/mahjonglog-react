@@ -1,18 +1,18 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
-import type { AuthUser } from '@/usecase/useHandleUser';
+import type { User } from '@/contexts/useUserData';
 import { FirebaseApp } from '@/lib/firebase';
 
 export const getAuthUserData = async () => {
 	const auth = getAuth();
-	return new Promise<AuthUser | undefined>((resolve) => {
+	return new Promise<User | null>((resolve) => {
 		onAuthStateChanged(auth, (user) => {
 			if (!user) {
-				resolve(undefined);
+				resolve(null);
 			} else {
 				void getDoc(doc(getFirestore(FirebaseApp), 'account', user.uid))
 					.then((doc) => {
-						const data = doc.data() as Omit<AuthUser, 'uid'> | undefined;
+						const data = doc.data() as Omit<User, 'uid'> | undefined;
 						resolve(
 							data?.email && data?.accountID && data?.accountName
 								? {
@@ -21,7 +21,7 @@ export const getAuthUserData = async () => {
 									accountID: data.accountID,
 									accountName: data.accountName,
 								}
-								: undefined,
+								: null,
 						);
 					});
 			}

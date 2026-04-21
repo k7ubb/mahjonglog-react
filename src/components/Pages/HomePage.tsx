@@ -6,15 +6,15 @@ import { IoAnalytics } from 'react-icons/io5';
 import { MdPeople } from 'react-icons/md';
 import colors from 'tailwindcss/colors';
 import { AppWindow, ListGroup, ListLinkItem } from '@/components/Templates';
-import { useHandleUser } from '@/usecase/useHandleUser';
+import { useUserData } from '@/contexts/useUserData';
 
 export const HomePage = () => {
-	const { user } = useHandleUser();
+	const { login, user } = useUserData();
 	const indexPageUrl = import.meta.env.VITE_APP_INDEX_PAGE_URL;
 
 	return (
 		<AppWindow title='麻雀戦績共有アプリ'>
-			{user ? (
+			{login ? (
 				<>
 					<ListGroup>
 						<ListLinkItem
@@ -71,12 +71,10 @@ export const HomePage = () => {
 					</ListGroup>
 				</>
 			) : (
-				<>
-					<ListGroup title={'アカウント'}>
-						<ListLinkItem to='/login'>ログイン</ListLinkItem>
-						<ListLinkItem to='/register'>アカウント登録</ListLinkItem>
-					</ListGroup>
-				</>
+				<ListGroup title={'アカウント'}>
+					<ListLinkItem to='/login'>ログイン</ListLinkItem>
+					<ListLinkItem to='/register'>アカウント登録</ListLinkItem>
+				</ListGroup>
 			)}
 			{indexPageUrl && <>
 				<div style={{ height: '64px' }} />

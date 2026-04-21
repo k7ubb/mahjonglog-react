@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
 import { ListItem } from '@/components/Templates';
-import { type Log } from '@/usecase/useHandleLog';
+import { type Log } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 import { formatDate } from '@/utils/formatDate';
 
 export const LogItem = ({
@@ -15,7 +15,7 @@ export const LogItem = ({
 	buttonElement?: JSX.Element;
 	onClick?: () => Promise<void>;
 }) => {
-	const [loading, setLoading] = useState(false);
+	const { loading } = useLoading();
 
 	return (
 		<ListItem className='h-auto'>
@@ -39,9 +39,7 @@ export const LogItem = ({
 					<button
 						disabled={loading}
 						onClick={() => {
-							setLoading(true);
-							void onClick?.()
-								.then(() => setLoading(false));
+							void onClick?.();
 						}}
 					>
 						{buttonElement}

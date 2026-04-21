@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
-import { useHandleAuth } from '@/usecase/useHandleAuth';
+import { useLoading } from '@/contexts/useLoading';
+import { useAccount } from '@/usecase/useAccount';
 
 export const RegisterPage = () => {
 	const navigate = useNavigate();
-	const { register } = useHandleAuth();
+	const { register } = useAccount();
+	const { loading, startLoading, endLoading } = useLoading();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordCheck, setPasswordCheck] = useState('');
 	const [accountID, setAccountID] = useState('');
 	const [accountName, setAccountName] = useState('');
 	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title='新規登録' backTo='/' loading={loading}>
+		<AppWindow title='新規登録'>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					setLoading(true);
+					startLoading();
 					register({
 						email,
 						password,
@@ -32,7 +33,7 @@ export const RegisterPage = () => {
 						}).catch((e) => {
 							setError((e as Error).message);
 						}).finally(() => {
-							setLoading(false);
+							endLoading();
 						});
 				}}
 			>

@@ -6,14 +6,13 @@ import {
 	LineElement,
 	Title,
 } from 'chart.js';
-import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useParams, useNavigate } from 'react-router-dom';
 import colors from 'tailwindcss/colors';
 import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
 import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '@/components/Templates';
-import { useHandleLog } from '@/usecase/useHandleLog';
-import { useHandlePlayer } from '@/usecase/useHandlePlayer';
+import { useAppData } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 import { calculatePersonalScore } from '@/utils/calculatePersonalScore';
 
 const ScoreRow = ({
@@ -31,16 +30,20 @@ const ScoreRow = ({
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
+type Params = {
+	player: string;
+};
+
 export const PlayerPage = () => {
 	const navigate = useNavigate();
-	const { player } = useParams<{ player: string }>();
-	const { logs, allLogs } = useHandleLog();
-	const { deletePlayer } = useHandlePlayer();
-	const personalScore = calculatePersonalScore(logs, player!);
-	const [loading, setLoading] = useState(false);
+	const { player } = useParams<Params>() as Params;
+	const { logs, filteredLogs } = useAppData();
+	const { deletePlayer } = useAppData();
+	const { loading, startLoading, endLoading } = useLoading();
+	const personalScore = calculatePersonalScore(logs, player);
 
 	const recentRecords = [];
-	for (const log of allLogs) {
+	for (const log of filteredLogs) {
 		for (let i = 0; i < 4; i++) {
 			if (log.score[i].player === player) {
 				recentRecords.push(i + 1);
@@ -82,12 +85,7 @@ export const PlayerPage = () => {
 	};
 
 	return (
-		<AppWindow
-			title={player!}
-			backTo='/player'
-			authOnly={true}
-			loading={loading}
-		>
+		<AppWindow title={player}>
 			{personalScore && (
 				<>
 					<ListGroup>
@@ -134,17 +132,17 @@ export const PlayerPage = () => {
 							disabled={loading}
 							onClick={() => {
 								if (
-									allLogs.some((log) =>
+									logs.some((log) =>
 										log.score.some(({ player: player_ }) => player === player_),
 									)
 								) {
 									alert('対局記録があるプレイヤーは削除できません');
 								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
-									setLoading(true);
-									void deletePlayer(player!)
+									startLoading();
+									void deletePlayer(player)
 										.then(() => {
 											navigate('/player');
-											setLoading(false);
+											endLoading();
 										});
 								}
 							}}

@@ -1,4 +1,4 @@
-import { type Log } from '@/usecase/useHandleLog';
+import { type Log } from '@/contexts/useAppData';
 import { formatDate } from '@/utils/formatDate';
 
 export type GraphData = {
@@ -6,10 +6,10 @@ export type GraphData = {
 	score: number;
 };
 
-export const calculateGraphData = (allLogs: Log[], player: string, filter: { from?: string; to?: string }) => {
+export const calculateGraphData = (logs: Log[], player: string, filterFrom: string | undefined, filterTo: string | undefined) => {
 	const graphData: GraphData[] = [];
 
-	for (const log of allLogs.toReversed()) {
+	for (const log of logs.toReversed()) {
 		for (let i = 0; i < 4; i++) {
 			if (log.score[i].player === player) {
 				graphData.push({
@@ -33,8 +33,8 @@ export const calculateGraphData = (allLogs: Log[], player: string, filter: { fro
 		// アプリ移行前のデータを除外
 		.filter((data) => data.label !== '1970-01-01')
 		// フィルターが設定されていたら範囲外のみ抽出
-		.filter((data) => !filter.from || filter.from < data.label)
-		.filter((data) => !filter.to || data.label < filter.to);
+		.filter((data) => !filterFrom || filterFrom < data.label)
+		.filter((data) => !filterTo || data.label < filterTo);
 };
 
 export type RelativeGraphData = {
@@ -44,9 +44,9 @@ export type RelativeGraphData = {
 	};
 };
 
-export const calculateRelativeGraphData = (allLogs: Log[], players: string[], filter: { from?: string; to?: string }, normalize: boolean) => {
+export const calculateRelativeGraphData = (logs: Log[], players: string[], filterFrom: string | undefined, filterTo: string | undefined, isNormalize: boolean) => {
 	const graphData: RelativeGraphData[] = [];
-	for (const log of allLogs.toReversed()) {
+	for (const log of logs.toReversed()) {
 		if (log.score.map((score) => score.player).some(item => players.includes(item))) {
 			graphData.push({
 				label: formatDate(new Date(log.date)),
@@ -72,10 +72,10 @@ export const calculateRelativeGraphData = (allLogs: Log[], players: string[], fi
 		// アプリ移行前のデータを除外
 		.filter((data) => data.label !== '1970-01-01')
 		// フィルターが設定されていたら範囲外のみ抽出
-		.filter((data) => !filter.from || filter.from < data.label)
-		.filter((data) => !filter.to || data.label < filter.to);
+		.filter((data) => !filterFrom || filterFrom < data.label)
+		.filter((data) => !filterTo || data.label < filterTo);
 
-	if (!normalize) {
+	if (!isNormalize) {
 		return filterGraphData;
 	}
 

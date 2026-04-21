@@ -1,12 +1,12 @@
 import { AppWindow, ListGroup, ListButtonItem } from '@/components/Templates';
-import { useHandleLog } from '@/usecase/useHandleLog';
+import { useAppData } from '@/contexts/useAppData';
 
 export const ExportPage = () => {
-	const { logs, loading } = useHandleLog();
+	const { logs } = useAppData();
 
 	const handleExport = () => {
-		const convertedLog = [...logs]
-			.reverse()
+		const convertedLog = logs
+			.toReversed()
 			.map((log) => ({ date: log.date, score: log.score }));
 		const json = JSON.stringify(convertedLog)
 			.replace(/\{"date/g, '\n  {"date')
@@ -23,12 +23,7 @@ export const ExportPage = () => {
 	};
 
 	return (
-		<AppWindow
-			title='エクスポート'
-			backTo='/'
-			authOnly={true}
-			loading={loading}
-		>
+		<AppWindow title='エクスポート'>
 			<ListGroup title={`${logs.length}件のログがあります`}>
 				<ListButtonItem onClick={handleExport}>ログファイルをエクスポート</ListButtonItem>
 			</ListGroup>

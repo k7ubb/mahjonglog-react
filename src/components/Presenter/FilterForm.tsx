@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHandleLog } from '@/usecase/useHandleLog';
+import { useAppData } from '@/contexts/useAppData';
 
 const dateInputClass = 'px-4 py-2 border border-stone-400 rounded-xl bg-white';
 const buttonClass = 'mx-2 px-4 py-2 border border-stone-400 rounded-xl hover:bg-stone-300';
@@ -10,9 +10,9 @@ type FilterFormProps = {
 
 export const FilterForm = (props: FilterFormProps) => {
 	const { open } = props;
-	const { filter, setFilter, setFilterDialogOpen } = useHandleLog();
-	const [from, setFrom] = useState(filter.from || '');
-	const [to, setTo] = useState(filter.to || '');
+	const { filterFrom, filterTo, setFilter, closeFilterDialog } = useAppData();
+	const [from, setFrom] = useState(filterFrom || '');
+	const [to, setTo] = useState(filterTo || '');
 
 	return (
 		<form
@@ -20,8 +20,8 @@ export const FilterForm = (props: FilterFormProps) => {
 								  shadow-md bg-black/20 backdrop-blur-sm
 								  transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
 			onSubmit={(e) => {
-				setFilter({ from, to });
-				setFilterDialogOpen(false);
+				setFilter(from, to);
+				closeFilterDialog();
 				e.preventDefault();
 			}}
 		>
@@ -49,7 +49,7 @@ export const FilterForm = (props: FilterFormProps) => {
 					onClick={() => {
 						setFrom('');
 						setTo('');
-						setFilter({});
+						setFilter('', '');
 					}}
 					className={buttonClass}
 				>

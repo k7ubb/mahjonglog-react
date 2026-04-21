@@ -1,28 +1,23 @@
-import { useState, useEffect } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { useParams } from 'react-router-dom';
 import { LogItem } from '@/components/Presenter/LogItem';
 import { AppWindow, ListGroup } from '@/components/Templates';
-import { type Log } from '@/usecase/useHandleLog';
-import { useHandleLog } from '@/usecase/useHandleLog';
+import { useAppData } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 import { formatDate } from '@/utils/formatDate';
 
-export const LogDailyPage = () => {
-	const { date } = useParams<{ date: string }>();
-	const { logs, loading, deleteLog } = useHandleLog();
-	const [dayLogs, setDayLogs] = useState<Log[]>([]);
+type Params = {
+	date: string;
+};
 
-	useEffect(() => {
-		setDayLogs(logs.filter((log) => formatDate(new Date(log.date)) === date));
-	}, [logs]);
+export const LogDailyPage = () => {
+	const { date } = useParams<Params>() as Params;
+	const { filteredLogs, deleteLog } = useAppData();
+	const { startLoading, endLoading } = useLoading();
+	const dayLogs = filteredLogs.filter((log) => formatDate(new Date(log.date)) === date);
 
 	return (
-		<AppWindow
-			title={date!}
-			backTo='/log'
-			authOnly={true}
-			loading={loading}
-		>
+		<AppWindow title={date}>
 			<ListGroup>
 				{dayLogs.map((log) => (
 					<LogItem
@@ -31,7 +26,12 @@ export const LogDailyPage = () => {
 						buttonElement={<TiDelete size={30} color='#f00' className='hover:opacity-50' />}
 						onClick={async () => {
 							if (confirm('ログを削除します。よろしいですか?')) {
-								await deleteLog(log.id);
+								startLoading();
+								try {
+									await deleteLog(log.id);
+								} finally {
+									endLoading();
+								}
 							}
 						}}
 					/>

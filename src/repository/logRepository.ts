@@ -9,7 +9,7 @@ import {
 	query,
 	where,
 } from 'firebase/firestore';
-import type { Score, Log } from '@/usecase/useHandleLog';
+import type { Score, Log } from '@/contexts/useAppData';
 import { FirebaseApp } from '@/lib/firebase';
 
 export const getFirestoreLogs = async (uid: string) => (

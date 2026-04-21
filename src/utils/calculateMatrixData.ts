@@ -1,9 +1,7 @@
-import { type Log } from '@/usecase/useHandleLog';
+import { type Log } from '@/contexts/useAppData';
 import { formatDate } from '@/utils/formatDate';
 
 export const calculateMatrixData = (logs: Log[], players: string[]) => {
-	if (logs.length === 0) { return; }
-
 	const matrix: number[][][] = Array.from({ length: players.length }, () => 
 		Array.from({ length: players.length }, () => [])
 	);

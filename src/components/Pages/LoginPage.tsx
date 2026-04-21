@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
-import { useHandleAuth } from '@/usecase/useHandleAuth';
+import { useLoading } from '@/contexts/useLoading';
+import { useAccount } from '@/usecase/useAccount';
 
 export const LoginPage = () => {
 	const navigate = useNavigate();
-	const { login } = useHandleAuth();
+	const { login } = useAccount();
+	const { loading, startLoading, endLoading } = useLoading();
 	const [emailOrAccountID, setEmailOrAccountID] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title='ログイン' backTo='/' loading={loading}>
+		<AppWindow title='ログイン'>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					setLoading(true);
+					startLoading();
 					login({
 						emailOrAccountID,
 						password,
@@ -27,7 +28,7 @@ export const LoginPage = () => {
 						.catch((e) => {
 							setError((e as Error).message);
 						}).finally(() => {
-							setLoading(false);
+							endLoading();
 						});
 				}}
 			>

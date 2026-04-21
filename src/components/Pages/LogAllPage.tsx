@@ -1,22 +1,17 @@
-import { useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { LogItem } from '@/components/Presenter/LogItem';
 import { AppWindow, ListGroup } from '@/components/Templates';
-import { useHandleLog } from '@/usecase/useHandleLog';
+import { useAppData } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 
 export const LogAllPage = () => {
-	const { logs, loading, deleteLog } = useHandleLog();
-	const [actionLoading, setActionLoading] = useState(false);
+	const { filteredLogs, deleteLog } = useAppData();
+	const { startLoading, endLoading } = useLoading();
 
 	return (
-		<AppWindow
-			title='全てのログ'
-			backTo='/log'
-			authOnly={true}
-			loading={loading || actionLoading}
-		>
+		<AppWindow title='全てのログ'>
 			<ListGroup>
-				{logs.map((log) => (
+				{filteredLogs.map((log) => (
 					<LogItem
 						showDate={true}
 						key={log.id}
@@ -24,9 +19,12 @@ export const LogAllPage = () => {
 						buttonElement={<TiDelete size={30} color='#f00' className='hover:opacity-50' />}
 						onClick={async () => {
 							if (confirm('ログを削除します。よろしいですか?')) {
-								setActionLoading(true);
-								await deleteLog(log.id);
-								setActionLoading(false);
+								startLoading();
+								try {
+									await deleteLog(log.id);
+								} finally {
+									endLoading();
+								}
 							}
 						}}
 					/>

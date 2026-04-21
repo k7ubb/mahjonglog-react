@@ -1,27 +1,23 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
-import { useHandlePlayer } from '@/usecase/useHandlePlayer';
+import { useAppData } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 
 export const PlayerAddPage = () => {
 	const navigate = useNavigate();
-	const { addPlayer } = useHandlePlayer();
+	const { addPlayer } = useAppData();
+	const { loading, startLoading, endLoading } = useLoading();
 	const [newPlayer, setNewPlayer] = useState('');
 	const [error, setError] = useState<string | null>(null);
-	const [addLoading, setAddLoading] = useState(false);
 
 	return (
-		<AppWindow
-			title='プレイヤーを追加'
-			backTo='/player'
-			authOnly={true}
-			loading={addLoading}
-		>
+		<AppWindow title='プレイヤーを追加'>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
 					setError('');
-					setAddLoading(true);
+					startLoading();
 					addPlayer(newPlayer)
 						.then(() => {
 							setNewPlayer('');
@@ -29,7 +25,7 @@ export const PlayerAddPage = () => {
 						}).catch((e) => {
 							setError((e as Error).message);
 						}).finally(() => {
-							setAddLoading(false);
+							endLoading();
 						});
 				}}
 			>
@@ -44,7 +40,7 @@ export const PlayerAddPage = () => {
 					/>
 				</ListGroup>
 				<ListGroup {...(error && { error })}>
-					<ListButtonItem type='submit' disabled={addLoading}>追加</ListButtonItem>
+					<ListButtonItem type='submit' disabled={loading}>追加</ListButtonItem>
 				</ListGroup>
 			</form>
 		</AppWindow>
