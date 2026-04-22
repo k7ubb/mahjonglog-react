@@ -32,15 +32,15 @@ const colorKeys = [
 ];
 
 type Params = {
-	players: string;
+	ids: string;
 };
 
 export const AnalysisGraphPage = () => {
-	const { players } = useParams<Params>() as Params;
-	const playerList = players.split(',');
+	const { ids } = useParams<Params>() as Params;
 	const [isNormalize, setIsNormalize] = useState(false);
-	const { logs, filterFrom, filterTo } = useAppData();
-	const graphData = calculateRelativeGraphData(logs, playerList, filterFrom, filterTo, isNormalize);
+	const { players, logs, filterFrom, filterTo } = useAppData();
+	const targetPlayers = ids.split(',').map((id) => players.find((p) => p.id === id)).filter((p) => !!p);
+	const graphData = calculateRelativeGraphData(logs, targetPlayers.map(player => player.id), filterFrom, filterTo, isNormalize);
 
 	const chartOptions = {
 		plugins: {
@@ -76,13 +76,13 @@ export const AnalysisGraphPage = () => {
 			]}
 		>
 			<ListGroup>
-				{playerList.map((player, i) => (
+				{targetPlayers.map((player, i) => (
 					<ListItem
-						key={player}
+						key={player.id}
 						icon={FaCircle}
 						iconColor={colors[colorKeys[i % colorKeys.length] as keyof typeof colors][500]}
 					>
-						{player}
+						{player.name}
 					</ListItem>
 				))}
 			</ListGroup>
@@ -90,8 +90,8 @@ export const AnalysisGraphPage = () => {
 				options={chartOptions}
 				data={{
 					labels: graphData.map((data) => data.label),
-					datasets: playerList.map((player, i) => ({
-						data: graphData.map((data) => data.score[player]),
+					datasets: targetPlayers.map((player, i) => ({
+						data: graphData.map((data) => data.score[player.id]),
 						borderColor: colors[colorKeys[i % colorKeys.length] as keyof typeof colors][500],
 						borderWidth: 3,
 					})),

@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-	getFirestoreVersion,
-} from '@/repository/versionRepository';
+import { getFirestoreVersion } from '@/repository/versionRepository';
 
 export const useVersion = () => {
 	const [version, setVersion] = useState('');

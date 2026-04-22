@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, createContext, useContext, type ReactNode } from 'react';
 import { useLoading } from '@/contexts/useLoading';
 import {
 	getAuthUserData,
@@ -28,7 +28,7 @@ type UseDataFunctions = {
 const UserContext = createContext<UserData & UseDataFunctions>(null!);
 const AuthUserContext = createContext<User & UseDataFunctions>(null!);
 
-export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const { startLoading, endLoading } = useLoading();
 	const [loading, setLoading] = useState(true);
 	const [userData, setUserData] = useState<UserData>({

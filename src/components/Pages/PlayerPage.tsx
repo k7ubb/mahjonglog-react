@@ -14,6 +14,7 @@ import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '@/
 import { useAppData } from '@/contexts/useAppData';
 import { useLoading } from '@/contexts/useLoading';
 import { calculatePersonalScore } from '@/utils/calculatePersonalScore';
+import { round } from '@/utils/round';
 
 const ScoreRow = ({
 	title,
@@ -31,31 +32,34 @@ const ScoreRow = ({
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
 type Params = {
-	player: string;
+	id: string;
 };
 
 export const PlayerPage = () => {
 	const navigate = useNavigate();
-	const { player } = useParams<Params>() as Params;
-	const { logs, filteredLogs } = useAppData();
-	const { deletePlayer } = useAppData();
+	const { id } = useParams<Params>() as Params;
+	const { players, logs, filteredLogs, deletePlayer } = useAppData();
 	const { loading, startLoading, endLoading } = useLoading();
-	const personalScore = calculatePersonalScore(logs, player);
-
+	const player = players.find((p) => p.id === id);
+	if (!player) {
+		throw new Error('プレイヤーが見つかりません');
+	}
+	const personalScore = calculatePersonalScore(filteredLogs, player.id);
+	
 	const recentRecords = [];
 	for (const log of filteredLogs) {
-		for (let i = 0; i < 4; i++) {
-			if (log.score[i].player === player) {
-				recentRecords.push(i + 1);
+		const index = log.playerIDs.findIndex((id) => id === player.id);
+		if (index > -1) {
+			recentRecords.push(index + 1);
+			if (recentRecords.length == 10) {
+				break;
 			}
-		}
-		if (recentRecords.length == 10) {
-			break;
 		}
 	}
 
-	const recentAverage =
-		recentRecords.reduce((acc, cur) => acc + cur, 0) / recentRecords.length;
+	const recentAverage = recentRecords.length > 0 ?
+		recentRecords.reduce((acc, cur) => acc + cur, 0) / recentRecords.length
+		: '-';
 
 	while (recentRecords.length < 10) {
 		recentRecords.push(null);
@@ -66,7 +70,7 @@ export const PlayerPage = () => {
 		plugins: {
 			title: {
 				display: true,
-				text: `直近10試合: 平均順位 ${Math.floor(recentAverage * 100) / 100}`,
+				text: `直近10試合: 平均順位 ${recentAverage === '-' ? '-' : round(recentAverage, 2)}`,
 			},
 		},
 		scales: {
@@ -85,7 +89,7 @@ export const PlayerPage = () => {
 	};
 
 	return (
-		<AppWindow title={player}>
+		<AppWindow title={player.name}>
 			{personalScore && (
 				<>
 					<ListGroup>
@@ -104,10 +108,10 @@ export const PlayerPage = () => {
 					</ListGroup>
 
 					<ListGroup>
-						<ListLinkItem to={`/player/${player}/logs`}>
+						<ListLinkItem to={`/player/${id}/logs`}>
 							対局記録を表示
 						</ListLinkItem>
-						<ListLinkItem to={`/player/${player}/graph`}>
+						<ListLinkItem to={`/player/${id}/graph`}>
 							点数推移を表示
 						</ListLinkItem>
 					</ListGroup>
@@ -131,15 +135,11 @@ export const PlayerPage = () => {
 						<ListButtonItem
 							disabled={loading}
 							onClick={() => {
-								if (
-									logs.some((log) =>
-										log.score.some(({ player: player_ }) => player === player_),
-									)
-								) {
+								if (logs.some((log) => log.playerIDs.some((id) => id === player.id))) {
 									alert('対局記録があるプレイヤーは削除できません');
-								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
+								} else if (confirm(`'${player.name}' を削除してもよろしいですか?`)) {
 									startLoading();
-									void deletePlayer(player)
+									void deletePlayer(player.id)
 										.then(() => {
 											navigate('/player');
 											endLoading();

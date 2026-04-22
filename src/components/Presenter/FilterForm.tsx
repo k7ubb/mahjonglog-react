@@ -17,8 +17,8 @@ export const FilterForm = (props: FilterFormProps) => {
 	return (
 		<form
 			className={`absolute top-14 left-1/2 -translate-x-1/2 w-full max-w-100 rounded-2xl p-4
-								  shadow-md bg-black/20 backdrop-blur-sm
-								  transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+									shadow-md bg-black/20 backdrop-blur-sm
+									transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
 			onSubmit={(e) => {
 				setFilter(from, to);
 				closeFilterDialog();

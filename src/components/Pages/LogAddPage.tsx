@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListItem, ListButtonItem } from '@/components/Templates';
 import { useAppData } from '@/contexts/useAppData';
@@ -9,14 +9,14 @@ export const LogAddPage = () => {
 	const { loading, startLoading, endLoading } = useLoading();
 	const { players, addLog } = useAppData();
 	const [error, setError] = useState<string | null>(null);
-	const playerName: string[] = [];
-	const setPlayerName: React.Dispatch<React.SetStateAction<string>>[] = [];
-	const scoreString: string[] = [];
-	const setScoreString: React.Dispatch<React.SetStateAction<string>>[] = [];
+	const playerIDs: string[] = [];
+	const setPlayerIDs: Dispatch<SetStateAction<string>>[] = [];
+	const rawPoints: string[] = [];
+	const setRawPoints: Dispatch<SetStateAction<string>>[] = [];
 
 	for (let i = 0; i < 4; i++) {
-		[playerName[i], setPlayerName[i]] = useState('');
-		[scoreString[i], setScoreString[i]] = useState('250');
+		[playerIDs[i], setPlayerIDs[i]] = useState('');
+		[rawPoints[i], setRawPoints[i]] = useState('250');
 	}
 
 	return (
@@ -24,7 +24,7 @@ export const LogAddPage = () => {
 			<form onSubmit={(e) => {
 				e.preventDefault();
 				startLoading();
-				addLog(playerName, scoreString)
+				addLog(playerIDs, rawPoints.map(Number))
 					.then(() => navigate('/'))
 					.catch((e) => {
 						setError((e as Error).message);
@@ -43,25 +43,25 @@ export const LogAddPage = () => {
 					{new Array(4).fill(null).map((_, i) => (
 						<ListItem key={i}>
 							<select
-								value={playerName[i]}
-								onChange={(e) => setPlayerName[i](e.target.value)}
+								value={playerIDs[i]}
+								onChange={(e) => setPlayerIDs[i](e.target.value)}
 								className='w-50'
 							>
 								<option disabled value=''>
 									名前を選択
 								</option>
 								{players.map((player) => (
-									<option key={player} value={player}>
-										{player}
+									<option key={player.id} value={player.id}>
+										{player.name}
 									</option>
 								))}
 							</select>
 							<input
 								type='text'
 								pattern='^-?\d+$'
-								value={scoreString[i]}
+								value={rawPoints[i]}
 								required
-								onChange={(e) => setScoreString[i](e.target.value)}
+								onChange={(e) => setRawPoints[i](e.target.value)}
 								className='ml-auto mr-4 pr-4 w-20 text-right'
 							/>
 							00

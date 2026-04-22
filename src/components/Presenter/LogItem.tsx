@@ -1,6 +1,7 @@
 import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
 import { ListItem } from '@/components/Templates';
 import { type Log } from '@/contexts/useAppData';
+import { useAppData } from '@/contexts/useAppData';
 import { useLoading } from '@/contexts/useLoading';
 import { formatDate } from '@/utils/formatDate';
 
@@ -15,6 +16,7 @@ export const LogItem = ({
 	buttonElement?: JSX.Element;
 	onClick?: () => Promise<void>;
 }) => {
+	const { players } = useAppData();
 	const { loading } = useLoading();
 
 	return (
@@ -25,9 +27,9 @@ export const LogItem = ({
 					{new Array(4).fill(null).map((_, i) => (
 						<li key={i} className='ml-4'>
 							<div className='flex mb-1'>
-								<span className='block w-40'>{log.score[i].player}</span>
+								<span className='block w-40'>{players.find((p) => p.id === log.scores[i].playerID)?.name}</span>
 								<span className='block w-20 text-right'>
-									<ColoredNumber point={log.score[i].point} />
+									<ColoredNumber point={log.scores[i].point} />
 								</span>
 							</div>
 						</li>

@@ -32,16 +32,20 @@ const chartOptions = {
 };
 
 type Params = {
-	player: string;
+	id: string;
 };
 
 export const PlayerGraphPage = () => {
-	const { player } = useParams<Params>() as Params;
-	const { logs, filterFrom, filterTo } = useAppData();
-	const graphData = calculateGraphData(logs, player, filterFrom, filterTo);
+	const { id } = useParams<Params>() as Params;
+	const { players, logs, filterFrom, filterTo } = useAppData();
+	const player = players.find((p) => p.id === id);
+	if (!player) {
+		throw new Error('プレイヤーが見つかりません');
+	}
+	const graphData = calculateGraphData(logs, player.id, filterFrom, filterTo);
 
 	return (
-		<AppWindow title={`${player}の点数推移`}>
+		<AppWindow title={`${player.name}の点数推移`}>
 			<Line
 				options={chartOptions}
 				data={{

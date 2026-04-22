@@ -7,7 +7,7 @@ import { useAppData } from '@/contexts/useAppData';
 
 export const AnalysisPage = () => {
 	const { players } = useAppData();
-	const [ selectedPlayers, setSelectedPlayers ] = useState<string[]>([]);
+	const [ targetPids, setTargetPids ] = useState<string[]>([]);
 	const navigate = useNavigate();
 
 	return (
@@ -15,33 +15,33 @@ export const AnalysisPage = () => {
 			<ListGroup>
 				{players.map((player) => (
 					<ListButtonItem
-						key={player}
-						icon={selectedPlayers.includes(player) ? IoIosCheckmarkCircle : IoIosCheckmarkCircleOutline}
-						iconColor={selectedPlayers.includes(player) ? colors.green[500] : colors.stone[300]}
+						key={player.id}
+						icon={targetPids.includes(player.id) ? IoIosCheckmarkCircle : IoIosCheckmarkCircleOutline}
+						iconColor={targetPids.includes(player.id) ? colors.green[500] : colors.stone[300]}
 						onClick={() => {
-							if (selectedPlayers.includes(player)) {
-								setSelectedPlayers(selectedPlayers.filter((p) => p !== player));
+							if (targetPids.includes(player.id)) {
+								setTargetPids(targetPids.filter((p) => p !== player.id));
 							} else {
-								setSelectedPlayers([...selectedPlayers, player]);
+								setTargetPids([...targetPids, player.id]);
 							}
 						}}
 					>
-						<div className='w-50 text-black'>{player}</div>
+						<div className='w-50 text-black'>{player.name}</div>
 					</ListButtonItem>
 				))}
 			</ListGroup>
 			<ListGroup>
 				<ListButtonItem
-					onClick={() => navigate(`/analysis/graph/${selectedPlayers.join(',')}`)}
-					disabled={selectedPlayers.length < 2}
-					className={`justify-center ${selectedPlayers.length < 2 && 'text-stone-500 line-through'}`}
+					onClick={() => navigate(`/analysis/graph/${targetPids.join(',')}`)}
+					disabled={targetPids.length < 2}
+					className={`justify-center ${targetPids.length < 2 && 'text-stone-500 line-through'}`}
 				>
 					グラフで比較
 				</ListButtonItem>
 				<ListButtonItem
-					onClick={() => navigate(`/analysis/matrix/${selectedPlayers.join(',')}`)}
-					disabled={selectedPlayers.length < 2}
-					className={`justify-center ${selectedPlayers.length < 2 && 'text-stone-500 line-through'}`}
+					onClick={() => navigate(`/analysis/matrix/${targetPids.join(',')}`)}
+					disabled={targetPids.length < 2}
+					className={`justify-center ${targetPids.length < 2 && 'text-stone-500 line-through'}`}
 				>
 					マトリクスで比較
 				</ListButtonItem>

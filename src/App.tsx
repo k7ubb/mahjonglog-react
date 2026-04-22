@@ -2,8 +2,8 @@ import '@/env';
 import { BrowserRouter, Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import { AccountPage } from '@/components/Pages/AccountPage';
 import { AnalysisGraphPage } from '@/components/Pages/AnalysisGraphPage';
-import { AnalysisPage } from '@/components/Pages/AnalysisPage';
 import { AnalysisMatrixPage } from '@/components/Pages/AnalysisMatrixPage';
+import { AnalysisPage } from '@/components/Pages/AnalysisPage';
 import { ExportPage } from '@/components/Pages/ExportPage';
 import { HomePage } from '@/components/Pages/HomePage';
 import { LogAddPage } from '@/components/Pages/LogAddPage';
@@ -55,22 +55,22 @@ function App() {
 								<Route path='/log/deleted' element={<LogDeletedPage />} />
 								<Route path='/player' element={<PlayerListPage />} />
 								<Route path='/player/add' element={<PlayerAddPage />} />
-								<Route path='/player/:player' element={<PlayerPage />} />
+								<Route path='/player/:id' element={<PlayerPage />} />
 								<Route
-									path='/player/:player/logs'
+									path='/player/:id/logs'
 									element={<PlayerLogPage />}
 								/>
 								<Route
-									path='/player/:player/graph'
+									path='/player/:id/graph'
 									element={<PlayerGraphPage />}
 								/>
 								<Route path='/analysis' element={<AnalysisPage />} />
 								<Route
-									path='/analysis/graph/:players'
+									path='/analysis/graph/:ids'
 									element={<AnalysisGraphPage />}
 								/>
 								<Route
-									path='/analysis/matrix/:players'
+									path='/analysis/matrix/:ids'
 									element={<AnalysisMatrixPage />}
 								/>
 								<Route path='/export' element={<ExportPage />} />

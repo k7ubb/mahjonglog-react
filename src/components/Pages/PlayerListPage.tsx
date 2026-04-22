@@ -26,7 +26,7 @@ export const PlayerListPage = () => {
 	const personalScores: { [key: string]: PersonalScore } = {};
 	players.forEach(
 		(player) =>
-			(personalScores[player] = calculatePersonalScore(filteredLogs, player)),
+			(personalScores[player.id] = calculatePersonalScore(filteredLogs, player.id)),
 	);
 
 	return (
@@ -54,21 +54,21 @@ export const PlayerListPage = () => {
 						: ['count', 'score', 'average_score'].includes(sortKey)
 							? players.toSorted(
 								(a, b) =>
-									personalScores[b][sortKey] - personalScores[a][sortKey],
+									personalScores[b.id][sortKey] - personalScores[a.id][sortKey],
 							)
 							: players.toSorted(
 								(a, b) =>
-									personalScores[a][sortKey] - personalScores[b][sortKey],
+									personalScores[a.id][sortKey] - personalScores[b.id][sortKey],
 							)
 					).map((player) => (
-						<ListLinkItem key={player} to={`/player/${player}`}>
-							<div className='w-50'>{player}</div>
+						<ListLinkItem key={player.id} to={`/player/${player.id}`}>
+							<div className='w-50'>{player.name}</div>
 							{sortKey &&
 								Object.keys(personalScores).length !== 0 &&
 								(['score', 'average_score'].includes(sortKey) ? (
-									<ColoredNumber point={personalScores[player][sortKey]} />
+									<ColoredNumber point={personalScores[player.id][sortKey]} />
 								) : (
-									personalScores[player][sortKey]
+									personalScores[player.id][sortKey]
 								))}
 						</ListLinkItem>
 					))}

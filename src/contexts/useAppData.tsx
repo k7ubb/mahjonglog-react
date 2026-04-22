@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext, type ReactNode } from 'react';
 import { useLoading } from '@/contexts/useLoading';
 import { useUserData } from '@/contexts/useUserData';
 import {
@@ -11,23 +11,31 @@ import {
 } from '@/repository/logRepository';
 import {
 	getFirestorePlayers,
-	updateFirestorePlayers,
+	addFirestorePlayer,
+	deleteFirestorePlayer
 } from '@/repository/playerRepository';
-import { parseScore } from '@/utils/score';
+import { calculatePoint } from '@/utils/point';
+
+export type Player = {
+	id: string;
+	name: string;
+};
 
 export type Score = {
+	playerID: string;
 	point: number;
-	player: string;
-}[];
+	rank: 1 | 2 | 3 | 4;
+};
 
 export type Log = {
 	id: string;
 	date: number;
-	score: Score;
+	playerIDs: string[];
+	scores: Score[];
 };
 
 export type AppData = {
-	players: string[];
+	players: Player[];
 	logs: Log[];
 	deletedLogs: Log[];
 	isFilterDialogOpen: boolean;
@@ -37,9 +45,9 @@ export type AppData = {
 };
 
 type AppDataFunctions = {
-	addPlayer: (playerName: string) => Promise<void>;
+	addPlayer: (name: string) => Promise<void>;
 	deletePlayer: (playerId: string) => Promise<void>;
-	addLog: (playerName: string[], scoreString: string[]) => Promise<void>;
+	addLog: (name: string[], rawPoints: number[]) => Promise<void>;
 	deleteLog: (id: string) => Promise<void>;
 	restoreLog: (id: string) => Promise<void>;
 	deleteLogCompletely: () => Promise<void>;
@@ -52,11 +60,11 @@ type AppDataState = 'guest' | 'loading' | 'ready';
 
 const AppDataContext = createContext<AppData & AppDataFunctions>(null!);
 
-export const AppDataProvider = ({ children }: { children: React.ReactNode }) => {
+export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	const { login, user } = useUserData();
 	const { startLoading, endLoading } = useLoading();
 	const [state, setState] = useState<AppDataState>(login ? 'loading' : 'guest');
-	const [players, setPlayers] = useState<string[]>([]);
+	const [players, setPlayers] = useState<Player[]>([]);
 	const [logs, setLogs] = useState<Log[]>([]);
 	const [deletedLogs, setDeletedLogs] = useState<Log[]>([]);
 	const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
@@ -128,50 +136,46 @@ export const AppDataProvider = ({ children }: { children: React.ReactNode }) => 
 		}
 	}, [logs, filterFrom, filterTo]);
 
-	const addPlayer = async (newPlayer: string) => {
+	const addPlayer = async (name: string) => {
 		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
-		if (players.includes(newPlayer)) {
+		if (players.some((p) => p.name === name)) {
 			throw new Error('この名前はすでに使われています');
 		}
-		await updateFirestorePlayers(user.uid, [...players, newPlayer]);
+		await addFirestorePlayer(user.uid, name);
 		await updatePlayers();
 	};
 
-	const deletePlayer = async (deleteTarget: string) => {
+	const deletePlayer = async (pid: string) => {
 		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
-		await updateFirestorePlayers(user.uid, players.filter((p) => p !== deleteTarget));
+		await deleteFirestorePlayer(pid);
 		await updatePlayers();
 	};
 
-	const addLog = async (playerName: string[], scoreString: string[]) => {
+	const addLog = async (playerIDs: string[], rawPoints: number[]) => {
 		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
-		if (playerName.includes('')) {
-			throw new Error('名前を選択してください');
+		if (playerIDs.includes('')) {
+			throw new Error('プレイヤーを選択してください');
 		}
-		if (playerName.length !== new Set(playerName).size) {
+		if (playerIDs.length !== new Set(playerIDs).size) {
 			throw new Error('同じプレイヤーが複数存在します');
 		}
-		const scoreNum = scoreString.map((s) => Number(s));
-		const scoreTotal = scoreNum.reduce((a, b) => a + b, 0);
-		if (scoreTotal !== 1000) {
+		const total = rawPoints.reduce((a, b) => a + b, 0);
+		if (total !== 1000) {
 			throw new Error(
-				`合計点が ${Math.abs(1000 - scoreTotal) * 100} 点${
-					scoreTotal > 1000 ? '多い' : '少ない'
-				}`,
+				`合計点が ${Math.abs(1000 - total) * 100} 点${
+					total > 1000 ? '多い' : '少ない'
+				}です。修正してください。`,
 			);
 		}
-		const score = new Array(4)
+		const points = calculatePoint(rawPoints);
+		const scores = new Array(4)
 			.fill(null)
 			.map((_, i) => ({
-				point: scoreNum[i],
-				player: playerName[i]
-			}))
-			.sort((a, b) => b.point - a.point)
-			.map((scr, i) => ({
-				point: parseScore[i](scr.point),
-				player: scr.player,
-			}));
-		await addFirestoreLog(user.uid, score);
+				point: points[i],
+				playerID: playerIDs[i]
+			}) as Score)
+			.sort((a, b) => b.point - a.point);
+		await addFirestoreLog(user.uid, playerIDs, scores);
 		await updateLogs();
 	};
 

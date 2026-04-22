@@ -6,19 +6,18 @@ export type GraphData = {
 	score: number;
 };
 
-export const calculateGraphData = (logs: Log[], player: string, filterFrom: string | undefined, filterTo: string | undefined) => {
+export const calculateGraphData = (logs: Log[], playerID: string, filterFrom: string | undefined, filterTo: string | undefined) => {
 	const graphData: GraphData[] = [];
 
 	for (const log of logs.toReversed()) {
-		for (let i = 0; i < 4; i++) {
-			if (log.score[i].player === player) {
-				graphData.push({
-					label: formatDate(new Date(log.date)),
-					score:
-						log.score[i].point +
-						(graphData.length > 0 ? graphData[graphData.length - 1].score : 0),
-				});
-			}
+		const index = log.playerIDs.findIndex((id) => id === playerID);
+		if (index > -1) {
+			graphData.push({
+				label: formatDate(new Date(log.date)),
+				score:
+					log.scores[index].point +
+					(graphData.length > 0 ? graphData[graphData.length - 1].score : 0),
+			});
 		}
 	}
 
@@ -30,8 +29,6 @@ export const calculateGraphData = (logs: Log[], player: string, filterFrom: stri
 	}
 
 	return graphData
-		// アプリ移行前のデータを除外
-		.filter((data) => data.label !== '1970-01-01')
 		// フィルターが設定されていたら範囲外のみ抽出
 		.filter((data) => !filterFrom || filterFrom < data.label)
 		.filter((data) => !filterTo || data.label < filterTo);
@@ -44,17 +41,17 @@ export type RelativeGraphData = {
 	};
 };
 
-export const calculateRelativeGraphData = (logs: Log[], players: string[], filterFrom: string | undefined, filterTo: string | undefined, isNormalize: boolean) => {
+export const calculateRelativeGraphData = (logs: Log[], playerIDs: string[], filterFrom: string | undefined, filterTo: string | undefined, isNormalize: boolean) => {
 	const graphData: RelativeGraphData[] = [];
 	for (const log of logs.toReversed()) {
-		if (log.score.map((score) => score.player).some(item => players.includes(item))) {
+		if (log.playerIDs.some((id) => playerIDs.includes(id))) {
 			graphData.push({
 				label: formatDate(new Date(log.date)),
-				score: Object.fromEntries(players.map((player) => {
-					const pointDiff = log.score.filter((s) => s.player === player).reduce((a, s) => a + s.point, 0);
+				score: Object.fromEntries(playerIDs.map((playerID) => {
+					const pointDiff = log.scores.find((s) => s.playerID === playerID)?.point || 0;
 					return [
-						player,
-						pointDiff + (graphData.length > 0 ? graphData[graphData.length - 1].score[player] : 0)
+						playerID,
+						pointDiff + (graphData.length > 0 ? graphData[graphData.length - 1].score[playerID] : 0)
 					];
 				}))
 			});
@@ -64,13 +61,11 @@ export const calculateRelativeGraphData = (logs: Log[], players: string[], filte
 	if (graphData.length > 0) {
 		graphData.unshift({
 			label: graphData[0].label,
-			score: Object.fromEntries(players.map((player) => [player, 0]))
+			score: Object.fromEntries(playerIDs.map((playerID) => [playerID, 0]))
 		});
 	}
 
 	const filterGraphData = graphData
-		// アプリ移行前のデータを除外
-		.filter((data) => data.label !== '1970-01-01')
 		// フィルターが設定されていたら範囲外のみ抽出
 		.filter((data) => !filterFrom || filterFrom < data.label)
 		.filter((data) => !filterTo || data.label < filterTo);
@@ -79,10 +74,10 @@ export const calculateRelativeGraphData = (logs: Log[], players: string[], filte
 		return filterGraphData;
 	}
 
-	const minmax = Object.fromEntries(players.map((player) => {
-		const scores = filterGraphData.map((data) => data.score[player]);
+	const minmax = Object.fromEntries(playerIDs.map((playerID) => {
+		const scores = filterGraphData.map((data) => data.score[playerID]);
 		return [
-			player,
+			playerID,
 			{
 				min: Math.min(...scores),
 				max: Math.max(...scores),
@@ -92,11 +87,11 @@ export const calculateRelativeGraphData = (logs: Log[], players: string[], filte
 
 	return filterGraphData.map((data) => ({
 		label: data.label,
-		score: Object.fromEntries(players.map((player) => {
-			const {min, max} = minmax[player];
+		score: Object.fromEntries(playerIDs.map((playerID) => {
+			const {min, max} = minmax[playerID];
 			return [
-				player,
-				min === max ? 0 : ((data.score[player] - min) / (max - min)) * 100
+				playerID,
+				min === max ? 0 : ((data.score[playerID] - min) / (max - min)) * 100
 			];
 		})),
 	}));
