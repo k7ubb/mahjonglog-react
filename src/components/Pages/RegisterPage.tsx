@@ -20,11 +20,14 @@ export const RegisterPage = () => {
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
+					if (password !== passwordCheck) {
+						setError('パスワードが一致しません');
+						return;
+					}
 					startLoading();
 					register({
 						email,
 						password,
-						passwordCheck,
 						accountID,
 						accountName,
 					})
@@ -47,23 +50,6 @@ export const RegisterPage = () => {
 					/>
 				</ListGroup>
 
-				<ListGroup title='パスワード'>
-					<ListInputItem
-						required
-						type='password'
-						placeholder='パスワード'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-					<ListInputItem
-						required
-						type='password'
-						placeholder='パスワード (確認)'
-						value={passwordCheck}
-						onChange={(e) => setPasswordCheck(e.target.value)}
-					/>
-				</ListGroup>
-
 				<ListGroup title='アカウント設定'>
 					<ListInputItem
 						required
@@ -79,6 +65,23 @@ export const RegisterPage = () => {
 						placeholder='アカウント名'
 						value={accountName}
 						onChange={(e) => setAccountName(e.target.value)}
+					/>
+				</ListGroup>
+
+				<ListGroup title='パスワード'>
+					<ListInputItem
+						required
+						type='password'
+						placeholder='パスワード'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+					<ListInputItem
+						required
+						type='password'
+						placeholder='パスワード (確認)'
+						value={passwordCheck}
+						onChange={(e) => setPasswordCheck(e.target.value)}
 					/>
 				</ListGroup>
 

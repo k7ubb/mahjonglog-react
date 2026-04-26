@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext, useContext, type ReactNode } from 'react';
 import { useLoading } from '@/contexts/useLoading';
+import { updateUserDataWithAuth } from '@/lib/cryptoStorage';
 import {
 	getAuthUserData,
 	updateUserData,
@@ -22,7 +23,7 @@ export type UserData = {
 
 type UseDataFunctions = {
 	update: () => Promise<void>;
-	updateProfile: (accountID: string, accountName: string) => Promise<void>;
+	updateAccountName: (accountName: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserData & UseDataFunctions>(null!);
@@ -64,14 +65,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 		void update();
 	}, []);
 
-	const updateProfile = async (accountID: string, accountName: string) => {
+	const updateAccountName = async (accountName: string) => {
 		if (!userData.login) {
 			throw new Error('updateProfileを使用するにはログインする必要があります');
 		}
 		await updateUserData(userData.user.uid, {
 			email: userData.user.email,
-			accountID,
+			accountID: userData.user.accountID,
 			accountName,
+		});
+		await updateUserDataWithAuth({
+			...userData.user,
+			accountID: userData.user.accountID,
+			accountName
 		});
 		await update();
 	};
@@ -82,10 +88,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 		<UserContext.Provider value={{
 			...userData,
 			update,
-			updateProfile
+			updateAccountName
 		}}>
 			{userData.login ? (
-				<AuthUserContext.Provider value={{ ...userData.user, update, updateProfile }}>
+				<AuthUserContext.Provider value={{ ...userData.user, update, updateAccountName }}>
 					{children}
 				</AuthUserContext.Provider>
 			) : (

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { FaUserCircle, FaDatabase } from 'react-icons/fa';
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { IoMdCreate } from 'react-icons/io';
@@ -5,15 +6,28 @@ import { IoMdDownload } from 'react-icons/io';
 import { IoAnalytics } from 'react-icons/io5';
 import { MdPeople } from 'react-icons/md';
 import colors from 'tailwindcss/colors';
+import { AccountSwitchForm } from '@/components/Presenter/AccountSwitchForm';
 import { AppWindow, ListGroup, ListLinkItem } from '@/components/Templates';
 import { useUserData } from '@/contexts/useUserData';
-
+import { useAccount } from '@/usecase/useAccount';
+	
 export const HomePage = () => {
 	const { login, user } = useUserData();
+	const { users } = useAccount();
+	const [ accountSwitchDialogOpen, setAccountSwitchDialogOpen ] = useState(false);
 	const indexPageUrl = import.meta.env.VITE_APP_INDEX_PAGE_URL;
 
 	return (
-		<AppWindow title='麻雀戦績共有アプリ'>
+		<AppWindow
+			title='麻雀戦績共有アプリ'
+			{...(users.length > 0 && {
+				headerLeftButton: {
+					icon: FaUserCircle,
+					iconColor: colors.stone[500],
+					onClick: () => setAccountSwitchDialogOpen(v => !v),
+				}
+			})}
+		>
 			{login ? (
 				<>
 					<ListGroup>
@@ -84,6 +98,15 @@ export const HomePage = () => {
 					</ListLinkItem>
 				</ListGroup>
 			</>}
+			{accountSwitchDialogOpen && (
+				<>
+					<div
+						className='fixed inset-0'
+						onClick={() => setAccountSwitchDialogOpen(false)}
+					/>
+					<AccountSwitchForm open={accountSwitchDialogOpen} />
+				</>
+			)}
 		</AppWindow>
 	);
 };

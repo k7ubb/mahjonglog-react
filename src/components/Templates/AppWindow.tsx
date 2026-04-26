@@ -15,13 +15,18 @@ type AppWindowProps = {
 	extraButtons?: ({
 		icon: IconType;
 		iconColor?: string;
-	} & ComponentPropsWithoutRef<'button'>)[]
+	} & ComponentPropsWithoutRef<'button'>)[];
+	// アカウント切り替えボタン専用、戻るボタンと併用は想定しない
+	headerLeftButton?: ({
+		icon: IconType;
+		iconColor?: string;
+	} & ComponentPropsWithoutRef<'button'>);
 };
 
 const currentVersion = '1.0.0';
 
 export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProps) => {
-	const { title, backTo, children, extraButtons, className, ...rest } = props;
+	const { title, backTo, children, extraButtons, headerLeftButton, className, ...rest } = props;
 	const { login } = useUserData();
 	const { filterFrom, filterTo, isFilterDialogOpen, openFilterDialog, closeFilterDialog } = useAppData();
 	const { version } = useVersion();
@@ -74,6 +79,18 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 						<FaChevronLeft />
 						戻る
 					</Link>
+				)}
+				{headerLeftButton && (
+					<div className='flex pl-1 gap-1'>
+						{(() => {
+							const { icon: Icon, iconColor, ...buttonProps } = headerLeftButton;
+							return (
+								<button {...buttonProps}>
+									<Icon size={24} color={iconColor} />
+								</button>
+							);
+						})()}
+					</div>
 				)}
 
 				<h1 className='col-start-2 text-xl'>{title}</h1>
