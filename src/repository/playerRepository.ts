@@ -22,6 +22,10 @@ export const getFirestorePlayers = async (uid: string) => (
 	.map((doc) => ({
 		id: doc.id,
 		name: doc.data().name as string,
+		otherApp: doc.data().otherApp as {
+			rank: number[],
+			score: number
+		}
 	}) as Player);
 
 export const addFirestorePlayer = async (uid: string, name: string) => {

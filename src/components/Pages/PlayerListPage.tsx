@@ -20,13 +20,13 @@ const getNextSortKey = (previousKey: SortKey): SortKey => match(previousKey)
 	.otherwise(() => null) as SortKey;
 
 export const PlayerListPage = () => {
-	const { players, filteredLogs } = useAppData();
+	const { players, filteredLogs, isFilterEnabled } = useAppData();
 	const [sortKey, setSortKey] = useState<SortKey>(null);
 
 	const personalScores: { [key: string]: PersonalScore } = {};
 	players.forEach(
 		(player) =>
-			(personalScores[player.id] = calculatePersonalScore(filteredLogs, player.id)),
+			(personalScores[player.id] = calculatePersonalScore(filteredLogs, player, isFilterEnabled)),
 	);
 
 	return (

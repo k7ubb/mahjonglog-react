@@ -19,6 +19,10 @@ import { calculatePoint } from '@/utils/point';
 export type Player = {
 	id: string;
 	name: string;
+	otherApp: {
+		rank: [number, number, number, number],
+		score: number
+	}
 };
 
 export type Score = {
@@ -30,8 +34,8 @@ export type Score = {
 export type Log = {
 	id: string;
 	date: number;
-	playerIDs: string[];
-	scores: Score[];
+	playerIDs: [string, string, string, string];
+	scores: [Score, Score, Score: Score];
 };
 
 export type AppData = {
@@ -41,10 +45,12 @@ export type AppData = {
 	isFilterDialogOpen: boolean;
 	filterFrom: string;
 	filterTo: string;
+	isFilterEnabled: boolean;
 	filteredLogs: Log[];
 };
 
 type AppDataFunctions = {
+	update: () => Promise<void>;
 	addPlayer: (name: string) => Promise<void>;
 	deletePlayer: (playerId: string) => Promise<void>;
 	addLog: (name: string[], rawPoints: number[]) => Promise<void>;
@@ -71,58 +77,31 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	const [filterFrom, setFilterFrom] = useState<string>('');
 	const [filterTo, setFilterTo] = useState<string>('');
 	const [filteredLogs, setFilteredLogs] = useState<Log[]>([]);
+	const isFilterEnabled = filterTo !== '' && filterFrom !== '';
 
-	// Promise.allで並列実行する場合は、stateの更新を行わない
-	const updatePlayers = async (skipSetState?: boolean) => {
+	const update = async () => {
 		if (!login) { return; }
-		if (!skipSetState) {
-			setState('loading');
-			startLoading();
-		}
+		setState('loading');
+		startLoading();
 		try {
-			const players = await getFirestorePlayers(user.uid);
+			const [players, logs, deletedLogs] = await Promise.all([
+				getFirestorePlayers(user.uid),
+				getFirestoreLogs(user.uid),
+				getFirestoreDeletedLogs(user.uid)
+			]);
 			setPlayers(players);
-		} catch (error) {
-			console.error('Error fetching players:', error);
-		} finally {
-			if (!skipSetState) {
-				setState('ready');
-				endLoading();
-			}
-		}
-	};
-
-	// Promise.allで並列実行する場合は、stateの更新を行わない
-	const updateLogs = async (skipSetState?: boolean) => {
-		if (!login) { return; }
-		if (!skipSetState) {
-			setState('loading');
-			startLoading();
-		}
-		try {
-			const logs = await getFirestoreLogs(user.uid);
-			const deletedLogs = await getFirestoreDeletedLogs(user.uid);
 			setLogs(logs);
 			setDeletedLogs(deletedLogs);
 		} catch (error) {
-			console.error('Error fetching logs:', error);
+			console.error('Error fetching appData:', error);
 		} finally {
-			if (!skipSetState) {
-				setState('ready');
-				endLoading();
-			}
+			setState('ready');
+			endLoading();
 		}
 	};
 
 	useEffect(() => {
-		if (!login) { return; }
-		startLoading();
-		setState('loading');
-		void Promise.all([updatePlayers(true), updateLogs(true)])
-			.finally(() => {
-				setState('ready');
-				endLoading();
-			});
+		void update();
 	}, [user]);
 
 	useEffect(() => {
@@ -142,13 +121,13 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 			throw new Error('この名前はすでに使われています');
 		}
 		await addFirestorePlayer(user.uid, name);
-		await updatePlayers();
+		await update();
 	};
 
 	const deletePlayer = async (pid: string) => {
 		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		await deleteFirestorePlayer(pid);
-		await updatePlayers();
+		await update();
 	};
 
 	const addLog = async (playerIDs: string[], rawPoints: number[]) => {
@@ -176,7 +155,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 			}) as Score)
 			.sort((a, b) => b.point - a.point);
 		await addFirestoreLog(user.uid, playerIDs, scores);
-		await updateLogs();
+		await update();
 	};
 
 	const deleteLog = async (id: string) => {
@@ -186,7 +165,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 			throw new Error('log not found');
 		}
 		await deleteFirestoreLog(user.uid, id, deleteTarget);
-		await updateLogs();
+		await update();
 	};
 
 	const restoreLog = async (id: string) => {
@@ -196,13 +175,13 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 			throw new Error('log not found');
 		}
 		await restoreFirestoreLog( user.uid, id, restoreTarget );
-		await updateLogs();
+		await update();
 	};
 
 	const deleteLogCompletely = async () => {
 		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		await deleteFirestoreLogCompletely(user.uid);
-		await updateLogs();
+		await update();
 	};
 
 	if (state === 'loading') { return null; }
@@ -216,7 +195,9 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 				isFilterDialogOpen,
 				filterFrom,
 				filterTo,
+				isFilterEnabled,
 				filteredLogs,
+				update,
 				openFilterDialog: () => setIsFilterDialogOpen(true),
 				closeFilterDialog: () => setIsFilterDialogOpen(false),
 				setFilter: (from, to) => {

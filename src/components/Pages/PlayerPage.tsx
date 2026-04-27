@@ -38,13 +38,13 @@ type Params = {
 export const PlayerPage = () => {
 	const navigate = useNavigate();
 	const { id } = useParams<Params>() as Params;
-	const { players, logs, filteredLogs, deletePlayer } = useAppData();
+	const { players, logs, filteredLogs, isFilterEnabled, deletePlayer } = useAppData();
 	const { loading, startLoading, endLoading } = useLoading();
 	const player = players.find((p) => p.id === id);
 	if (!player) {
 		throw new Error('プレイヤーが見つかりません');
 	}
-	const personalScore = calculatePersonalScore(filteredLogs, player.id);
+	const personalScore = calculatePersonalScore(filteredLogs, player, isFilterEnabled);
 	
 	const recentRecords = [];
 	for (const log of filteredLogs) {

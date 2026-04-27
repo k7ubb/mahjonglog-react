@@ -1,4 +1,4 @@
-import { type Log } from '@/contexts/useAppData';
+import { type Player, type Log } from '@/contexts/useAppData';
 
 export type PersonalScore = {
 	rank: [number, number, number, number];
@@ -8,16 +8,16 @@ export type PersonalScore = {
 	average_score: number;
 };
 
-export const calculatePersonalScore = (logs: Log[], playerID: string) => {
+export const calculatePersonalScore = (logs: Log[], player: Player, isFilterEnabled: boolean) => {
 	const personalScore: PersonalScore = {
-		rank: [0, 0, 0, 0],
-		count: 0,
+		rank: isFilterEnabled ? [0, 0, 0, 0] : [...player.otherApp.rank],
+		count: isFilterEnabled ? 0 : player.otherApp.rank.reduce((a, b) => a + b, 0),
 		average_rank: 0,
-		score: 0,
+		score: isFilterEnabled ? 0 : player.otherApp.score,
 		average_score: 0,
 	};
 	for (const log of logs) {
-		const index = log.playerIDs.findIndex((id) => id === playerID);
+		const index = log.playerIDs.findIndex((id) => id === player.id);
 		if (index > -1) {
 			personalScore.rank[index]++;
 			personalScore.count++;
