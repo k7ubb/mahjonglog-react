@@ -2,6 +2,7 @@ import { type ComponentPropsWithoutRef } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
 import { type IconType } from 'react-icons/lib';
 import { MdFilterAlt, MdFilterAltOff } from 'react-icons/md';
+import { TbReload } from 'react-icons/tb';
 import { useLocation, Link } from 'react-router-dom';
 import colors from 'tailwindcss/colors';
 import { FilterForm } from '@/components/Presenter/FilterForm';
@@ -28,10 +29,9 @@ const currentVersion = '1.0.0';
 export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProps) => {
 	const { title, backTo, children, extraButtons, headerLeftButton, className, ...rest } = props;
 	const { login } = useUserData();
-	const { filterFrom, filterTo, isFilterDialogOpen, openFilterDialog, closeFilterDialog } = useAppData();
+	const { isFilterEnabled, isFilterDialogOpen, update, openFilterDialog, closeFilterDialog } = useAppData();
 	const { version } = useVersion();
 	const location = useLocation();
-	const isFilterEnabled = filterTo !== '' && filterFrom !== '';
 	
 	const calculatedBackTo = backTo || (location.pathname === '/' ? undefined : (location.pathname.slice(0, location.pathname.lastIndexOf('/')) || '/'));
 	
@@ -41,6 +41,12 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 			await Promise.all(cacheNames.map(name => caches.delete(name)));
 		}
 		window.location.reload();
+	};
+
+	const appDataUpdateButton = {
+		icon: TbReload,
+		iconColor: colors.green[600],
+		onClick: update,
 	};
 
 	const filterDialogButton = {
@@ -97,7 +103,7 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 
 				<div className='flex flex-row-reverse pr-2 gap-1'>
 					{[
-						...(login ? [filterDialogButton] : []),
+						...(login ? [filterDialogButton, appDataUpdateButton] : []),
 						...(extraButtons ?? []),
 					].map(({ icon: Icon, iconColor, ...buttonProps }, i) => (
 						<button key={i} className='ml-2' {...buttonProps}><Icon size={24} color={iconColor} /></button>
