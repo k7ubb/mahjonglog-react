@@ -1,28 +1,23 @@
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { LogItem } from '@/components/Presenter/LogItem';
 import { AppWindow, ListGroup } from '@/components/Templates';
-import { type Log } from '@/usecase/useHandleLog';
-import { useHandleLog } from '@/usecase/useHandleLog';
+import { useAppData } from '@/contexts/useAppData';
+
+type Params = {
+	id: string;
+};
 
 export const PlayerLogPage = () => {
-	const { player } = useParams<{ player: string }>();
-	const { logs, loading } = useHandleLog();
-	const [playerLogs, setPlayerLogs] = useState<Log[]>([]);
-
-	useEffect(() => {
-		setPlayerLogs(
-			logs.filter((log) => log.score.find((sc) => sc.player === player)),
-		);
-	}, [logs]);
+	const { id } = useParams<Params>() as Params;
+	const { players, filteredLogs } = useAppData();
+	const player = players.find((p) => p.id === id);
+	if (!player) {
+		throw new Error('プレイヤーが見つかりません');
+	}
+	const playerLogs = filteredLogs.filter((log) => log.playerIDs.includes(player.id));
 
 	return (
-		<AppWindow
-			title={`${player}の対局記録`}
-			backTo={`/player/${player}`}
-			authOnly={true}
-			loading={loading}
-		>
+		<AppWindow title={`${player.name}の対局記録`}>
 			<ListGroup>
 				{playerLogs.map((log) => (
 					<LogItem showDate={true} key={log.id} log={log} />

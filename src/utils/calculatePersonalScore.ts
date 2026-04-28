@@ -1,4 +1,4 @@
-import { type Log } from '@/usecase/useHandleLog';
+import { type Player, type Log } from '@/contexts/useAppData';
 
 export type PersonalScore = {
 	rank: [number, number, number, number];
@@ -8,21 +8,20 @@ export type PersonalScore = {
 	average_score: number;
 };
 
-export const calculatePersonalScore = (logs: Log[], player: string) => {
+export const calculatePersonalScore = (logs: Log[], player: Player, isFilterEnabled: boolean) => {
 	const personalScore: PersonalScore = {
-		rank: [0, 0, 0, 0],
-		count: 0,
+		rank: isFilterEnabled ? [0, 0, 0, 0] : [...player.otherApp.rank],
+		count: isFilterEnabled ? 0 : player.otherApp.rank.reduce((a, b) => a + b, 0),
 		average_rank: 0,
-		score: 0,
+		score: isFilterEnabled ? 0 : player.otherApp.score,
 		average_score: 0,
 	};
 	for (const log of logs) {
-		for (let i = 0; i < 4; i++) {
-			if (log.score[i].player === player) {
-				personalScore.rank[i]++;
-				personalScore.count++;
-				personalScore.score += log.score[i].point;
-			}
+		const index = log.playerIDs.findIndex((id) => id === player.id);
+		if (index > -1) {
+			personalScore.rank[index]++;
+			personalScore.count++;
+			personalScore.score += log.scores[index].point;
 		}
 	}
 	if (personalScore.count !== 0) {

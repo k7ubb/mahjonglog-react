@@ -1,36 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
-import { useHandleAuth } from '@/usecase/useHandleAuth';
-import { useHandleUser } from '@/usecase/useHandleUser';
+import { useLoading } from '@/contexts/useLoading';
+import { useAuthUserData } from '@/contexts/useUserData';
+import { useAccount } from '@/usecase/useAccount';
 
 export const AccountPage = () => {
-	const { user, updateProfile } = useHandleUser();
-	const { logout } = useHandleAuth();
-	const [accountID, setAccountID] = useState('');
-	const [accountName, setAccountName] = useState('');
-	const [profEditLoading, setProfEditLoading] = useState(false);
-	const [profEditError, setProfEditError] = useState('');
-	const [logoutLoading, setLogoutLoading] = useState(false);
-
-	useEffect(() => {
-		setAccountID(user?.accountID || '');
-		setAccountName(user?.accountName || '');
-	}, [user]);
+	const navigate = useNavigate();
+	const { loading, startLoading, endLoading } = useLoading();
+	const { accountName: initialAccountName, updateAccountName } = useAuthUserData();
+	const { logout } = useAccount();
+	const [accountName, setAccountName] = useState(initialAccountName);
+	const [error, setError] = useState('');
 
 	return (
-		<AppWindow
-			title='アカウント設定'
-			backTo='/'
-			authOnly={true}
-			loading={profEditLoading || logoutLoading}
-		>
+		<AppWindow title='アカウント設定'>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					setProfEditLoading(true);
-					updateProfile(accountID, accountName)
-						.catch((e) => setProfEditError((e as Error).message))
-						.finally(() => setProfEditLoading(false));
+					startLoading();
+					updateAccountName(accountName)
+						.then(() => {
+							navigate('/');
+						})
+						.catch((e) => setError((e as Error).message))
+						.finally(() => endLoading());
 				}}
 			>
 				<ListGroup title='アカウント名'>
@@ -43,24 +37,10 @@ export const AccountPage = () => {
 					/>
 				</ListGroup>
 
-				<ListGroup
-					title='アカウントID'
-					description='ログイン時に使用します。必要に応じて、変更後のアカウントIDをメンバーに共有してください。'
-				>
-					<ListInputItem
-						required
-						type='text'
-						pattern='^[a-zA-Z0-9\-_]+$'
-						placeholder='アカウントIDを設定'
-						value={accountID}
-						onChange={(e) => setAccountID(e.target.value)}
-					/>
-				</ListGroup>
-
-				<ListGroup {...(profEditError && { error: profEditError })}>
+				<ListGroup error={error}>
 					<ListButtonItem
 						type='submit'
-						disabled={profEditLoading}
+						disabled={loading}
 					>
 						変更を保存
 					</ListButtonItem>
@@ -70,10 +50,10 @@ export const AccountPage = () => {
 			<ListGroup>
 				<ListButtonItem
 					onClick={() => {
-						setLogoutLoading(true);
-						void logout().finally(() => setLogoutLoading(false));
+						startLoading();
+						void logout().finally(() => endLoading());
 					}}
-					disabled={logoutLoading}
+					disabled={loading}
 					className='text-red-600 hover:bg-red-50'
 				>
 					ログアウト

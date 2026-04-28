@@ -8,13 +8,15 @@ import {
 } from 'chart.js';
 import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { useParams, useNavigate } from 'react-router-dom';
 import colors from 'tailwindcss/colors';
 import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
 import { AppWindow, ListGroup, ListItem, ListLinkItem, ListButtonItem } from '@/components/Templates';
-import { useHandleLog } from '@/usecase/useHandleLog';
-import { useHandlePlayer } from '@/usecase/useHandlePlayer';
+import { useAppData } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 import { calculatePersonalScore } from '@/utils/calculatePersonalScore';
+import { round } from '@/utils/round';
 
 const ScoreRow = ({
 	title,
@@ -31,28 +33,36 @@ const ScoreRow = ({
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
+type Params = {
+	id: string;
+};
+
 export const PlayerPage = () => {
 	const navigate = useNavigate();
-	const { player } = useParams<{ player: string }>();
-	const { logs, allLogs } = useHandleLog();
-	const { deletePlayer } = useHandlePlayer();
-	const personalScore = calculatePersonalScore(logs, player!);
-	const [loading, setLoading] = useState(false);
-
+	const { id } = useParams<Params>() as Params;
+	const { players, logs, filteredLogs, isFilterEnabled, changePlayerName, deletePlayer } = useAppData();
+	const { loading, startLoading, endLoading } = useLoading();
+	const player = players.find((p) => p.id === id);
+	if (!player) {
+		throw new Error('プレイヤーが見つかりません');
+	}
+	const personalScore = calculatePersonalScore(filteredLogs, player, isFilterEnabled);
+	const [otherAppOpen, setOtherAppOpen] = useState(false);
+	
 	const recentRecords = [];
-	for (const log of allLogs) {
-		for (let i = 0; i < 4; i++) {
-			if (log.score[i].player === player) {
-				recentRecords.push(i + 1);
+	for (const log of filteredLogs) {
+		const index = log.playerIDs.findIndex((id) => id === player.id);
+		if (index > -1) {
+			recentRecords.push(index + 1);
+			if (recentRecords.length == 10) {
+				break;
 			}
-		}
-		if (recentRecords.length == 10) {
-			break;
 		}
 	}
 
-	const recentAverage =
-		recentRecords.reduce((acc, cur) => acc + cur, 0) / recentRecords.length;
+	const recentAverage = recentRecords.length > 0 ?
+		recentRecords.reduce((acc, cur) => acc + cur, 0) / recentRecords.length
+		: '-';
 
 	while (recentRecords.length < 10) {
 		recentRecords.push(null);
@@ -63,7 +73,7 @@ export const PlayerPage = () => {
 		plugins: {
 			title: {
 				display: true,
-				text: `直近10試合: 平均順位 ${Math.floor(recentAverage * 100) / 100}`,
+				text: `直近10試合: 平均順位 ${recentAverage === '-' ? '-' : round(recentAverage, 2)}`,
 			},
 		},
 		scales: {
@@ -82,12 +92,7 @@ export const PlayerPage = () => {
 	};
 
 	return (
-		<AppWindow
-			title={player!}
-			backTo='/player'
-			authOnly={true}
-			loading={loading}
-		>
+		<AppWindow title={player.name}>
 			{personalScore && (
 				<>
 					<ListGroup>
@@ -103,13 +108,33 @@ export const PlayerPage = () => {
 						<ScoreRow title='平均得点'>
 							<ColoredNumber point={personalScore.average_score} />
 						</ScoreRow>
+						{player.otherApp.rank.reduce((a, b) => a + b, 0) > 0 && (
+							<>
+								<ListItem>
+									<p>他のアプリの記録</p>
+									<button className='ml-auto' onClick={() => setOtherAppOpen((v) => !v)}>
+										{otherAppOpen ? <FaAngleUp /> : <FaAngleDown />}
+									</button>
+								</ListItem>
+								{otherAppOpen && (
+									<>
+										<ScoreRow title='1位'>{player.otherApp.rank[0]}</ScoreRow>
+										<ScoreRow title='2位'>{player.otherApp.rank[1]}</ScoreRow>
+										<ScoreRow title='3位'>{player.otherApp.rank[2]}</ScoreRow>
+										<ScoreRow title='4位'>{player.otherApp.rank[3]}</ScoreRow>
+										<ScoreRow title='試合数'>{player.otherApp.rank.reduce((a, b) => a + b, 0)}</ScoreRow>
+										<ScoreRow title='累計得点'>{player.otherApp.score}</ScoreRow>
+									</>
+								)}
+							</>
+						)}
 					</ListGroup>
 
 					<ListGroup>
-						<ListLinkItem to={`/player/${player}/logs`}>
+						<ListLinkItem to={`/player/${id}/logs`}>
 							対局記録を表示
 						</ListLinkItem>
-						<ListLinkItem to={`/player/${player}/graph`}>
+						<ListLinkItem to={`/player/${id}/graph`}>
 							点数推移を表示
 						</ListLinkItem>
 					</ListGroup>
@@ -133,21 +158,40 @@ export const PlayerPage = () => {
 						<ListButtonItem
 							disabled={loading}
 							onClick={() => {
-								if (
-									allLogs.some((log) =>
-										log.score.some(({ player: player_ }) => player === player_),
-									)
-								) {
+								const newName = prompt('新しいプレイヤー名を入力してください');
+								if (!newName) { return; }
+								if (players.some((p) => p.name === newName)) {
+									alert('この名前はすでに使われています');
+									return;
+								}
+								startLoading();
+								void changePlayerName(player.id, newName)
+									.then(() => {
+										endLoading();
+									});
+							}
+							}
+						>
+							プレイヤー名を変更
+						</ListButtonItem>
+					</ListGroup>
+
+					<ListGroup>
+						<ListButtonItem
+							disabled={loading}
+							onClick={() => {
+								if (logs.some((log) => log.playerIDs.some((id) => id === player.id))) {
 									alert('対局記録があるプレイヤーは削除できません');
-								} else if (confirm(`'${player}' を削除してもよろしいですか?`)) {
-									setLoading(true);
-									void deletePlayer(player!)
+								} else if (confirm(`'${player.name}' を削除してもよろしいですか?`)) {
+									startLoading();
+									void deletePlayer(player.id)
 										.then(() => {
 											navigate('/player');
-											setLoading(false);
+											endLoading();
 										});
 								}
 							}}
+							className='text-red-600 hover:bg-red-50'
 						>
 							プレイヤーを削除
 						</ListButtonItem>

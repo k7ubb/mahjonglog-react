@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { ColoredNumber } from '@/components/Presenter/ColoredNumber';
 import { ListItem } from '@/components/Templates';
-import { type Log } from '@/usecase/useHandleLog';
+import { type Log } from '@/contexts/useAppData';
+import { useAppData } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 import { formatDate } from '@/utils/formatDate';
 
 export const LogItem = ({
@@ -15,7 +16,8 @@ export const LogItem = ({
 	buttonElement?: JSX.Element;
 	onClick?: () => Promise<void>;
 }) => {
-	const [loading, setLoading] = useState(false);
+	const { players } = useAppData();
+	const { loading } = useLoading();
 
 	return (
 		<ListItem className='h-auto'>
@@ -25,9 +27,9 @@ export const LogItem = ({
 					{new Array(4).fill(null).map((_, i) => (
 						<li key={i} className='ml-4'>
 							<div className='flex mb-1'>
-								<span className='block w-40'>{log.score[i].player}</span>
+								<span className='block w-40'>{players.find((p) => p.id === log.scores[i].playerID)?.name}</span>
 								<span className='block w-20 text-right'>
-									<ColoredNumber point={log.score[i].point} />
+									<ColoredNumber point={log.scores[i].point} />
 								</span>
 							</div>
 						</li>
@@ -39,9 +41,7 @@ export const LogItem = ({
 					<button
 						disabled={loading}
 						onClick={() => {
-							setLoading(true);
-							void onClick?.()
-								.then(() => setLoading(false));
+							void onClick?.();
 						}}
 					>
 						{buttonElement}

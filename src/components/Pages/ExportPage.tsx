@@ -1,21 +1,23 @@
 import { AppWindow, ListGroup, ListButtonItem } from '@/components/Templates';
-import { useHandleLog } from '@/usecase/useHandleLog';
+import { useAppData } from '@/contexts/useAppData';
 
 export const ExportPage = () => {
-	const { logs, loading } = useHandleLog();
+	const { players, filteredLogs } = useAppData();
 
 	const handleExport = () => {
-		const convertedLog = [...logs]
-			.reverse()
-			.map((log) => ({ date: log.date, score: log.score }));
-		const json = JSON.stringify(convertedLog)
-			.replace(/\{"date/g, '\n  {"date')
-			.replace(/]$/, '\n]');
-		const blob = new Blob([json], { type: 'application/json' });
+		let result = `\t${players.map((player) => player.name).join('\t')}\n`;
+		for (const log of filteredLogs.toReversed()) {
+			const playerScores = players.map((player) => {
+				const index = log.playerIDs.findIndex((id) => id === player.id);
+				return index !== -1 ? log.scores[index].point : '';
+			});
+			result += `${log.date}\t${playerScores.join('\t')}\n`;
+		}
+		const blob = new Blob([result], { type: 'text/csv' });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = url;
-		a.download = `logs_${new Date().toISOString().slice(0, 10)}.json`;
+		a.download = `logs_${new Date().toISOString().slice(0, 10)}.csv`;
 		document.body.appendChild(a);
 		a.click();
 		document.body.removeChild(a);
@@ -23,14 +25,9 @@ export const ExportPage = () => {
 	};
 
 	return (
-		<AppWindow
-			title='エクスポート'
-			backTo='/'
-			authOnly={true}
-			loading={loading}
-		>
-			<ListGroup title={`${logs.length}件のログがあります`}>
-				<ListButtonItem onClick={handleExport}>ログファイルをエクスポート</ListButtonItem>
+		<AppWindow title='エクスポート'>
+			<ListGroup title={`${filteredLogs.length}件のログがあります`}>
+				<ListButtonItem onClick={handleExport}>CSVをエクスポート</ListButtonItem>
 			</ListGroup>
 		</AppWindow>
 	);

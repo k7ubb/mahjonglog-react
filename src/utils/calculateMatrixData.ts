@@ -1,23 +1,17 @@
-import { type Log } from '@/usecase/useHandleLog';
-import { formatDate } from '@/utils/formatDate';
+import { type Log } from '@/contexts/useAppData';
 
-export const calculateMatrixData = (logs: Log[], players: string[]) => {
-	if (logs.length === 0) { return; }
-
-	const matrix: number[][][] = Array.from({ length: players.length }, () => 
-		Array.from({ length: players.length }, () => [])
+export const calculateMatrixData = (logs: Log[], playerIDs: string[]) => {
+	const matrix: number[][][] = Array.from({ length: playerIDs.length }, () => 
+		Array.from({ length: playerIDs.length }, () => [])
 	);
-
-	// アプリ移行前のデータを除外
-	const filteredLogs = logs.filter((log) => formatDate(new Date(log.date)) !== '1970-01-01');
 	
-	for (const log of filteredLogs) {
-		for (const playerA of players) {
-			for (const playerB of players) {
-				const rankA = log.score.findIndex((s) => s.player === playerA);
-				const rankB = log.score.findIndex((s) => s.player === playerB);
-				if (rankA !== -1 && rankB !== -1 && rankA !== rankB) {
-					matrix[players.indexOf(playerA)][players.indexOf(playerB)].push(rankA - rankB);
+	for (const log of logs) {
+		for (const playerA of playerIDs) {
+			for (const playerB of playerIDs) {
+				const indexA = log.playerIDs.findIndex((id) => id === playerA);
+				const indexB = log.playerIDs.findIndex((id) => id === playerB);
+				if (indexA !== -1 && indexB !== -1 && indexA !== indexB) {
+					matrix[playerIDs.indexOf(playerA)][playerIDs.indexOf(playerB)].push(indexA - indexB);
 				}
 			}
 		}

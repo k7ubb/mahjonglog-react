@@ -1,4 +1,4 @@
-import { type Log } from '@/usecase/useHandleLog';
+import { type Log } from '@/contexts/useAppData';
 import { formatDate } from '@/utils/formatDate';
 
 export type GraphData = {
@@ -6,19 +6,18 @@ export type GraphData = {
 	score: number;
 };
 
-export const calculateGraphData = (allLogs: Log[], player: string, filter: { from?: string; to?: string }) => {
+export const calculateGraphData = (logs: Log[], playerID: string, filterFrom: string | undefined, filterTo: string | undefined) => {
 	const graphData: GraphData[] = [];
 
-	for (const log of allLogs.toReversed()) {
-		for (let i = 0; i < 4; i++) {
-			if (log.score[i].player === player) {
-				graphData.push({
-					label: formatDate(new Date(log.date)),
-					score:
-						log.score[i].point +
-						(graphData.length > 0 ? graphData[graphData.length - 1].score : 0),
-				});
-			}
+	for (const log of logs.toReversed()) {
+		const index = log.playerIDs.findIndex((id) => id === playerID);
+		if (index > -1) {
+			graphData.push({
+				label: formatDate(new Date(log.date)),
+				score:
+					log.scores[index].point +
+					(graphData.length > 0 ? graphData[graphData.length - 1].score : 0),
+			});
 		}
 	}
 
@@ -30,11 +29,9 @@ export const calculateGraphData = (allLogs: Log[], player: string, filter: { fro
 	}
 
 	return graphData
-		// アプリ移行前のデータを除外
-		.filter((data) => data.label !== '1970-01-01')
 		// フィルターが設定されていたら範囲外のみ抽出
-		.filter((data) => !filter.from || filter.from < data.label)
-		.filter((data) => !filter.to || data.label < filter.to);
+		.filter((data) => !filterFrom || filterFrom < data.label)
+		.filter((data) => !filterTo || data.label < filterTo);
 };
 
 export type RelativeGraphData = {
@@ -44,17 +41,17 @@ export type RelativeGraphData = {
 	};
 };
 
-export const calculateRelativeGraphData = (allLogs: Log[], players: string[], filter: { from?: string; to?: string }, normalize: boolean) => {
+export const calculateRelativeGraphData = (logs: Log[], playerIDs: string[], filterFrom: string | undefined, filterTo: string | undefined, isNormalize: boolean) => {
 	const graphData: RelativeGraphData[] = [];
-	for (const log of allLogs.toReversed()) {
-		if (log.score.map((score) => score.player).some(item => players.includes(item))) {
+	for (const log of logs.toReversed()) {
+		if (log.playerIDs.some((id) => playerIDs.includes(id))) {
 			graphData.push({
 				label: formatDate(new Date(log.date)),
-				score: Object.fromEntries(players.map((player) => {
-					const pointDiff = log.score.filter((s) => s.player === player).reduce((a, s) => a + s.point, 0);
+				score: Object.fromEntries(playerIDs.map((playerID) => {
+					const pointDiff = log.scores.find((s) => s.playerID === playerID)?.point || 0;
 					return [
-						player,
-						pointDiff + (graphData.length > 0 ? graphData[graphData.length - 1].score[player] : 0)
+						playerID,
+						pointDiff + (graphData.length > 0 ? graphData[graphData.length - 1].score[playerID] : 0)
 					];
 				}))
 			});
@@ -64,25 +61,23 @@ export const calculateRelativeGraphData = (allLogs: Log[], players: string[], fi
 	if (graphData.length > 0) {
 		graphData.unshift({
 			label: graphData[0].label,
-			score: Object.fromEntries(players.map((player) => [player, 0]))
+			score: Object.fromEntries(playerIDs.map((playerID) => [playerID, 0]))
 		});
 	}
 
 	const filterGraphData = graphData
-		// アプリ移行前のデータを除外
-		.filter((data) => data.label !== '1970-01-01')
 		// フィルターが設定されていたら範囲外のみ抽出
-		.filter((data) => !filter.from || filter.from < data.label)
-		.filter((data) => !filter.to || data.label < filter.to);
+		.filter((data) => !filterFrom || filterFrom < data.label)
+		.filter((data) => !filterTo || data.label < filterTo);
 
-	if (!normalize) {
+	if (!isNormalize) {
 		return filterGraphData;
 	}
 
-	const minmax = Object.fromEntries(players.map((player) => {
-		const scores = filterGraphData.map((data) => data.score[player]);
+	const minmax = Object.fromEntries(playerIDs.map((playerID) => {
+		const scores = filterGraphData.map((data) => data.score[playerID]);
 		return [
-			player,
+			playerID,
 			{
 				min: Math.min(...scores),
 				max: Math.max(...scores),
@@ -92,11 +87,11 @@ export const calculateRelativeGraphData = (allLogs: Log[], players: string[], fi
 
 	return filterGraphData.map((data) => ({
 		label: data.label,
-		score: Object.fromEntries(players.map((player) => {
-			const {min, max} = minmax[player];
+		score: Object.fromEntries(playerIDs.map((playerID) => {
+			const {min, max} = minmax[playerID];
 			return [
-				player,
-				min === max ? 0 : ((data.score[player] - min) / (max - min)) * 100
+				playerID,
+				min === max ? 0 : ((data.score[playerID] - min) / (max - min)) * 100
 			];
 		})),
 	}));

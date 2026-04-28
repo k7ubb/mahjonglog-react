@@ -1,29 +1,33 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppWindow, ListGroup, ListButtonItem, ListInputItem } from '@/components/Templates';
-import { useHandleAuth } from '@/usecase/useHandleAuth';
+import { useLoading } from '@/contexts/useLoading';
+import { useAccount } from '@/usecase/useAccount';
 
 export const RegisterPage = () => {
 	const navigate = useNavigate();
-	const { register } = useHandleAuth();
+	const { register } = useAccount();
+	const { loading, startLoading, endLoading } = useLoading();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordCheck, setPasswordCheck] = useState('');
 	const [accountID, setAccountID] = useState('');
 	const [accountName, setAccountName] = useState('');
 	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
 
 	return (
-		<AppWindow title='新規登録' backTo='/' loading={loading}>
+		<AppWindow title='新規登録'>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					setLoading(true);
+					if (password !== passwordCheck) {
+						setError('パスワードが一致しません');
+						return;
+					}
+					startLoading();
 					register({
 						email,
 						password,
-						passwordCheck,
 						accountID,
 						accountName,
 					})
@@ -32,7 +36,7 @@ export const RegisterPage = () => {
 						}).catch((e) => {
 							setError((e as Error).message);
 						}).finally(() => {
-							setLoading(false);
+							endLoading();
 						});
 				}}
 			>
@@ -43,23 +47,6 @@ export const RegisterPage = () => {
 						placeholder='メールアドレス'
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</ListGroup>
-
-				<ListGroup title='パスワード'>
-					<ListInputItem
-						required
-						type='password'
-						placeholder='パスワード'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-					<ListInputItem
-						required
-						type='password'
-						placeholder='パスワード (確認)'
-						value={passwordCheck}
-						onChange={(e) => setPasswordCheck(e.target.value)}
 					/>
 				</ListGroup>
 
@@ -78,6 +65,23 @@ export const RegisterPage = () => {
 						placeholder='アカウント名'
 						value={accountName}
 						onChange={(e) => setAccountName(e.target.value)}
+					/>
+				</ListGroup>
+
+				<ListGroup title='パスワード'>
+					<ListInputItem
+						required
+						type='password'
+						placeholder='パスワード'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+					<ListInputItem
+						required
+						type='password'
+						placeholder='パスワード (確認)'
+						value={passwordCheck}
+						onChange={(e) => setPasswordCheck(e.target.value)}
 					/>
 				</ListGroup>
 

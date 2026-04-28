@@ -1,27 +1,16 @@
-import { useState } from 'react';
 import { FaArrowCircleLeft } from 'react-icons/fa';
 import { LogItem } from '@/components/Presenter/LogItem';
 import { AppWindow, ListGroup, ListItem, ListButtonItem } from '@/components/Templates';
-import { useHandleLog } from '@/usecase/useHandleLog';
+import { useAppData } from '@/contexts/useAppData';
+import { useLoading } from '@/contexts/useLoading';
 
 export const LogDeletedPage = () => {
-	const { deletedLogs, loading, restoreLog, deleteLogCompletely } =
-		useHandleLog();
-	const [actionLoading, setActionLoading] = useState(false);
+	const { deletedLogs, restoreLog, deleteLogCompletely } = useAppData();
+	const { startLoading, endLoading } = useLoading();
 
 	return (
-		<AppWindow
-			title='削除したログ'
-			backTo='/log'
-			authOnly={true}
-			loading={loading || actionLoading}
-		>
-			{!loading && deletedLogs.length === 0 && (
-				<ListGroup>
-					<ListItem>削除したログはありません</ListItem>
-				</ListGroup>
-			)}
-			{deletedLogs.length !== 0 && (
+		<AppWindow title='削除したログ'>
+			{deletedLogs.length ? (
 				<>
 					<ListGroup>
 						{deletedLogs.map((log) => (
@@ -38,9 +27,12 @@ export const LogDeletedPage = () => {
 								}
 								onClick={async () => {
 									if (confirm('ログを復元します。よろしいですか?')) {
-										setActionLoading(true);
-										await restoreLog(log.id);
-										setActionLoading(false);
+										startLoading();
+										try {
+											await restoreLog(log.id);
+										} finally {
+											endLoading();
+										}
 									}
 								}}
 							/>
@@ -63,6 +55,10 @@ export const LogDeletedPage = () => {
 						</ListButtonItem>
 					</ListGroup>
 				</>
+			) : (
+				<ListGroup>
+					<ListItem>削除したログはありません</ListItem>
+				</ListGroup>
 			)}
 		</AppWindow>
 	);
