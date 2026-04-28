@@ -5,8 +5,8 @@ import { loadEnv, type ConfigEnv, type ViteDevServer } from 'vite';
 
 function manifestPlugin(env: Record<string, string>) {
 	const manifest = {
-		short_name: '麻雀ログ',
-		name: 'オンライン麻雀ログ',
+		short_name: 'クラウド麻雀ログ',
+		name: 'クラウド麻雀ログ',
 		start_url: env.VITE_BASE_PATH,
 		scope: env.VITE_BASE_PATH,
 		display: 'standalone',

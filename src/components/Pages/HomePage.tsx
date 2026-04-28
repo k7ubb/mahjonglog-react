@@ -22,7 +22,7 @@ export const HomePage = () => {
 
 	return (
 		<AppWindow
-			title='麻雀戦績共有アプリ'
+			title='クラウド麻雀ログ'
 			{...(users.length > 0 && {
 				headerLeftButton: {
 					icon: FaUserCircle,
