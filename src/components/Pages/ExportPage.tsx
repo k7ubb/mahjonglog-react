@@ -1,5 +1,6 @@
 import { AppWindow, ListGroup, ListButtonItem } from '@/components/Templates';
 import { useAppData } from '@/contexts/useAppData';
+import { formatDate } from '@/utils/formatDate';
 
 export const ExportPage = () => {
 	const { players, filteredLogs } = useAppData();
@@ -11,7 +12,7 @@ export const ExportPage = () => {
 				const index = log.playerIDs.findIndex((id) => id === player.id);
 				return index !== -1 ? log.scores[index].point : '';
 			});
-			result += `${log.date}\t${playerScores.join('\t')}\n`;
+			result += `${formatDate(new Date(log.date))}\t${playerScores.join('\t')}\n`;
 		}
 		const blob = new Blob([result], { type: 'text/csv' });
 		const url = URL.createObjectURL(blob);
