@@ -1,9 +1,9 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import type { User } from '@/contexts/useUserData';
 import { FirebaseApp } from '@/lib/firebase';
 
-export const getAuthUserData = async () => {
+export const getFirestoreUserData = async () => {
 	const auth = getAuth();
 	return new Promise<User | null>((resolve) => {
 		onAuthStateChanged(auth, (user) => {
@@ -29,21 +29,8 @@ export const getAuthUserData = async () => {
 	});
 };
 
-export const updateUserData = async (
-	uid: string,
-	{
-		email,
-		accountID,
-		accountName,
-	}: {
-		email: string;
-		accountID: string;
-		accountName: string;
-	},
-) => {
-	await setDoc(doc(getFirestore(FirebaseApp), 'account', uid), {
-		email,
-		accountID,
-		accountName,
+export const changeFirestoreUserName = async (uid: string, newAccountName: string) => {
+	await updateDoc(doc(getFirestore(FirebaseApp), 'account', uid), {
+		accountName: newAccountName
 	});
 };

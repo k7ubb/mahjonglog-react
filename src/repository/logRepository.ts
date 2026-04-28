@@ -65,7 +65,7 @@ export const deleteFirestoreLog = async (uid: string, id: string, log: Log) => {
 	await deleteDoc(doc(getFirestore(FirebaseApp), 'logs_v2', id));
 	const { id: _id, ...rest } = log;
 	await setDoc(doc(getFirestore(FirebaseApp), 'logs-archive_v2', id), {
-		uid: uid,
+		uid,
 		...rest,
 	});
 };
@@ -74,7 +74,7 @@ export const restoreFirestoreLog = async (uid: string, id: string, log: Log) => 
 	await deleteDoc(doc(getFirestore(FirebaseApp), 'logs-archive_v2', id));
 	const { id: _id, ...rest } = log;
 	await setDoc(doc(getFirestore(FirebaseApp), 'logs_v2', id), {
-		uid: uid,
+		uid,
 		...rest
 	});
 };

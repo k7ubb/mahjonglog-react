@@ -12,6 +12,7 @@ import {
 import {
 	getFirestorePlayers,
 	addFirestorePlayer,
+	changeFirestorePlayerName,
 	deleteFirestorePlayer
 } from '@/repository/playerRepository';
 import { calculatePoint } from '@/utils/point';
@@ -52,6 +53,7 @@ export type AppData = {
 type AppDataFunctions = {
 	update: () => Promise<void>;
 	addPlayer: (name: string) => Promise<void>;
+	changePlayerName: (playerId: string, newName: string) => Promise<void>;
 	deletePlayer: (playerId: string) => Promise<void>;
 	addLog: (name: string[], rawPoints: number[]) => Promise<void>;
 	deleteLog: (id: string) => Promise<void>;
@@ -121,6 +123,12 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 			throw new Error('この名前はすでに使われています');
 		}
 		await addFirestorePlayer(user.uid, name);
+		await update();
+	};
+
+	const changePlayerName = async (pid: string, newName: string) => {
+		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		await changeFirestorePlayerName(pid, newName);
 		await update();
 	};
 
@@ -205,6 +213,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 					setFilterTo(to);
 				},
 				addPlayer,
+				changePlayerName,
 				deletePlayer,
 				addLog,
 				deleteLog,

@@ -6,6 +6,7 @@ import {
 	doc,
 	collection,
 	query,
+	updateDoc,
 	where,
 } from 'firebase/firestore';
 import type { Player } from '@/contexts/useAppData';
@@ -32,6 +33,16 @@ export const addFirestorePlayer = async (uid: string, name: string) => {
 	await addDoc(collection(getFirestore(FirebaseApp), 'players_v2'), {
 		uid,
 		name,
+		otherApp: {
+			rank: [0, 0, 0, 0],
+			score: 0
+		}
+	});
+};
+
+export const changeFirestorePlayerName = async (pid: string, newName: string) => {
+	await updateDoc(doc(getFirestore(FirebaseApp), 'players_v2', pid), {
+		name: newName
 	});
 };
 

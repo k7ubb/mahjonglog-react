@@ -15,6 +15,7 @@ import {
 	where,
 } from 'firebase/firestore';
 import { FirebaseApp } from '@/lib/firebase';
+import { addFirestorePlayer } from '@/repository/playerRepository';
 
 export const getEmailByAccountID = async (accountID: string) => {
 	const docs = (
@@ -67,23 +68,24 @@ export const fireauthRegister = async ({
 	accountID: string;
 	accountName: string;
 }) => {
-	await createUserWithEmailAndPassword(getAuth(), email, password);
-	const auth = getAuth();
-	return new Promise<void>((resolve, reject) => {
-		onAuthStateChanged(auth, (user) => {
-			if (!user) {
-				throw new Error('アカウント登録に失敗しました');
-			}
-			setDoc(
-				doc(getFirestore(FirebaseApp), 'account', user.uid),
-				{
-					email,
-					accountID,
-					accountName,
-				},
-			).then(resolve).catch(reject);
-		});
-	});
+	const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
+	const user = userCredential.user;
+	if (!user) {
+		throw new Error('アカウント登録に失敗しました');
+	}
+	await setDoc(
+		doc(getFirestore(FirebaseApp), 'account', user.uid),
+		{
+			email,
+			accountID,
+			accountName,
+		},
+	);
+	await addFirestorePlayer(user.uid, 'プレイヤー1');
+	await addFirestorePlayer(user.uid, 'プレイヤー2');
+	await addFirestorePlayer(user.uid, 'プレイヤー3');
+	await addFirestorePlayer(user.uid, 'プレイヤー4');
+	return;
 };
 
 export const fireauthLogout = async () => {

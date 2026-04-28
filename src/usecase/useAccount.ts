@@ -9,7 +9,7 @@ import {
 	fireauthRegister,
 	fireauthLogout,
 } from '@/repository/authRepository';
-import { getAuthUserData } from '@/repository/userRepository';
+import { getFirestoreUserData } from '@/repository/userRepository';
 
 export type UserDataWithAuth = User & {
 	encryptedPass: ArrayBuffer;
@@ -48,7 +48,7 @@ export const useAccount = () => {
 			: await getEmailByAccountID(emailOrAccountID);
 		try {
 			await fireauthLogin({ email, password });
-			const user = await getAuthUserData();
+			const user = await getFirestoreUserData();
 			if (!user) {
 				throw new Error('ログインに失敗しました。');
 			}
@@ -78,7 +78,7 @@ export const useAccount = () => {
 		await checkAccountIDExist(accountID);
 		try {
 			await fireauthRegister({ email, password, accountID, accountName });
-			const user = await getAuthUserData();
+			const user = await getFirestoreUserData();
 			if (!user) {
 				throw new Error('アカウント登録に失敗しました');
 			}

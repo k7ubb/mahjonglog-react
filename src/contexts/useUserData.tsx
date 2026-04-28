@@ -2,8 +2,8 @@ import { useState, useEffect, createContext, useContext, type ReactNode } from '
 import { useLoading } from '@/contexts/useLoading';
 import { updateUserDataWithAuth } from '@/lib/cryptoStorage';
 import {
-	getAuthUserData,
-	updateUserData,
+	getFirestoreUserData,
+	changeFirestoreUserName,
 } from '@/repository/userRepository';
 
 export type User = {
@@ -41,7 +41,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 		setLoading(true);
 		startLoading();
 		try {
-			const user = await getAuthUserData();
+			const user = await getFirestoreUserData();
 			if (user) {
 				setUserData({
 					login: true,
@@ -65,19 +65,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 		void update();
 	}, []);
 
-	const updateAccountName = async (accountName: string) => {
+	const updateAccountName = async (newAccountName: string) => {
 		if (!userData.login) {
 			throw new Error('updateProfileを使用するにはログインする必要があります');
 		}
-		await updateUserData(userData.user.uid, {
-			email: userData.user.email,
-			accountID: userData.user.accountID,
-			accountName,
-		});
+		await changeFirestoreUserName(userData.user.uid, newAccountName);
 		await updateUserDataWithAuth({
 			...userData.user,
 			accountID: userData.user.accountID,
-			accountName
+			accountName: newAccountName
 		});
 		await update();
 	};
