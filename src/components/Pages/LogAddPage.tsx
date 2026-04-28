@@ -31,7 +31,7 @@ export const LogAddPage = () => {
 					})
 					.finally(() => endLoading());
 			}}>
-				<ListGroup description='同点の場合、上に記載した人が高順位となります。\n25000点30000点返し / 順位点10 - 30'>
+				<ListGroup description={'同点の場合、上に記載した人が高順位となります。\n 25000点30000点返し / 順位点10 - 30'}>
 					{new Array(4).fill(null).map((_, i) => (
 						<ListItem key={i}>
 							<select
