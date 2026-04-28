@@ -1,4 +1,4 @@
-import { getAuth } from 'firebase/auth';
+import { getAuth, sendEmailVerification } from 'firebase/auth';
 import { useState, useEffect } from 'react';
 import { useUserData, type User } from '@/contexts/useUserData';
 import { decrypt, getUsersDataWithAuth, saveUserDataWithAuth, removeUserDataWithAuth } from '@/lib/cryptoStorage';
@@ -49,10 +49,10 @@ export const useAccount = () => {
 		try {
 			await fireauthLogin({ email, password });
 			const user = await getFirestoreUserData();
-			if (!user) {
+			if (user.status === 'unlogin') {
 				throw new Error('ログインに失敗しました。');
 			}
-			await saveUserDataWithAuth(user, password);
+			await saveUserDataWithAuth(user.user, password);
 		} catch (e) {
 			if (uid) {
 				await removeUserDataWithAuth(uid);
@@ -79,10 +79,11 @@ export const useAccount = () => {
 		try {
 			await fireauthRegister({ email, password, accountID, accountName });
 			const user = await getFirestoreUserData();
-			if (!user) {
-				throw new Error('アカウント登録に失敗しました');
+			if (user.status === 'unlogin') {
+				throw new Error('ログインに失敗しました。');
 			}
-			await saveUserDataWithAuth(user, password);
+			await sendAuthentificateEmail();
+			await saveUserDataWithAuth(user.user, password);
 		} catch (e) {
 			await logout();
 			throw e;
@@ -107,11 +108,20 @@ export const useAccount = () => {
 		await update();
 	};
 
+	const sendAuthentificateEmail = async () => {
+		const auth = getAuth();
+		if (!auth.currentUser) {
+			throw new Error('ログインしてください。');
+		}
+		await sendEmailVerification(auth.currentUser);
+	};
+
 	return {
 		login,
 		users,
 		register,
 		logout,
-		changeUser
+		changeUser,
+		sendAuthentificateEmail
 	};
 };

@@ -14,11 +14,11 @@ export type User = {
 };
 
 export type UserData = {
-	login: true;
-	user: User
-} | {
-	login: false;
+	status: 'unlogin';
 	user: null;
+} | {
+	status: 'login' | 'unauthenticated';
+	user: User;
 };
 
 type UseDataFunctions = {
@@ -33,7 +33,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const { startLoading, endLoading } = useLoading();
 	const [loading, setLoading] = useState(true);
 	const [userData, setUserData] = useState<UserData>({
-		login: false,
+		status: 'unlogin',
 		user: null
 	});
 
@@ -41,18 +41,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 		setLoading(true);
 		startLoading();
 		try {
-			const user = await getFirestoreUserData();
-			if (user) {
-				setUserData({
-					login: true,
-					user
-				});
-			} else {
-				setUserData({
-					login: false,
-					user: null
-				});
-			}
+			const userData = await getFirestoreUserData();
+			setUserData(userData);
 		} catch (error) {
 			console.error('Error fetching user data:', error);
 		} finally {
@@ -66,7 +56,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	const updateAccountName = async (newAccountName: string) => {
-		if (!userData.login) {
+		if (userData.status !== 'login') {
 			throw new Error('updateProfileを使用するにはログインする必要があります');
 		}
 		await changeFirestoreUserName(userData.user.uid, newAccountName);
@@ -86,7 +76,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 			update,
 			updateAccountName
 		}}>
-			{userData.login ? (
+			{userData.status === 'login' ? (
 				<AuthUserContext.Provider value={{ ...userData.user, update, updateAccountName }}>
 					{children}
 				</AuthUserContext.Provider>

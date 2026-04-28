@@ -69,9 +69,9 @@ type AppDataState = 'guest' | 'loading' | 'ready';
 const AppDataContext = createContext<AppData & AppDataFunctions>(null!);
 
 export const AppDataProvider = ({ children }: { children: ReactNode }) => {
-	const { login, user } = useUserData();
+	const { status, user } = useUserData();
 	const { startLoading, endLoading } = useLoading();
-	const [state, setState] = useState<AppDataState>(login ? 'loading' : 'guest');
+	const [state, setState] = useState<AppDataState>(status === 'login' ? 'loading' : 'guest');
 	const [players, setPlayers] = useState<Player[]>([]);
 	const [logs, setLogs] = useState<Log[]>([]);
 	const [deletedLogs, setDeletedLogs] = useState<Log[]>([]);
@@ -82,7 +82,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	const isFilterEnabled = filterTo !== '' && filterFrom !== '';
 
 	const update = async () => {
-		if (!login) { return; }
+		if (status !== 'login') { return; }
 		setState('loading');
 		startLoading();
 		try {
@@ -107,7 +107,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	}, [user]);
 
 	useEffect(() => {
-		if (!login) { return; }
+		if (status !== 'login') { return; }
 		if (filterFrom && filterTo) {
 			const from = new Date(filterFrom).getTime();
 			const to = new Date(filterTo).getTime();
@@ -118,7 +118,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	}, [logs, filterFrom, filterTo]);
 
 	const addPlayer = async (name: string) => {
-		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		if (players.some((p) => p.name === name)) {
 			throw new Error('この名前はすでに使われています');
 		}
@@ -127,19 +127,19 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const changePlayerName = async (pid: string, newName: string) => {
-		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		await changeFirestorePlayerName(pid, newName);
 		await update();
 	};
 
 	const deletePlayer = async (pid: string) => {
-		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		await deleteFirestorePlayer(pid);
 		await update();
 	};
 
 	const addLog = async (playerIDs: string[], rawPoints: number[]) => {
-		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		if (playerIDs.includes('')) {
 			throw new Error('プレイヤーを選択してください');
 		}
@@ -167,7 +167,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const deleteLog = async (id: string) => {
-		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		const deleteTarget = logs.find((log) => log.id === id);
 		if (!deleteTarget) {
 			throw new Error('log not found');
@@ -177,7 +177,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const restoreLog = async (id: string) => {
-		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		const restoreTarget = deletedLogs.find((log) => log.id === id);
 		if (!restoreTarget) {
 			throw new Error('log not found');
@@ -187,7 +187,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const deleteLogCompletely = async () => {
-		if (!login) { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
+		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
 		await deleteFirestoreLogCompletely(user.uid);
 		await update();
 	};

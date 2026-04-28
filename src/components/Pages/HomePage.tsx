@@ -7,13 +7,16 @@ import { IoAnalytics } from 'react-icons/io5';
 import { MdPeople } from 'react-icons/md';
 import colors from 'tailwindcss/colors';
 import { AccountSwitchForm } from '@/components/Presenter/AccountSwitchForm';
-import { AppWindow, ListGroup, ListLinkItem } from '@/components/Templates';
+import { AppWindow, ListGroup, ListLinkItem, ListButtonItem } from '@/components/Templates';
+import { useLoading } from '@/contexts/useLoading';
 import { useUserData } from '@/contexts/useUserData';
 import { useAccount } from '@/usecase/useAccount';
 	
 export const HomePage = () => {
-	const { login, user } = useUserData();
-	const { users } = useAccount();
+	const { status, user } = useUserData();
+	const { users, sendAuthentificateEmail } = useAccount();
+	const [error, setError] = useState<string | null>(null);
+	const { loading, startLoading, endLoading } = useLoading();
 	const [ accountSwitchDialogOpen, setAccountSwitchDialogOpen ] = useState(false);
 	const indexPageUrl = import.meta.env.VITE_APP_INDEX_PAGE_URL;
 
@@ -28,7 +31,7 @@ export const HomePage = () => {
 				}
 			})}
 		>
-			{login ? (
+			{status === 'login' && (
 				<>
 					<ListGroup>
 						<ListLinkItem
@@ -84,11 +87,42 @@ export const HomePage = () => {
 						</ListLinkItem>
 					</ListGroup>
 				</>
-			) : (
+			)}
+			{status === 'unlogin' && (
 				<ListGroup title={'アカウント'}>
 					<ListLinkItem to='/login'>ログイン</ListLinkItem>
 					<ListLinkItem to='/register'>アカウント登録</ListLinkItem>
 				</ListGroup>
+			)}
+			{status === 'unauthenticated' && (
+				<>
+					<ListGroup
+						{...(error && { error })}
+						title={`${user.accountName}としてログインしようとしています。\nメールアドレスを認証してください。`}
+					>
+						<ListButtonItem
+							disabled={loading}
+							onClick={() => {
+								startLoading();
+								sendAuthentificateEmail()
+									.catch((e) => {
+										setError((e as Error).message);
+									}).finally(() => {
+										endLoading();
+									});
+							}}
+						>
+							認証メールを再送
+						</ListButtonItem>
+					</ListGroup>
+					<ListGroup>
+						<ListButtonItem
+							onClick={() => window.location.reload()}
+						>
+							認証状態を確認
+						</ListButtonItem>
+					</ListGroup>
+				</>
 			)}
 			{indexPageUrl && <>
 				<div style={{ height: '64px' }} />

@@ -28,7 +28,7 @@ const currentVersion = '1.0.0';
 
 export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProps) => {
 	const { title, backTo, children, extraButtons, headerLeftButton, className, ...rest } = props;
-	const { login } = useUserData();
+	const { status } = useUserData();
 	const { isFilterEnabled, isFilterDialogOpen, update, openFilterDialog, closeFilterDialog } = useAppData();
 	const { version } = useVersion();
 	const location = useLocation();
@@ -103,7 +103,7 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 
 				<div className='flex flex-row-reverse pr-2 gap-1'>
 					{[
-						...(login ? [filterDialogButton, appDataUpdateButton] : []),
+						...(status === 'login' ? [filterDialogButton, appDataUpdateButton] : []),
 						...(extraButtons ?? []),
 					].map(({ icon: Icon, iconColor, ...buttonProps }, i) => (
 						<button key={i} className='ml-2' {...buttonProps}><Icon size={24} color={iconColor} /></button>
@@ -117,7 +117,7 @@ export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProp
 					onClick={closeFilterDialog}
 				/>
 			)}
-			{login && <FilterForm open={isFilterDialogOpen} />}
+			{status === 'login' && <FilterForm open={isFilterDialogOpen} />}
 		</div>
 	);
 };

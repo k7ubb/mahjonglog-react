@@ -26,8 +26,8 @@ import '@/index.css';
 const basename = import.meta.env.VITE_BASE_PATH;
 
 const AuthGuard = () => {
-	const { login } = useUserData();
-	return login ? <Outlet /> : <Navigate to='/' />;
+	const { status } = useUserData();
+	return status === 'login' ? <Outlet /> : <Navigate to='/' />;
 };
 
 function App() {
