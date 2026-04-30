@@ -15,7 +15,7 @@ import {
 	changeFirestorePlayerName,
 	deleteFirestorePlayer
 } from '@/repository/playerRepository';
-import { calculatePoint } from '@/utils/point';
+import { calculateRegisterScore } from '@/utils/calculateRegisterScore';
 
 export type Player = {
 	id: string;
@@ -138,12 +138,12 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 		await update();
 	};
 
-	const addLog = async (playerIDs: string[], rawPoints: number[]) => {
+	const addLog = async (rawPlayerIDs: string[], rawPoints: number[]) => {
 		if (status !== 'login') { throw new Error('AppDataにアクセスするにはログインする必要があります'); }
-		if (playerIDs.includes('')) {
+		if (rawPlayerIDs.includes('')) {
 			throw new Error('プレイヤーを選択してください');
 		}
-		if (playerIDs.length !== new Set(playerIDs).size) {
+		if (rawPlayerIDs.length !== new Set(rawPlayerIDs).size) {
 			throw new Error('同じプレイヤーが複数存在します');
 		}
 		const total = rawPoints.reduce((a, b) => a + b, 0);
@@ -154,14 +154,7 @@ export const AppDataProvider = ({ children }: { children: ReactNode }) => {
 				}です。修正してください。`,
 			);
 		}
-		const points = calculatePoint(rawPoints);
-		const scores = new Array(4)
-			.fill(null)
-			.map((_, i) => ({
-				point: points[i],
-				playerID: playerIDs[i]
-			}) as Score)
-			.sort((a, b) => b.point - a.point);
+		const { playerIDs, scores } = calculateRegisterScore(rawPlayerIDs, rawPoints);
 		await addFirestoreLog(user.uid, playerIDs, scores);
 		await update();
 	};

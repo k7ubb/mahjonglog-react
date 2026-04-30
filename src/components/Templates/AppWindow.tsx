@@ -24,7 +24,7 @@ type AppWindowProps = {
 	} & ComponentPropsWithoutRef<'button'>);
 };
 
-const currentVersion = '3.0.0';
+const currentVersion = '3.1.0';
 
 export const AppWindow = (props: ComponentPropsWithoutRef<'div'> & AppWindowProps) => {
 	const { title, backTo, children, extraButtons, headerLeftButton, className, ...rest } = props;
